@@ -14,7 +14,7 @@ sbit Red_LED = THREE_LED_PORT^1;
 sbit Blue_LED = THREE_LED_PORT^2;
 
 
-void main(){
+int main(void){
 	u8 val = 0x01, i = 0;
 
 	while(1){

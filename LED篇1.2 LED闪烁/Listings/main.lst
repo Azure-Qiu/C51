@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   MAIN                                                              01/27/2025 18:32:03 PAGE 1   
+C51 COMPILER V9.60.7.0   MAIN                                                              01/28/2025 13:28:17 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
@@ -24,7 +24,7 @@ line level    source
   14          typedef unsigned int u16; // 0-65535，2字节
   15          
   16          
-  17          void main(){
+  17          int main(void){
   18   1              // 声明延时函数
   19   1              void delay(u16 msec);
   20   1              while(1){

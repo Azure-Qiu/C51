@@ -387,19 +387,9 @@
               <FilePath>.\smg.c</FilePath>
             </File>
             <File>
-              <FileName>smg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\smg.h</FilePath>
-            </File>
-            <File>
-              <FileName>delay.c</FileName>
+              <FileName>public.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>delay.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\delay.h</FilePath>
+              <FilePath>.\public.c</FilePath>
             </File>
           </Files>
         </Group>

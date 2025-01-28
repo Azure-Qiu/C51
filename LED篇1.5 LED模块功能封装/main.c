@@ -12,7 +12,7 @@ u16 time_init = 9216;
 // 定时累积次数
 u8 interval = 50; // 500ms
 
-void main(){
+int main(void){
 	TIMERx_init(0, time_init); // 定时器0，10ms
 	TR0 = 1;
 	// flag_led_stream = true;
@@ -28,8 +28,8 @@ void main(){
 // 定时器0的中断服务程序模板
 void TIMER0_serve() interrupt 1{
 	static u8 counter;
-	TL0 = (65536-time_init)%256; //低8位
-	TH0 = (65536-time_init)/256; //高8位
+	TL0 = (65536-time_init)%256; // 低8位
+	TH0 = (65536-time_init)/256; // 高8位
 	
 //	// 测试流水灯（定时器版本）
 //	if(counter >= interval && flag_led_stream){

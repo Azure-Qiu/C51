@@ -1,27 +1,26 @@
 #include "smg.h"
-#include <stdio.h>
-#include <math.h>
-#include <string.h>
 /** 
  **  @brief    数码管封装
- **  		   1. 字符静态显示：仅需一次输入。输入字符。可用于初始清屏。
- **  		   2. 字符串数据动态显示
- **  		   3. 浮点型数据动态显示：可以显示小数。
- **  		   4. 整型数据动态显示：可以显示负数。
+ **  		   1. 延时刷新
+ **  		   		(1) 字符静态显示：仅需一次输入。输入字符。可用于初始清屏。
+ **  		   		(2) 字符串数据动态显示
+ **  		   		(3) 浮点型数据动态显示：可以显示小数。
+ **  		   		(4) 整型数据动态显示：可以显示负数。
+ **  		   2. 定时器刷新
  **  @author   QIU
- **  @date     2024.01.31
+ **  @date     2024.02.13
  **/
 
 
 /*-------------------------------------------------------------------*/
 
-//共阴极数码管字形码编码
-u8 code smgduan[] = {0x3f,0x06,0x5b,0x4f,0x66, //0 1 2 3 4
-					 0x6d,0x7d,0x07,0x7f,0x6f, //5 6 7 8 9
-					 0x77,0x7c,0x58,0x5e,0x79, //A b c d E
-					 0x71,0x76,0x30,0x0e,0x38, //F H I J L
-					 0x54,0x3f,0x73,0x67,0x50, //n o p q r
-					 0x6d,0x3e,0x3e,0x6e,0x40};//s U v y -  
+// 共阴极数码管字形码编码
+u8 code smgduan[] = {0x3f,0x06,0x5b,0x4f,0x66, // 0 1 2 3 4
+					 0x6d,0x7d,0x07,0x7f,0x6f, // 5 6 7 8 9
+					 0x77,0x7c,0x58,0x5e,0x79, // A b c d E
+					 0x71,0x76,0x30,0x0e,0x38, // F H I J L
+					 0x54,0x3f,0x73,0x67,0x50, // n o p q r
+					 0x6d,0x3e,0x3e,0x6e,0x40};// s U v y -  
 
 
 /**
@@ -29,7 +28,7 @@ u8 code smgduan[] = {0x3f,0x06,0x5b,0x4f,0x66, //0 1 2 3 4
  **  @param   pos：从左至右，数码管位置 1~8
  **  @retval  无
  **/
-void select_38(u8 pos){
+static void select_38(u8 pos){
 	u8 temp_pos = 8 - pos; // 0~7
 	A1 = temp_pos % 2; //高位
 	temp_pos /= 2;
@@ -95,7 +94,7 @@ u8 parse_data(u8 dat){
 		case 'y':
 		case 'Y':return smgduan[28];
 		case '-':return smgduan[29];
-		default:return 0x00; //不显示
+		default:return 0x00; // 不显示
 	}
 }
 
@@ -118,6 +117,10 @@ void smg_showChar(u8 dat, u8 pos, bit flag){
 
 
 
+/*-------------------------------------------------------------------*/
+/*-----------------------延时法刷新----------------------------------*/
+/*-------------------------------------------------------------------*/
+
 
 /**
  **  @brief   延时法刷新
@@ -126,7 +129,7 @@ void smg_showChar(u8 dat, u8 pos, bit flag){
  **  @param   dot：小数点位置
  **  @retval  无
  **/
-void smg_cycle(u8 dat[], u8 pos, u8 dot){
+void smg_flush_Bydelay(u8 dat[], u8 pos, u8 dot){
 	u8 i;
 	// 超出部分直接截断
 	for(i=0;(i<9-pos)&&(dat[i]!='\0');i++){
@@ -135,13 +138,12 @@ void smg_cycle(u8 dat[], u8 pos, u8 dot){
 			pos -= 1;
 			continue;
 		}
-		if(dot == i+1){
-			smg_showChar(dat[i], pos+i, true);
-		}else{
-			smg_showChar(dat[i], pos+i, false);
-		}
-		delay_ms(1); //延时1ms
-		SMG_PORT = 0x00; //消影
+		// 显示
+		smg_showChar(dat[i], pos+i, (dot == i+1)?true:false);
+        // 延时1ms
+		delay_ms(1);
+		// 消影
+		SMG_PORT = 0x00; 
 	}
 }
 
@@ -162,9 +164,10 @@ void smg_showString(u8 dat[], u8 pos){
 	}
 	// 记录下标点位置
 	if(i < strlen(dat)) dot = i;
-	
-	smg_cycle(dat, pos, dot);
+	// 延时法刷新
+	smg_flush_Bydelay(dat, pos, dot);
 }
+
 
 
 /**
@@ -174,9 +177,10 @@ void smg_showString(u8 dat[], u8 pos){
  **  @retval  无
  **/
 void smg_showInt(int dat, u8 pos){
-	xdata u8 temp[9];
-	sprintf(temp, "%d", dat); // 含正负
-	smg_showString(temp, pos);
+	smg_showString(
+		int2String(dat, dat<0?true:false), 
+		pos
+	);
 }
 
 
@@ -189,10 +193,60 @@ void smg_showInt(int dat, u8 pos){
  **  @retval  无
  **/
 void smg_showFloat(double dat, u8 len, u8 pos){
-	xdata u8 temp[10];
-	int dat_now;
-	dat_now = dat * pow(10, len) + 0.5 * (dat>0?1:-1); // 四舍五入(正负)，由于浮点数存在误差，结果未必准确
-	sprintf(temp, "%d", dat_now); // 含正负
-	smg_cycle(temp, pos, len?(strlen(temp) - len):0);
+	smg_showString(
+		float2String(dat, len), 
+		pos
+	);
 }
 
+
+
+/*-------------------------------------------------------------------*/
+/*--------------------------定时器法刷新-----------------------------*/
+/*-------------------------------------------------------------------*/
+
+/**
+ **  @brief   数码管显示字符串（定时器法刷新）
+ **  @param   dat：字符数组，需以'\0'结尾
+ **  @param   pos：显示位置
+ **  @retval  返回值
+ **/
+void smg_showString_Bytimer(u8 dat[], u8 pos){
+	// 数码管计数器， 小数点位置
+	static u8 smg_counter = 0, dot_counter = 0, dot_port[8];
+	// 暂存当前位置
+	u8 temp;
+	// 先消影
+	SMG_PORT = 0x00; 
+	// 如果是小数点，跳出
+	if(dat[smg_counter] == '.'){
+		// 记录小数点位置，下一轮刷新
+		dot_port[smg_counter-1] = true;
+		// 计数器后移一位
+		smg_counter++;
+		// 小数点计数器自增
+		dot_counter++;
+		return;
+	}
+	// 计算当前位置
+	temp = pos + smg_counter - dot_counter;
+	// 判断是否加小数点（检测到小数点的后面几位整体前移）
+	smg_showChar(dat[smg_counter], temp, dot_port[smg_counter]);
+	
+	// 如果是结束符，跳出(超出部分截断)
+	if(temp == 8 | dat[smg_counter] == '\0'){
+		// 重置
+		smg_counter = 0;
+		// 根据标志决定是否清除小数点
+		if(dot_counter){
+			// 清零
+			dot_counter = 0;
+		}else{
+			// 清空
+			strcpy(dot_port, "");
+		}
+		return;
+	}else{
+		smg_counter++;
+	}
+}

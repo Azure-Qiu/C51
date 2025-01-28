@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   MAIN                                                              01/27/2025 18:57:19 PAGE 1   
+C51 COMPILER V9.60.7.0   MAIN                                                              01/28/2025 13:26:58 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
@@ -25,7 +25,7 @@ line level    source
              -以应写在main函数外。
   15          sbit LED_2 = P2^1; // D2灯
   16          
-  17          void main(){
+  17          int main(void){
   18   1              // 法二：直接定义整个P2口的电平
   19   1              P2 = 0xfe; // 1111 1110，点亮D1灯
   20   1              

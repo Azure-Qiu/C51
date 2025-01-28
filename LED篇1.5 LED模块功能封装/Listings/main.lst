@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   MAIN                                                              02/08/2024 16:12:12 PAGE 1   
+C51 COMPILER V9.60.7.0   MAIN                                                              01/28/2025 13:35:08 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
@@ -17,60 +17,53 @@ line level    source
    7           **/
    8          
    9          /*-------------------------------------------------------------------*/
-  10          
+  10          // 定时器初值
   11          u16 time_init = 9216;
-  12          u8 interval = 50; // 500ms
-  13          
-  14          void main(){
-  15   1              
+  12          // 定时累积次数
+  13          u8 interval = 50; // 500ms
+  14          
+  15          int main(void){
   16   1              TIMERx_init(0, time_init); // 定时器0，10ms
   17   1              TR0 = 1;
-  18   1      
-  19   1              // flag_led_stream = true;
-  20   1              
-  21   1              // 点亮一颗LED
-  22   1              //led_on(2); 
-  23   1              while(1){
-  24   2      
-  25   2                      // 流水灯
-  26   2                      //led_stream(50000);  
-  27   2                      
-  28   2                      // 跑马灯
-  29   2                      // led_run(50000);  
-  30   2              }
-  31   1      }
-  32          
-  33          // 定时器0的中断服务程序模板
-  34          void TIMER0_serve() interrupt 1{
-  35   1              static u8 counter;
-  36   1              TL0 = (65536-time_init)%256; //低8位
-  37   1              TH0 = (65536-time_init)/256; //高8位
-  38   1              
-  39   1              
-  40   1      //      if(counter >= interval && flag_led_stream){
-  41   1      //              counter = 0;
-  42   1      //              led_stream_byTimer();
-  43   1      //      }else{
-  44   1      //              counter++;
-  45   1      //      }
-  46   1              
-  47   1              if(counter >= interval){
-  48   2                      counter = 0;
-  49   2                      led_run_byTimer();
-  50   2              }else{
-  51   2                      counter++;
-  52   2              }
-  53   1              
-  54   1              
-C51 COMPILER V9.60.7.0   MAIN                                                              02/08/2024 16:12:12 PAGE 2   
-
-  55   1      }
-  56          
-  57          
-  58          
+  18   1              // flag_led_stream = true;
+  19   1              while(1){
+  20   2                      // 流水灯
+  21   2                      //led_stream(50000);  
+  22   2                      
+  23   2                      // 跑马灯
+  24   2                      // led_run(50000);  
+  25   2              }
+  26   1      }
+  27          
+  28          // 定时器0的中断服务程序模板
+  29          void TIMER0_serve() interrupt 1{
+  30   1              static u8 counter;
+  31   1              TL0 = (65536-time_init)%256; // 低8位
+  32   1              TH0 = (65536-time_init)/256; // 高8位
+  33   1              
+  34   1      //      // 测试流水灯（定时器版本）
+  35   1      //      if(counter >= interval && flag_led_stream){
+  36   1      //              counter = 0;
+  37   1      //              led_stream_byTimer();
+  38   1      //      }else{
+  39   1      //              counter++;
+  40   1      //      }
+  41   1              // 测试跑马灯（定时器版本）
+  42   1              if(counter >= interval){
+  43   2                      counter = 0;
+  44   2                      led_run_byTimer();
+  45   2              }else{
+  46   2                      counter++;
+  47   2              }
+  48   1      }
+  49          
+  50          
+  51          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
+C51 COMPILER V9.60.7.0   MAIN                                                              01/28/2025 13:35:08 PAGE 2   
+
    CODE SIZE        =    158    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----

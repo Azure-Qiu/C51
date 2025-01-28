@@ -1,0 +1,167 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              01/28/2025 16:22:52 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include <INTRINS.H>
+   3          /** 
+   4           **  @brief    绘制螺旋线
+   5           **  @author   QIU
+   6           **  @date     2023.08.23
+   7           **/
+   8          /*-------------------------------------------------------------------*/
+   9          #define LED_PORT P0
+  10          #define SPEED 30
+  11          
+  12          typedef unsigned char u8;
+  13          typedef unsigned int u16;
+  14          
+  15          sbit SER = P3^4; // 串行数据输入引脚
+  16          sbit ST_CP = P3^5; // 存储寄存器时钟引脚
+  17          sbit SH_CP = P3^6; // 移位寄存器时钟引脚
+  18          
+  19          // 全局变量
+  20          u8 x, y, num_step, count, dir, posY[8] = {0};
+  21          
+  22          // 延时函数
+  23          void delay(u16 t){
+  24   1              while(t--);
+  25   1      }
+  26          
+  27          // 生成对应位置的二进制代码
+  28          u8 produce_B_Code(u8 pos){      
+  29   1              return 0x01<<pos;
+  30   1      }
+  31          
+  32          //串行数据生成对应并行数据
+  33          void Ser2Para(u8 dat){
+  34   1              u8 i;
+  35   1              for(i=0;i<8;i++){
+  36   2                      SER = dat>>7;
+  37   2                      dat <<= 1;
+  38   2                      SH_CP = 0;
+  39   2                      _nop_(); // 延迟一个机器周期
+  40   2                      SH_CP = 1; //获得一个上升沿
+  41   2                      _nop_(); 
+  42   2              }
+  43   1              ST_CP = 0;
+  44   1              _nop_();
+  45   1              ST_CP = 1;
+  46   1              _nop_();
+  47   1      }
+  48          
+  49          void clear_LED(){
+  50   1              LED_PORT = 0xff; // 清屏
+  51   1              Ser2Para(0x00); 
+  52   1      }
+  53          
+  54          
+C51 COMPILER V9.60.7.0   MAIN                                                              01/28/2025 16:22:52 PAGE 2   
+
+  55          // 显示每帧画面
+  56          void display(u8 XDATA,u8 YDATA){
+  57   1              LED_PORT = ~produce_B_Code(XDATA); // 按列由右往左扫描
+  58   1              Ser2Para(YDATA);
+  59   1              delay(100);
+  60   1              clear_LED(); // 消影
+  61   1      }
+  62          
+  63          // 更新方向与数组
+  64          void update_posY(u8 dir){
+  65   1              // 判断方向
+  66   1              switch(dir%4){
+  67   2                      case 0: // 向下
+  68   2                              y = y - 1; // 更新当前点坐标
+  69   2                              posY[x] += produce_B_Code(y); // 更新需要点亮的Y坐标码
+  70   2                              break;
+  71   2                      case 1: // 向右
+  72   2                              x = x - 1;
+  73   2                              posY[x] += produce_B_Code(y); // 更新需要点亮的Y坐标码
+  74   2                              break;
+  75   2                      case 2: // 向上
+  76   2                              y = y + 1; // 更新当前点坐标
+  77   2                              posY[x] += produce_B_Code(y); // 更新需要点亮的Y坐标码
+  78   2                              break;
+  79   2                      case 3: // 向左(往高位走)
+  80   2                              x = x + 1; // 更新当前点坐标
+  81   2                              posY[x] += produce_B_Code(y); // 更新需要点亮的Y坐标码
+  82   2                              break;
+  83   2              }
+  84   1      }
+  85          
+  86          // 重启
+  87          void reset(){
+  88   1              u8 k;
+  89   1              x = 4, y = 4, num_step = 1, count = 0, dir = 0;
+  90   1              for(k=0;k<8;k++){
+  91   2                      if(k == x){
+  92   3                              posY[x] = produce_B_Code(y); // 记录初始化的值
+  93   3                      }else{
+  94   3                              posY[k] = 0;
+  95   3                      }
+  96   2              }
+  97   1      }
+  98          
+  99          
+ 100          /**
+ 101           **  @brief   螺旋线
+ 102           **  @param   count: 记录每个动作(上下，左右)需要执行几次
+ 103           **  @param   x, y:记录当前点的坐标
+ 104           **  @param   posY[]:记录当前需要点亮的灯的十六进制码
+ 105           **  @retval  返回值
+ 106           **/
+ 107          int main(void){
+ 108   1              u8 i, j=0;
+ 109   1              reset(); // 初始化
+ 110   1              while(1){
+ 111   2                      for(i=0;i<8;i++){
+ 112   3                              // 逆时针
+ 113   3                              display(i,posY[i]); // 把数组传过去
+ 114   3                      }
+ 115   2                      count++;
+ 116   2                      // 下一帧
+C51 COMPILER V9.60.7.0   MAIN                                                              01/28/2025 16:22:52 PAGE 3   
+
+ 117   2                      if(count > SPEED){
+ 118   3                              count = 0;
+ 119   3                              // 更新一下posY数组，显示下一个点
+ 120   3                              update_posY(dir);
+ 121   3                              // 记录每更改一次方向需要几帧
+ 122   3                              j++;
+ 123   3                              // 每两组换向多走一步
+ 124   3                              num_step = dir/2 + 1;
+ 125   3                              // 更新方向
+ 126   3                              if(j>=num_step){
+ 127   4                                      dir++;
+ 128   4                                      j=0; // 复位
+ 129   4                              }
+ 130   3                      }
+ 131   2                      // 结束条件
+ 132   2                      if(x==0 && y==8){
+ 133   3                              delay(10000); // 保持画面
+ 134   3                              clear_LED(); // 清屏
+ 135   3                              delay(50000);
+ 136   3                              reset(); // 重新开始
+ 137   3                      }
+ 138   2              }
+ 139   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    266    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     13    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

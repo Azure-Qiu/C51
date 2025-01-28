@@ -14,7 +14,7 @@ typedef unsigned char u8; // 0-255，1字节
 typedef unsigned int u16; // 0-65535，2字节
 
 
-void main(){
+int main(void){
 	// 声明延时函数
 	void delay(u16 msec);
 	while(1){

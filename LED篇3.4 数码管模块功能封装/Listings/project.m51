@@ -1,9 +1,9 @@
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    02/13/2024  12:52:55  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    01/28/2025  15:53:58  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
-C:\SOFTWARE\KEIL\C51\BIN\BL51.EXE .\Objects\main.obj, .\Objects\smg.obj, .\Objects\delay.obj TO .\Objects\project PRINT 
->> (.\Listings\project.m51) RAMSIZE (256)
+C:\SOFTWARE\KEIL\C51\BIN\BL51.EXE .\Objects\main.obj, .\Objects\smg.obj, .\Objects\public.obj TO .\Objects\project PRINT
+>>  (.\Listings\project.m51) RAMSIZE (256)
 
 
 MEMORY MODEL: SMALL WITH FLOATING POINT ARITHMETIC
@@ -12,35 +12,25 @@ MEMORY MODEL: SMALL WITH FLOATING POINT ARITHMETIC
 INPUT MODULES INCLUDED:
   .\Objects\main.obj (MAIN)
   .\Objects\smg.obj (SMG)
-  .\Objects\delay.obj (DELAY)
-  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPADD)
-  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPMUL)
-  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPCMP)
-  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FCAST)
-  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?CASTF)
+  .\Objects\public.obj (PUBLIC)
   C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (PRINTF)
-  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (POW)
-  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPGETOPN)
-  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?CHKFLOAT)
-  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPNEG)
   C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPROUND)
   C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPCONVERT)
-  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (EXP)
-  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (LOG)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPADD)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPMUL)
   C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPDIV)
   C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FTNPWR)
-  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPSERIES)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPGETOPN)
   C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
   C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?CLDPTR)
   C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?CLDOPTR)
   C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?CSTPTR)
-  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?LNEG)
-  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?LLDCODE)
-  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?LLDCODE0)
   C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?PLDIIDATA)
   C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?CCASE)
   C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (PUTCHAR)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?STRCPY)
   C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (STRLEN)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C_INIT)
 
 
 LINK MAP OF MODULE:  .\Objects\project (MAIN)
@@ -51,87 +41,94 @@ LINK MAP OF MODULE:  .\Objects\project (MAIN)
 
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
-            DATA    0008H     000AH     UNIT         ?DT?_POW?POW
-            DATA    0012H     0006H     UNIT         ?DT?_SMG_SHOWFLOAT?SMG
-            DATA    0018H     0004H     UNIT         ?DT?LOG?LOG
-                    001CH     0004H                  *** GAP ***
+            DATA    0008H     000AH     UNIT         ?DT?SMG
+            DATA    0012H     0004H     UNIT         ?DT?_SMG_SHOWSTRING_BYTIMER?SMG
+            DATA    0016H     0002H     UNIT         ?DT?_INT2STRING?PUBLIC
+            DATA    0018H     0001H     UNIT         ?DT?_SMG_SHOWINT?SMG
+                    0019H     0007H                  *** GAP ***
             BIT     0020H.0   0001H.1   UNIT         _BIT_GROUP_
-            BIT     0021H.1   0000H.1   UNIT         ?BI?LOG?LOG
+            BIT     0021H.1   0000H.1   UNIT         ?BI?_INT2STRING?PUBLIC
                     0021H.2   0000H.6                *** GAP ***
-            DATA    0022H     001DH     UNIT         _DATA_GROUP_
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/13/2024  12:52:55  PAGE 2
-
-
-            IDATA   003FH     0001H     UNIT         ?STACK
+            DATA    0022H     0027H     UNIT         _DATA_GROUP_
+            IDATA   0049H     0001H     UNIT         ?STACK
 
             * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
-            XDATA   0000H     000AH     UNIT         ?XD?_SMG_SHOWFLOAT?SMG
-            XDATA   000AH     0009H     UNIT         _XDATA_GROUP_
+            XDATA   0000H     000AH     UNIT         _XDATA_GROUP_
+            XDATA   000AH     0008H     UNIT         ?XD?_INT2STRING?PUBLIC
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-            CODE    0003H     06ACH     UNIT         ?C?LIB_CODE
-            CODE    06AFH     046FH     UNIT         ?PR?PRINTF?PRINTF
-            CODE    0B1EH     0135H     UNIT         ?PR?LOG?LOG
-            CODE    0C53H     0117H     UNIT         ?PR?_POW?POW
-            CODE    0D6AH     010BH     UNIT         ?PR?_PARSE_DATA?SMG
-            CODE    0E75H     00AEH     UNIT         ?PR?_SMG_SHOWFLOAT?SMG
-            CODE    0F23H     009AH     UNIT         ?PR?EXP?EXP
-            CODE    0FBDH     0083H     UNIT         ?PR?_SMG_CYCLE?SMG
-            CODE    1040H     0049H     UNIT         ?PR?_SMG_SHOWSTRING?SMG
-            CODE    1089H     0027H     UNIT         ?PR?PUTCHAR?PUTCHAR
-            CODE    10B0H     0023H     UNIT         ?PR?_SMG_SHOWINT?SMG
-            CODE    10D3H     0021H     UNIT         ?CO?SMG
-            CODE    10F4H     0018H     UNIT         ?PR?_DELAY_MS?DELAY
-            CODE    110CH     0017H     UNIT         ?PR?_SMG_SHOWCHAR?SMG
-            CODE    1123H     0016H     UNIT         ?PR?_SELECT_38?SMG
-            CODE    1139H     0015H     UNIT         ?PR?_STRLEN?STRLEN
-            CODE    114EH     000CH     UNIT         ?C_C51STARTUP
-            CODE    115AH     000BH     UNIT         ?PR?MAIN?MAIN
-            CODE    1165H     000BH     UNIT         ?PR?_DELAY_10US?DELAY
+            CODE    0003H     0601H     UNIT         ?C?LIB_CODE
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  01/28/2025  15:53:58  PAGE 2
+
+
+            CODE    0604H     046FH     UNIT         ?PR?PRINTF?PRINTF
+            CODE    0A73H     010BH     UNIT         ?PR?_PARSE_DATA?SMG
+            CODE    0B7EH     008CH     UNIT         ?C_C51STARTUP
+            CODE    0C0AH     0081H     UNIT         ?PR?_SMG_SHOWSTRING_BYTIMER?SMG
+            CODE    0C8BH     0062H     UNIT         ?PR?_SMG_FLUSH_BYDELAY?SMG
+            CODE    0CEDH     0049H     UNIT         ?PR?_SMG_SHOWSTRING?SMG
+            CODE    0D36H     0031H     UNIT         ?PR?_INT2STRING?PUBLIC
+            CODE    0D67H     002FH     UNIT         ?PR?_FLOAT2STRING?PUBLIC
+            CODE    0D96H     0027H     UNIT         ?PR?PUTCHAR?PUTCHAR
+            CODE    0DBDH     001FH     UNIT         ?CO?SMG
+            CODE    0DDCH     0018H     UNIT         ?PR?_DELAY_MS?PUBLIC
+            CODE    0DF4H     0017H     UNIT         ?PR?_SMG_SHOWCHAR?SMG
+            CODE    0E0BH     0017H     UNIT         ?PR?_SMG_SHOWINT?SMG
+            CODE    0E22H     0016H     UNIT         ?PR?_SELECT_38?SMG
+            CODE    0E38H     0015H     UNIT         ?PR?_STRLEN?STRLEN
+            CODE    0E4DH     0013H     UNIT         ?PR?MAIN?MAIN
+            CODE    0E60H     000BH     UNIT         ?PR?_SMG_SHOWFLOAT?SMG
+            CODE    0E6BH     000BH     UNIT         ?PR?_DELAY_10US?PUBLIC
+            CODE    0E76H     000BH     UNIT         ?CO?PUBLIC
+            CODE    0E81H     0007H     UNIT         ?C_INITSEG
 
 
 
 OVERLAY MAP OF MODULE:   .\Objects\project (MAIN)
 
 
-SEGMENT                            BIT_GROUP          DATA_GROUP          XDATA_GROUP
-  +--> CALLED SEGMENT           START    LENGTH     START    LENGTH     START    LENGTH
----------------------------------------------------------------------------------------
-?C_C51STARTUP                   -----    -----      -----    -----      -----    -----
+SEGMENT                                    BIT_GROUP          DATA_GROUP          XDATA_GROUP
+  +--> CALLED SEGMENT                   START    LENGTH     START    LENGTH     START    LENGTH
+-----------------------------------------------------------------------------------------------
+?C_C51STARTUP                           -----    -----      -----    -----      -----    -----
   +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
 
-?PR?MAIN?MAIN                   -----    -----      -----    -----      -----    -----
-  +--> ?PR?_SMG_SHOWINT?SMG
+?PR?MAIN?MAIN                           -----    -----      -----    -----      -----    -----
+  +--> ?PR?_SMG_SHOWFLOAT?SMG
 
-?PR?_SMG_SHOWINT?SMG            -----    -----      0022H    0001H      000AH    0009H
-  +--> ?CO?SMG
-  +--> ?PR?PRINTF?PRINTF
+?PR?_SMG_SHOWFLOAT?SMG                  -----    -----      0022H    0006H      -----    -----
+  +--> ?PR?_FLOAT2STRING?PUBLIC
   +--> ?PR?_SMG_SHOWSTRING?SMG
 
-?PR?PRINTF?PRINTF               0020H.0  0001H.1    0023H    001CH      -----    -----
+?PR?_FLOAT2STRING?PUBLIC                -----    -----      0028H    0005H      0000H    000AH
+  +--> ?CO?PUBLIC
+  +--> ?PR?PRINTF?PRINTF
+
+?PR?PRINTF?PRINTF                       0020H.0  0001H.1    002DH    001CH      -----    -----
   +--> ?PR?PUTCHAR?PUTCHAR
 
-?PR?_SMG_SHOWSTRING?SMG         -----    -----      0023H    0006H      -----    -----
+?PR?_SMG_SHOWSTRING?SMG                 -----    -----      0028H    0006H      -----    -----
   +--> ?PR?_STRLEN?STRLEN
-  +--> ?PR?_SMG_CYCLE?SMG
+  +--> ?PR?_SMG_FLUSH_BYDELAY?SMG
 
-?PR?_SMG_CYCLE?SMG              -----    -----      0029H    0006H      -----    -----
+?PR?_SMG_FLUSH_BYDELAY?SMG              -----    -----      002EH    0006H      -----    -----
   +--> ?PR?_SMG_SHOWCHAR?SMG
-  +--> ?PR?_DELAY_MS?DELAY
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/13/2024  12:52:55  PAGE 3
+  +--> ?PR?_DELAY_MS?PUBLIC
 
-
-
-?PR?_SMG_SHOWCHAR?SMG           0020H.0  0000H.1    -----    -----      -----    -----
+?PR?_SMG_SHOWCHAR?SMG                   0020H.0  0000H.1    -----    -----      -----    -----
   +--> ?PR?_SELECT_38?SMG
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  01/28/2025  15:53:58  PAGE 3
+
+
   +--> ?PR?_PARSE_DATA?SMG
 
-?PR?_PARSE_DATA?SMG             -----    -----      -----    -----      -----    -----
+?PR?_PARSE_DATA?SMG                     -----    -----      -----    -----      -----    -----
   +--> ?CO?SMG
 
-?PR?_DELAY_MS?DELAY             -----    -----      -----    -----      -----    -----
-  +--> ?PR?_DELAY_10US?DELAY
+?PR?_DELAY_MS?PUBLIC                    -----    -----      -----    -----      -----    -----
+  +--> ?PR?_DELAY_10US?PUBLIC
 
 
 
@@ -143,12 +140,12 @@ SYMBOL TABLE OF MODULE:  .\Objects\project (MAIN)
   -------         MODULE        MAIN
   C:0000H         SYMBOL        _ICE_DUMMY_
   D:00A0H         PUBLIC        P2
-  C:115AH         PUBLIC        main
+  C:0E4DH         PUBLIC        main
   -------         PROC          MAIN
-  C:115AH         LINE#         11
-  C:115AH         LINE#         15
-  C:115AH         LINE#         16
-  C:1163H         LINE#         19
+  C:0E4DH         LINE#         11
+  C:0E4DH         LINE#         15
+  C:0E4DH         LINE#         18
+  C:0E5EH         LINE#         19
   -------         ENDPROC       MAIN
   -------         ENDMOD        MAIN
 
@@ -156,308 +153,308 @@ SYMBOL TABLE OF MODULE:  .\Objects\project (MAIN)
   C:0000H         SYMBOL        _ICE_DUMMY_
   D:0080H         PUBLIC        P0
   D:00A0H         PUBLIC        P2
-  C:10B0H         PUBLIC        _smg_showInt
-  C:0D6AH         PUBLIC        _parse_data
-  C:0FBDH         PUBLIC        _smg_cycle
-  C:1123H         PUBLIC        _select_38
-  C:0E75H         PUBLIC        _smg_showFloat
-  C:1040H         PUBLIC        _smg_showString
-  C:110CH         PUBLIC        _smg_showChar
+  C:0E0BH         PUBLIC        _smg_showInt
+  C:0A73H         PUBLIC        _parse_data
+  C:0C0AH         PUBLIC        _smg_showString_Bytimer
+  C:0E22H         SYMBOL        _select_38
+  C:0E60H         PUBLIC        _smg_showFloat
+  C:0CEDH         PUBLIC        _smg_showString
+  C:0DF4H         PUBLIC        _smg_showChar
   B:00A0H.2       PUBLIC        A1
   B:00A0H.3       PUBLIC        A2
-  C:10D6H         PUBLIC        smgduan
+  C:0DBEH         PUBLIC        smgduan
   B:00A0H.4       PUBLIC        A3
+  C:0C8BH         PUBLIC        _smg_flush_Bydelay
   -------         PROC          _SELECT_38
   D:0007H         SYMBOL        pos
   -------         DO            
   D:0007H         SYMBOL        temp_pos
   -------         ENDDO         
-  C:1123H         LINE#         32
-  C:1123H         LINE#         33
-  C:1128H         LINE#         34
-  C:112BH         LINE#         35
-  C:112FH         LINE#         36
-  C:1132H         LINE#         37
-  C:1135H         LINE#         38
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/13/2024  12:52:55  PAGE 4
-
-
-  C:1138H         LINE#         39
+  C:0E22H         LINE#         31
+  C:0E22H         LINE#         32
+  C:0E27H         LINE#         33
+  C:0E2AH         LINE#         34
+  C:0E2EH         LINE#         35
+  C:0E31H         LINE#         36
+  C:0E34H         LINE#         37
+  C:0E37H         LINE#         38
   -------         ENDPROC       _SELECT_38
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  01/28/2025  15:53:58  PAGE 4
+
+
   -------         PROC          _PARSE_DATA
   D:0007H         SYMBOL        dat
-  C:0D6AH         LINE#         47
-  C:0D6AH         LINE#         48
-  C:0E05H         LINE#         49
-  C:0E05H         LINE#         50
-  C:0E05H         LINE#         51
-  C:0E05H         LINE#         52
-  C:0E05H         LINE#         53
-  C:0E05H         LINE#         54
-  C:0E05H         LINE#         55
-  C:0E05H         LINE#         56
-  C:0E05H         LINE#         57
-  C:0E05H         LINE#         58
-  C:0E0CH         LINE#         59
-  C:0E0CH         LINE#         60
-  C:0E11H         LINE#         61
-  C:0E11H         LINE#         62
-  C:0E16H         LINE#         63
-  C:0E16H         LINE#         64
-  C:0E1BH         LINE#         65
-  C:0E1BH         LINE#         66
-  C:0E20H         LINE#         67
-  C:0E20H         LINE#         68
-  C:0E25H         LINE#         69
-  C:0E25H         LINE#         70
-  C:0E2AH         LINE#         71
-  C:0E2AH         LINE#         72
-  C:0E2FH         LINE#         73
-  C:0E2FH         LINE#         74
-  C:0E34H         LINE#         75
-  C:0E34H         LINE#         76
-  C:0E39H         LINE#         77
-  C:0E39H         LINE#         78
-  C:0E3EH         LINE#         79
-  C:0E3EH         LINE#         80
-  C:0E43H         LINE#         81
-  C:0E43H         LINE#         82
-  C:0E48H         LINE#         83
-  C:0E48H         LINE#         84
-  C:0E4DH         LINE#         85
-  C:0E4DH         LINE#         86
-  C:0E52H         LINE#         87
-  C:0E52H         LINE#         88
-  C:0E57H         LINE#         89
-  C:0E57H         LINE#         90
-  C:0E5CH         LINE#         91
-  C:0E5CH         LINE#         92
-  C:0E61H         LINE#         93
-  C:0E61H         LINE#         94
-  C:0E66H         LINE#         95
-  C:0E66H         LINE#         96
-  C:0E6BH         LINE#         97
-  C:0E72H         LINE#         98
-  C:0E74H         LINE#         99
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/13/2024  12:52:55  PAGE 5
-
-
-  C:0E74H         LINE#         100
+  C:0A73H         LINE#         46
+  C:0A73H         LINE#         47
+  C:0B0EH         LINE#         48
+  C:0B0EH         LINE#         49
+  C:0B0EH         LINE#         50
+  C:0B0EH         LINE#         51
+  C:0B0EH         LINE#         52
+  C:0B0EH         LINE#         53
+  C:0B0EH         LINE#         54
+  C:0B0EH         LINE#         55
+  C:0B0EH         LINE#         56
+  C:0B0EH         LINE#         57
+  C:0B15H         LINE#         58
+  C:0B15H         LINE#         59
+  C:0B1AH         LINE#         60
+  C:0B1AH         LINE#         61
+  C:0B1FH         LINE#         62
+  C:0B1FH         LINE#         63
+  C:0B24H         LINE#         64
+  C:0B24H         LINE#         65
+  C:0B29H         LINE#         66
+  C:0B29H         LINE#         67
+  C:0B2EH         LINE#         68
+  C:0B2EH         LINE#         69
+  C:0B33H         LINE#         70
+  C:0B33H         LINE#         71
+  C:0B38H         LINE#         72
+  C:0B38H         LINE#         73
+  C:0B3DH         LINE#         74
+  C:0B3DH         LINE#         75
+  C:0B42H         LINE#         76
+  C:0B42H         LINE#         77
+  C:0B47H         LINE#         78
+  C:0B47H         LINE#         79
+  C:0B4CH         LINE#         80
+  C:0B4CH         LINE#         81
+  C:0B51H         LINE#         82
+  C:0B51H         LINE#         83
+  C:0B56H         LINE#         84
+  C:0B56H         LINE#         85
+  C:0B5BH         LINE#         86
+  C:0B5BH         LINE#         87
+  C:0B60H         LINE#         88
+  C:0B60H         LINE#         89
+  C:0B65H         LINE#         90
+  C:0B65H         LINE#         91
+  C:0B6AH         LINE#         92
+  C:0B6AH         LINE#         93
+  C:0B6FH         LINE#         94
+  C:0B6FH         LINE#         95
+  C:0B74H         LINE#         96
+  C:0B7BH         LINE#         97
+  C:0B7DH         LINE#         98
+  C:0B7DH         LINE#         99
   -------         ENDPROC       _PARSE_DATA
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  01/28/2025  15:53:58  PAGE 5
+
+
   -------         PROC          _SMG_SHOWCHAR
   D:0005H         SYMBOL        dat
   D:0006H         SYMBOL        pos
   B:0020H.0       SYMBOL        flag
-  C:110CH         LINE#         110
-  C:1110H         LINE#         112
-  C:1115H         LINE#         114
-  C:111CH         LINE#         116
-  C:1122H         LINE#         117
+  C:0DF4H         LINE#         109
+  C:0DF8H         LINE#         111
+  C:0DFDH         LINE#         113
+  C:0E04H         LINE#         115
+  C:0E0AH         LINE#         116
   -------         ENDPROC       _SMG_SHOWCHAR
-  -------         PROC          _SMG_CYCLE
-  D:0029H         SYMBOL        dat
-  D:002CH         SYMBOL        pos
-  D:002DH         SYMBOL        dot
+  -------         PROC          _SMG_FLUSH_BYDELAY
+  D:002EH         SYMBOL        dat
+  D:0031H         SYMBOL        pos
+  D:0032H         SYMBOL        dot
   -------         DO            
-  D:002EH         SYMBOL        i
+  D:0033H         SYMBOL        i
   -------         ENDDO         
-  C:0FBDH         LINE#         129
-  C:0FC5H         LINE#         132
-  C:0FE5H         LINE#         134
-  C:0FE8H         LINE#         135
-  C:0FEAH         LINE#         136
-  C:0FECH         LINE#         137
-  C:0FECH         LINE#         138
-  C:0FFEH         LINE#         139
-  C:1015H         LINE#         140
-  C:1017H         LINE#         141
-  C:1031H         LINE#         142
-  C:1031H         LINE#         143
-  C:1038H         LINE#         144
-  C:103BH         LINE#         145
-  C:103FH         LINE#         146
-  -------         ENDPROC       _SMG_CYCLE
+  C:0C8BH         LINE#         132
+  C:0C93H         LINE#         135
+  C:0CB4H         LINE#         137
+  C:0CB7H         LINE#         138
+  C:0CB9H         LINE#         139
+  C:0CBBH         LINE#         140
+  C:0CBBH         LINE#         142
+  C:0CDEH         LINE#         144
+  C:0CE5H         LINE#         146
+  C:0CE8H         LINE#         147
+  C:0CECH         LINE#         148
+  -------         ENDPROC       _SMG_FLUSH_BYDELAY
   -------         PROC          _SMG_SHOWSTRING
-  D:0023H         SYMBOL        dat
-  D:0026H         SYMBOL        pos
+  D:0028H         SYMBOL        dat
+  D:002BH         SYMBOL        pos
   -------         DO            
-  D:0027H         SYMBOL        i
-  D:0028H         SYMBOL        dot
+  D:002CH         SYMBOL        i
+  D:002DH         SYMBOL        dot
   -------         ENDDO         
-  C:1040H         LINE#         156
-  C:1048H         LINE#         157
-  C:104DH         LINE#         159
-  C:105FH         LINE#         160
-  C:1063H         LINE#         161
-  C:1065H         LINE#         162
-  C:1067H         LINE#         164
-  C:107BH         LINE#         166
+  C:0CEDH         LINE#         158
+  C:0CF5H         LINE#         159
+  C:0CFAH         LINE#         161
+  C:0D0CH         LINE#         162
+  C:0D10H         LINE#         163
+  C:0D12H         LINE#         164
+  C:0D14H         LINE#         166
+  C:0D28H         LINE#         168
   -------         ENDPROC       _SMG_SHOWSTRING
   -------         PROC          _SMG_SHOWINT
   D:0006H         SYMBOL        dat
-  D:0022H         SYMBOL        pos
-  -------         DO            
-  X:000AH         SYMBOL        temp
-  -------         ENDDO         
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/13/2024  12:52:55  PAGE 6
-
-
-  C:10B0H         LINE#         176
-  C:10B2H         LINE#         178
-  C:10C8H         LINE#         179
+  D:0018H         SYMBOL        pos
+  C:0E0BH         LINE#         179
+  C:0E0DH         LINE#         180
   -------         ENDPROC       _SMG_SHOWINT
   -------         PROC          _SMG_SHOWFLOAT
-  D:0012H         SYMBOL        dat
-  D:0016H         SYMBOL        len
-  D:0017H         SYMBOL        pos
-  -------         DO            
-  X:0000H         SYMBOL        temp
-  D:0006H         SYMBOL        dat_now
-  -------         ENDDO         
-  C:0E75H         LINE#         191
-  C:0E7DH         LINE#         194
-  C:0EE4H         LINE#         195
-  C:0EFAH         LINE#         196
+  D:0004H         SYMBOL        dat
+  D:0026H         SYMBOL        len
+  D:0027H         SYMBOL        pos
+  C:0E60H         LINE#         195
+  C:0E60H         LINE#         196
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  01/28/2025  15:53:58  PAGE 6
+
+
   -------         ENDPROC       _SMG_SHOWFLOAT
+  -------         PROC          _SMG_SHOWSTRING_BYTIMER
+  D:0012H         SYMBOL        dat
+  D:0005H         SYMBOL        pos
+  -------         DO            
+  D:0008H         SYMBOL        smg_counter
+  D:0009H         SYMBOL        dot_counter
+  D:000AH         SYMBOL        dot_port
+  D:0015H         SYMBOL        temp
+  -------         ENDDO         
+  C:0C0AH         LINE#         214
+  C:0C10H         LINE#         220
+  C:0C13H         LINE#         222
+  C:0C25H         LINE#         224
+  C:0C2CH         LINE#         226
+  C:0C2EH         LINE#         228
+  C:0C31H         LINE#         230
+  C:0C31H         LINE#         232
+  C:0C39H         LINE#         234
+  C:0C48H         LINE#         237
+  C:0C6EH         LINE#         239
+  C:0C71H         LINE#         241
+  C:0C75H         LINE#         243
+  C:0C78H         LINE#         244
+  C:0C79H         LINE#         246
+  C:0C88H         LINE#         247
+  C:0C88H         LINE#         249
+  C:0C88H         LINE#         250
+  C:0C8AH         LINE#         251
+  C:0C8AH         LINE#         252
+  -------         ENDPROC       _SMG_SHOWSTRING_BYTIMER
   -------         ENDMOD        SMG
 
-  -------         MODULE        DELAY
+  -------         MODULE        PUBLIC
   C:0000H         SYMBOL        _ICE_DUMMY_
-  C:1165H         PUBLIC        _delay_10us
-  C:10F4H         PUBLIC        _delay_ms
+  C:0E6BH         PUBLIC        _delay_10us
+  C:0D67H         PUBLIC        _float2String
+  C:0DDCH         PUBLIC        _delay_ms
+  C:0D36H         PUBLIC        _int2String
   -------         PROC          _DELAY_10US
   D:0006H         SYMBOL        t
-  C:1165H         LINE#         15
-  C:1165H         LINE#         16
-  C:116FH         LINE#         17
+  C:0E6BH         LINE#         15
+  C:0E6BH         LINE#         16
+  C:0E75H         LINE#         17
   -------         ENDPROC       _DELAY_10US
   -------         PROC          _DELAY_MS
   D:0002H         SYMBOL        t
-  C:10F4H         LINE#         25
-  C:10F8H         LINE#         26
-  C:1102H         LINE#         27
-  C:1109H         LINE#         28
-  C:110BH         LINE#         29
+  C:0DDCH         LINE#         25
+  C:0DE0H         LINE#         26
+  C:0DEAH         LINE#         27
+  C:0DF1H         LINE#         28
+  C:0DF3H         LINE#         29
   -------         ENDPROC       _DELAY_MS
-  -------         ENDMOD        DELAY
-
-  -------         MODULE        ?C?FPADD
-  C:000AH         PUBLIC        ?C?FPADD
-  C:0006H         PUBLIC        ?C?FPSUB
-  -------         ENDMOD        ?C?FPADD
-
-  -------         MODULE        ?C?FPMUL
-  C:00FBH         PUBLIC        ?C?FPMUL
-  -------         ENDMOD        ?C?FPMUL
-
-  -------         MODULE        ?C?FPCMP
-  C:0203H         PUBLIC        ?C?FPCMP
-  C:0201H         PUBLIC        ?C?FPCMP3
-  -------         ENDMOD        ?C?FPCMP
-
-  -------         MODULE        ?C?FCAST
-  C:0284H         PUBLIC        ?C?FCASTC
-  C:027FH         PUBLIC        ?C?FCASTI
-  C:027AH         PUBLIC        ?C?FCASTL
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/13/2024  12:52:55  PAGE 7
+  -------         PROC          _INT2STRING
+  D:0016H         SYMBOL        num
+  B:0021H.1       SYMBOL        sign
+  -------         DO            
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  01/28/2025  15:53:58  PAGE 7
 
 
-  -------         ENDMOD        ?C?FCAST
-
-  -------         MODULE        ?C?CASTF
-  C:02B8H         PUBLIC        ?C?CASTF
-  -------         ENDMOD        ?C?CASTF
+  X:000AH         SYMBOL        str
+  -------         ENDDO         
+  C:0D36H         LINE#         38
+  C:0D3AH         LINE#         42
+  C:0D48H         LINE#         43
+  C:0D60H         LINE#         45
+  C:0D66H         LINE#         46
+  -------         ENDPROC       _INT2STRING
+  -------         PROC          _FLOAT2STRING
+  D:0028H         SYMBOL        num
+  D:002CH         SYMBOL        len
+  -------         DO            
+  X:0000H         SYMBOL        str
+  -------         ENDDO         
+  C:0D67H         LINE#         55
+  C:0D6FH         LINE#         58
+  C:0D8FH         LINE#         60
+  C:0D95H         LINE#         61
+  -------         ENDPROC       _FLOAT2STRING
+  -------         ENDMOD        PUBLIC
 
   -------         MODULE        PRINTF
-  D:0023H         PUBLIC        ?_PRINTF?BYTE
-  D:0023H         PUBLIC        ?_SPRINTF?BYTE
-  C:0711H         PUBLIC        _PRINTF
-  C:070BH         PUBLIC        _SPRINTF
+  D:002DH         PUBLIC        ?_PRINTF?BYTE
+  D:002DH         PUBLIC        ?_SPRINTF?BYTE
+  C:0666H         PUBLIC        _PRINTF
+  C:0660H         PUBLIC        _SPRINTF
   -------         ENDMOD        PRINTF
 
-  -------         MODULE        POW
-  D:0008H         PUBLIC        ?_pow?BYTE
-  C:0C53H         PUBLIC        _pow
-  -------         ENDMOD        POW
-
-  -------         MODULE        ?C?CHKFLOAT
-  C:0339H         PUBLIC        ?C?CHKFLOAT
-  -------         ENDMOD        ?C?CHKFLOAT
-
-  -------         MODULE        ?C?FPNEG
-  C:0353H         PUBLIC        ?C?FPNEG
-  -------         ENDMOD        ?C?FPNEG
-
   -------         MODULE        ?C?FPROUND
-  C:0364H         PUBLIC        ?C?FPROUND
+  C:0003H         PUBLIC        ?C?FPROUND
   -------         ENDMOD        ?C?FPROUND
 
   -------         MODULE        ?C?FPCONVERT
-  C:0393H         PUBLIC        ?C?FPCONVERT
+  C:0032H         PUBLIC        ?C?FPCONVERT
   -------         ENDMOD        ?C?FPCONVERT
 
-  -------         MODULE        EXP
-  C:0F5BH         PUBLIC        _EXP
-  -------         ENDMOD        EXP
+  -------         MODULE        ?C?FPADD
+  C:013CH         PUBLIC        ?C?FPADD
+  C:0138H         PUBLIC        ?C?FPSUB
+  -------         ENDMOD        ?C?FPADD
 
-  -------         MODULE        LOG
-  C:0B52H         PUBLIC        _LOG
-  C:0B4EH         PUBLIC        _LOG10
-  -------         ENDMOD        LOG
+  -------         MODULE        ?C?FPMUL
+  C:022DH         PUBLIC        ?C?FPMUL
+  -------         ENDMOD        ?C?FPMUL
 
   -------         MODULE        ?C?FPDIV
-  C:0499H         PUBLIC        ?C?FPDIV
+  C:0336H         PUBLIC        ?C?FPDIV
   -------         ENDMOD        ?C?FPDIV
 
   -------         MODULE        ?C?FTNPWR
-  C:0566H         PUBLIC        ?C?FTNPWR
+  C:0403H         PUBLIC        ?C?FTNPWR
   -------         ENDMOD        ?C?FTNPWR
 
   -------         MODULE        ?C?CLDPTR
-  C:05F3H         PUBLIC        ?C?CLDPTR
+  C:048DH         PUBLIC        ?C?CLDPTR
   -------         ENDMOD        ?C?CLDPTR
 
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  01/28/2025  15:53:58  PAGE 8
+
+
   -------         MODULE        ?C?CLDOPTR
-  C:060CH         PUBLIC        ?C?CLDOPTR
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/13/2024  12:52:55  PAGE 8
-
-
+  C:04A6H         PUBLIC        ?C?CLDOPTR
   -------         ENDMOD        ?C?CLDOPTR
 
   -------         MODULE        ?C?CSTPTR
-  C:0639H         PUBLIC        ?C?CSTPTR
+  C:04D3H         PUBLIC        ?C?CSTPTR
   -------         ENDMOD        ?C?CSTPTR
 
-  -------         MODULE        ?C?LNEG
-  C:064BH         PUBLIC        ?C?LNEG
-  -------         ENDMOD        ?C?LNEG
-
-  -------         MODULE        ?C?LLDCODE
-  C:0659H         PUBLIC        ?C?LLDCODE
-  -------         ENDMOD        ?C?LLDCODE
-
-  -------         MODULE        ?C?LLDCODE0
-  C:0669H         PUBLIC        ?C?LLDCODE0
-  -------         ENDMOD        ?C?LLDCODE0
-
   -------         MODULE        ?C?PLDIIDATA
-  C:0679H         PUBLIC        ?C?PLDIIDATA
+  C:04E5H         PUBLIC        ?C?PLDIIDATA
   -------         ENDMOD        ?C?PLDIIDATA
 
   -------         MODULE        ?C?CCASE
-  C:0689H         PUBLIC        ?C?CCASE
+  C:04F5H         PUBLIC        ?C?CCASE
   -------         ENDMOD        ?C?CCASE
 
   -------         MODULE        PUTCHAR
-  C:1089H         PUBLIC        _PUTCHAR
+  C:0D96H         PUBLIC        _PUTCHAR
   -------         ENDMOD        PUTCHAR
 
+  -------         MODULE        ?C?STRCPY
+  C:05E7H         PUBLIC        ?C?STRCPY
+  -------         ENDMOD        ?C?STRCPY
+
   -------         MODULE        STRLEN
-  C:1139H         PUBLIC        _STRLEN
+  C:0E38H         PUBLIC        _STRLEN
   -------         ENDMOD        STRLEN
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SMG_SHOWFLOAT?SMG
+    SEGMENT: ?PR?_SMG_SHOWINT?SMG
 
-Program Size: data=59.2 xdata=19 code=4464
-LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SMG_SHOWSTRING_BYTIMER?SMG
+
+Program Size: data=66.2 xdata=18 code=3720
+LINK/LOCATE RUN COMPLETE.  2 WARNING(S),  0 ERROR(S)

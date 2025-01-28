@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    09/03/2023  22:45:57  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    01/28/2025  13:24:25  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
@@ -11,7 +11,6 @@ MEMORY MODEL: SMALL
 INPUT MODULES INCLUDED:
   .\Objects\main.obj (MAIN)
   C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
-  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?COPY)
 
 
 LINK MAP OF MODULE:  .\Objects\Project (MAIN)
@@ -22,16 +21,15 @@ LINK MAP OF MODULE:  .\Objects\Project (MAIN)
 
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
-            DATA    0008H     000CH     UNIT         _DATA_GROUP_
-            IDATA   0014H     0001H     UNIT         ?STACK
+            DATA    0008H     0002H     UNIT         _DATA_GROUP_
+            IDATA   000AH     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-            CODE    0003H     00F6H     UNIT         ?C?LIB_CODE
-            CODE    00F9H     003FH     UNIT         ?PR?MAIN?MAIN
-            CODE    0138H     000CH     UNIT         ?C_C51STARTUP
-            CODE    0144H     000BH     UNIT         ?PR?_DELAY?MAIN
-            CODE    014FH     000AH     UNIT         ?CO?MAIN
+            CODE    0003H     0040H     UNIT         ?PR?MAIN?MAIN
+            CODE    0043H     000CH     UNIT         ?C_C51STARTUP
+            CODE    004FH     000BH     UNIT         ?PR?_DELAY?MAIN
+            CODE    005AH     000AH     UNIT         ?CO?MAIN
 
 
 
@@ -44,7 +42,7 @@ SEGMENT                          DATA_GROUP
 ?C_C51STARTUP                  -----    -----
   +--> ?PR?MAIN?MAIN
 
-?PR?MAIN?MAIN                  0008H    000CH
+?PR?MAIN?MAIN                  0008H    0002H
   +--> ?CO?MAIN
   +--> ?PR?_DELAY?MAIN
 
@@ -58,38 +56,34 @@ SYMBOL TABLE OF MODULE:  .\Objects\Project (MAIN)
   -------         MODULE        MAIN
   C:0000H         SYMBOL        _ICE_DUMMY_
   D:0080H         PUBLIC        P0
-  C:0144H         PUBLIC        _delay
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  09/03/2023  22:45:57  PAGE 2
-
-
-  C:00F9H         PUBLIC        main
-  C:014FH         SYMBOL        _?ix1000
+  C:004FH         PUBLIC        _delay
+  C:0003H         PUBLIC        main
   -------         PROC          _DELAY
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  01/28/2025  13:24:25  PAGE 2
+
+
   D:0006H         SYMBOL        t
-  C:0144H         LINE#         8
-  C:0144H         LINE#         9
-  C:014EH         LINE#         10
+  C:004FH         LINE#         15
+  C:004FH         LINE#         16
+  C:0059H         LINE#         17
   -------         ENDPROC       _DELAY
   -------         PROC          MAIN
   -------         DO            
-  D:0008H         SYMBOL        smg_array
+  C:005AH         SYMBOL        smg_array
   -------         DO            
-  D:0012H         SYMBOL        i
+  D:0008H         SYMBOL        i
   -------         ENDDO         
   -------         ENDDO         
-  C:00F9H         LINE#         13
-  C:00F9H         LINE#         15
-  C:010CH         LINE#         18
-  C:010CH         LINE#         20
-  C:0111H         LINE#         21
-  C:011CH         LINE#         22
-  C:0123H         LINE#         23
+  C:0003H         LINE#         20
+  C:0003H         LINE#         25
+  C:0003H         LINE#         27
+  C:0008H         LINE#         28
+  C:0020H         LINE#         29
+  C:0027H         LINE#         30
+  C:003AH         LINE#         31
+  C:0041H         LINE#         32
   -------         ENDPROC       MAIN
   -------         ENDMOD        MAIN
 
-  -------         MODULE        ?C?COPY
-  C:00D3H         PUBLIC        ?C?COPY
-  -------         ENDMOD        ?C?COPY
-
-Program Size: data=21.0 xdata=0 code=345
+Program Size: data=11.0 xdata=0 code=100
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

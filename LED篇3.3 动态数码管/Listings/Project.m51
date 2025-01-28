@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    09/03/2023  22:46:59  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    01/28/2025  13:47:33  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
@@ -59,7 +59,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\Project (MAIN)
   D:0080H         PUBLIC        P0
   D:00A0H         PUBLIC        P2
   C:0051H         PUBLIC        _delay
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  09/03/2023  22:46:59  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  01/28/2025  13:47:33  PAGE 2
 
 
   C:0003H         PUBLIC        main
@@ -70,32 +70,32 @@ SYMBOL TABLE OF MODULE:  .\Objects\Project (MAIN)
   B:00A0H.4       PUBLIC        A2
   -------         PROC          _DELAY
   D:0006H         SYMBOL        t
-  C:0051H         LINE#         6
-  C:0051H         LINE#         7
-  C:005BH         LINE#         8
+  C:0051H         LINE#         22
+  C:0051H         LINE#         23
+  C:005BH         LINE#         24
   -------         ENDPROC       _DELAY
   -------         PROC          _DEC2BIN
   D:0007H         SYMBOL        i
-  C:0033H         LINE#         19
-  C:0033H         LINE#         20
-  C:0037H         LINE#         21
-  C:003BH         LINE#         22
-  C:003EH         LINE#         23
-  C:0041H         LINE#         24
-  C:0044H         LINE#         25
+  C:0033H         LINE#         27
+  C:0033H         LINE#         28
+  C:0037H         LINE#         29
+  C:003BH         LINE#         30
+  C:003EH         LINE#         31
+  C:0041H         LINE#         32
+  C:0044H         LINE#         33
   -------         ENDPROC       _DEC2BIN
   -------         PROC          MAIN
   -------         DO            
   D:0005H         SYMBOL        i
   -------         ENDDO         
-  C:0003H         LINE#         28
-  C:0003H         LINE#         30
-  C:0003H         LINE#         31
-  C:0005H         LINE#         32
-  C:000AH         LINE#         33
-  C:0023H         LINE#         34
-  C:002AH         LINE#         35
-  C:002DH         LINE#         36
+  C:0003H         LINE#         35
+  C:0003H         LINE#         37
+  C:0003H         LINE#         38
+  C:0005H         LINE#         39
+  C:000AH         LINE#         40
+  C:0023H         LINE#         41
+  C:002AH         LINE#         42
+  C:002DH         LINE#         43
   -------         ENDPROC       MAIN
   -------         ENDMOD        MAIN
 

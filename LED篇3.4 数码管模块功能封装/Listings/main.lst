@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   MAIN                                                              02/13/2024 12:52:55 PAGE 1   
+C51 COMPILER V9.60.7.0   MAIN                                                              01/28/2025 15:53:58 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
@@ -18,20 +18,20 @@ line level    source
    8          /*-------------------------------------------------------------------*/
    9          
   10          
-  11          void main(){
+  11          int main(void){
   12   1              
-  13   1              // smg_showChar('f', 1, 0);  // 静态字符显示示例
+  13   1      //      smg_showChar('f', 3, false);  // 静态字符显示示例
   14   1              
   15   1              while(1){
-  16   2                      smg_showInt(-12345, 1);       // 整数显示示例
-  17   2                      // smg_showString("Iloveyou", 1); // 字符串显示示例
-  18   2                      // smg_showFloat(-3.15678, 3, 1); // 浮点数显示示例
+  16   2      //              smg_showInt(-12345, 1);       // 整数显示示例
+  17   2      //              smg_showString("Iloveyou", 1); // 字符串显示示例
+  18   2                      smg_showFloat(-31.56786, 3, 1); // 浮点数显示示例
   19   2              }
   20   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     11    ----
+   CODE SIZE        =     19    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
