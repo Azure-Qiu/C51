@@ -1,0 +1,158 @@
+C51 COMPILER V9.60.7.0   CALCULATOR                                                        02/19/2024 10:55:21 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE CALCULATOR
+OBJECT MODULE PLACED IN .\Objects\calculator.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE calculator.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\L
+                    -istings\calculator.lst) OBJECT(.\Objects\calculator.obj)
+
+line level    source
+
+   1          #include "calculator.h"
+   2          #include "beep.h"
+   3          #include "smg.h"
+   4          /** 
+   5           **  @brief    计算器相关函数封装
+   6           **  @author   QIU
+   7           **  @date     2024.02.17
+   8           **/
+   9          /*-------------------------------------------------------------------*/
+  10          
+  11          
+  12          // 管理一个用于数码管显示的字符数组，以'\0'结尾
+  13          u8 xdata smg_val[10] = {'0', 0};
+  14          // 前数值，当前数值
+  15          double xdata pre_value = 0, now_value = 0;
+  16          // 小数点后位数，整数部分位数
+  17          u8 xdata dot_num = 0, pre_dot_num = 0, integer_num = 0, pre_integer_num = 0;
+  18          // 存储上一个运算符（默认为加法）
+  19          u8 xdata pre_operator_val = Addition;
+  20          // 小数点启用标志，新数据输入标志
+  21          bit flag_dot = false, flag_new_data = true;
+  22          // 矩阵键盘键值数组（4 x 4）
+  23          u8 code Matrix_Key_Value[4][4] = {
+  24                  {KEY_7, KEY_8, KEY_9, Addition},
+  25                  {KEY_4, KEY_5, KEY_6, Subtraction},
+  26                  {KEY_1, KEY_2, KEY_3, Multiplication},
+  27                  {KEY_0, Dot, Calculation, Division}
+  28          };
+  29          
+  30          
+  31          
+  32          
+  33          /**
+  34           **  @brief   根据按键，更新数码管显示值
+  35           **  @param   参数说明
+  36           **  @retval  返回值
+  37           **/
+  38          void update_smg_value(u8 row, u8 col){
+  39   1              // 取出当前键值
+  40   1              u8 key_val = Matrix_Key_Value[row - 1][col - 1];
+  41   1              
+  42   1              switch(key_val){
+  43   2                      // KEY_0，未进入小数部分，且初始为0的状态下，按下无响应
+  44   2                      case KEY_0: if(!flag_dot && integer_num == 0 && smg_val[0] == '0') return;
+  45   2                      case KEY_1:
+  46   2                      case KEY_2:     
+  47   2                      case KEY_3:
+  48   2                      case KEY_4:     
+  49   2                      case KEY_5:
+  50   2                      case KEY_6:     
+  51   2                      case KEY_7:
+  52   2                      case KEY_8:     
+  53   2                      case KEY_9:     
+  54   2                              // 每次操作符后首次按键，清空显示字符串
+C51 COMPILER V9.60.7.0   CALCULATOR                                                        02/19/2024 10:55:21 PAGE 2   
+
+  55   2                              if(flag_new_data){
+  56   3                                      flag_new_data = false;
+  57   3                                      // 清空smg_val数组
+  58   3                                      memset(smg_val, 0, sizeof(smg_val));
+  59   3                                      flag_dot = false;
+  60   3                                      // 两数的小数最大个数即为运算结果的小数个数
+  61   3                                      pre_dot_num = MAX(pre_dot_num, dot_num);
+  62   3                                      pre_integer_num = integer_num;
+  63   3                                      dot_num = integer_num = 0;
+  64   3                              }
+  65   2                                       
+  66   2                              if(flag_dot){
+  67   3                                      // 已按下小数点时，小数部分
+  68   3                                      dot_num++;
+  69   3                                      smg_val[integer_num + dot_num] = key_val + '0';         
+  70   3                              }else{
+  71   3                                      // 还未按下小数点时，整数部分
+  72   3                                      smg_val[integer_num] = key_val + '0';
+  73   3                                      integer_num++;
+  74   3                              }
+  75   2                              break;
+  76   2                      case Dot:
+  77   2                              // 如果按下运算符后，直接按小数点无效。
+  78   2                              if(flag_new_data && integer_num != 0) return;
+  79   2                              else flag_new_data = false;
+  80   2                              // 如果未进入小数状态，该键有效
+  81   2                              if(!flag_dot){
+  82   3                                      flag_dot = true;
+  83   3                                      // 如果初始状态为0
+  84   3                                      if(integer_num == 0 && smg_val[0] == '0'){
+  85   4                                              integer_num++;
+  86   4                                              smg_val[integer_num] = '.';
+  87   4                                      }else{
+  88   4                                              smg_val[integer_num] = '.';
+  89   4                                      }
+  90   3                              }
+  91   2                              break;
+  92   2                      case Addition:
+  93   2                      case Subtraction:
+  94   2                      case Multiplication:
+  95   2                      case Division:
+  96   2                      case Calculation:
+  97   2                              // 只有当输入过新数据或者上个运算符为等号时，运算符键才有效
+  98   2                              if(!flag_new_data || pre_operator_val == Calculation){
+  99   3                                      double val;
+ 100   3                                      int num;
+ 101   3                                      // 将现有显示的字符串转为数值
+ 102   3                                      pre_value = now_value;
+ 103   3                                      now_value = atof(smg_val);
+ 104   3                                      switch(pre_operator_val){
+ 105   4                                              case Addition: val = pre_value + now_value; num = MAX(pre_dot_num, dot_num); break;
+ 106   4                                              case Subtraction: val = pre_value - now_value; num = MAX(pre_dot_num, dot_num); break;
+ 107   4                                              case Multiplication: val = pre_value * now_value; num = pre_dot_num + dot_num; break;
+ 108   4                                              case Division: val = pre_value / now_value; num = 6; break;
+ 109   4                                              case Calculation: val = now_value; num = MAX(pre_dot_num, dot_num); break;
+ 110   4                                      }
+ 111   3                                      sprintf(smg_val, "%.*f", num, val); 
+ 112   3                                      pre_operator_val = key_val; 
+ 113   3                                      flag_new_data = true;
+ 114   3                                      // 再更新为当前值
+ 115   3                                      now_value = atof(smg_val);
+ 116   3                              }
+C51 COMPILER V9.60.7.0   CALCULATOR                                                        02/19/2024 10:55:21 PAGE 3   
+
+ 117   2                              break;
+ 118   2                      default:break;
+ 119   2              }
+ 120   1      }
+ 121          
+ 122          
+ 123          // 计算器键值处理
+ 124          void calculator_deal_key(u8 row, u8 col){
+ 125   1              // 蜂鸣器响应，第三行连接P1.5，不响
+ 126   1              beep_once(50, 2000);
+ 127   1              // 更新数码管的值
+ 128   1              update_smg_value(row, col);
+ 129   1      }
+ 130          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    684    ----
+   CONSTANT SIZE    =     21    ----
+   XDATA SIZE       =     23    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       9
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      2    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

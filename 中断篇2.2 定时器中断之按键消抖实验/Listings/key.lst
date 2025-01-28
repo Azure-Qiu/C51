@@ -1,0 +1,258 @@
+C51 COMPILER V9.60.7.0   KEY                                                               02/08/2024 14:01:26 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE KEY
+OBJECT MODULE PLACED IN .\Objects\key.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE key.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings
+                    -\key.lst) OBJECT(.\Objects\key.obj)
+
+line level    source
+
+   1          #include "key.h"
+   2          // 包含的头文件（按需求修改）
+   3          #include "led.h"
+   4          #include "smg.h"
+   5          /** 
+   6           **  @brief    独立按键的定时器实现
+   7           **            1. 单键的按下响应与松开响应
+   8           **            2. 单键的单次响应与连续响应
+   9           **  @author   QIU
+  10           **  @date     2023.08.31
+  11           **/
+  12           
+  13          /*-------------------------------------------------------------------*/
+  14          
+  15          // 实时按键状态、当前确认状态、前确认状态
+  16          Key_State key_state, key_now_state, key_pre_state;
+  17          // 按键累积
+  18          u16 num = 0;
+  19          
+  20          
+  21          /*------------------------按键响应函数定义区------------------------------*/
+  22          
+  23          
+  24          /**
+  25           **  @brief   按键3按键响应
+  26           **  @param   参数说明
+  27           **  @retval  返回值
+  28           **/
+  29          void key3_press(){
+  30   1              num++;
+  31   1              smg_showInt(num, 1);
+  32   1              led_on(1);
+  33   1      }
+  34          
+  35          
+  36          
+  37          void key3_unpressed(){
+  38   1              num = 0;
+  39   1              smg_showChar('0', 1, false);
+  40   1              led_turn(1);
+  41   1      }
+  42          
+  43          
+  44          
+  45          /*--------------------------延时法按键检测------------------------------------*/
+  46          
+  47          /**
+  48           **  @brief   按键松开响应
+  49           **  @param   无
+  50           **  @retval  无
+  51           **/
+  52          void key_unpress(){
+  53   1              switch(key_pre_state){
+  54   2                      case KEY_UNPRESS: break;
+C51 COMPILER V9.60.7.0   KEY                                                               02/08/2024 14:01:26 PAGE 2   
+
+  55   2                      case KEY3_PRESS: key3_unpressed();break;
+  56   2              }
+  57   1      }
+  58          
+  59          
+  60          #if 0
+              
+              /**
+               **  @brief   按键松开响应
+               **  @param   无
+               **  @retval  无
+               **/
+              void key_unpress(){
+                      switch(key_pre_state){
+                              case KEY_UNPRESS: break;
+                              case KEY1_PRESS: key1_unpressed();break;
+                              case KEY2_PRESS: key2_unpressed();break;
+                              case KEY3_PRESS: key3_unpressed();break;
+                              case KEY4_PRESS: key4_unpressed();break;
+                              case KEY1_2_PRESS: key1_2_unpressed();break;
+                              case KEY2_3_PRESS: key2_3_unpressed();break;
+                              case KEY3_4_PRESS: key3_4_unpressed();break;
+                      }
+              }
+              
+              
+              /**
+               **  @brief   （轮询方式）扫描独立按键，判断哪个键按下
+               **  @param   无
+               **  @retval  无
+               **/
+              void scan_key(){
+                      static u8 flag = 1;
+              
+                      // 如果有按键按下
+                      if(flag && (!key1||!key2||!key3||!key4)){
+                              flag = 0; // 清零
+                              delay_ms(10); // 延时10ms消抖
+                              delay_ms(50); // 延时50ms 容许间隔
+                              // 获取当前所有按下的键
+                              if(!key1) key_now_state |= KEY1_PRESS; 
+                              if(!key2) key_now_state |= KEY2_PRESS; 
+                              if(!key3) key_now_state |= KEY3_PRESS; 
+                              if(!key4) key_now_state |= KEY4_PRESS; 
+              
+                      // 如果按键全部松开
+                      }else if(key1&&key2&&key3&&key4){
+                              flag = 1;
+                              delay_ms(10); // 延时10ms消抖,松开响应有逻辑判断时，需要加上消抖。否则可以省�
+             -��。
+                              if(key1&&key2&&key3&&key4)key_now_state = 0;
+                      }
+              }
+              
+              
+              
+              /**
+               **  @brief   （轮询方式）判断按键, 进行相应处理
+               **  @param    无
+               **  @retval   无
+               **/
+              void check_key(){
+C51 COMPILER V9.60.7.0   KEY                                                               02/08/2024 14:01:26 PAGE 3   
+
+                      switch(key_now_state){
+                              case KEY_UNPRESS:
+                                      // 松开响应
+                                      key_unpress();
+                                      key_pre_state = KEY_UNPRESS;
+                                      break;
+                              case KEY1_PRESS:
+                                      key_pre_state = KEY1_PRESS;
+                                      // 如果是单次响应
+                                      if(!KEY1_MODE) key_now_state = KEY_NON_DEAL;
+                                      key1_pressed();
+                                      break;
+                              case KEY2_PRESS:
+                                      key_pre_state = KEY2_PRESS;
+                                      if(!KEY2_MODE) key_now_state = KEY_NON_DEAL;
+                                      break;
+                              case KEY3_PRESS:
+                                      key_pre_state = KEY3_PRESS;
+                                      if(!KEY3_MODE) key_now_state = KEY_NON_DEAL;
+                                      key3_pressed();
+                                      break;
+                              case KEY4_PRESS:
+                                      key_pre_state = KEY4_PRESS;
+                                      if(!KEY4_MODE) key_now_state = KEY_NON_DEAL;
+                                      key4_pressed();
+                                      break;
+                              case KEY1_2_PRESS:
+                                      key_pre_state = KEY1_2_PRESS;
+                                      if(!KEY_1_2_MODE) key_now_state = KEY_NON_DEAL;
+                                      key_1_2_pressed();
+                                      break;
+                              case KEY2_3_PRESS:
+                                      key_pre_state = KEY2_3_PRESS;
+                                      if(!KEY_2_3_MODE) key_now_state = KEY_NON_DEAL;
+                                      key_2_3_pressed();
+                                      break;
+                              case KEY3_4_PRESS:
+                                      key_pre_state = KEY3_4_PRESS;
+                                      if(!KEY_3_4_MODE) key_now_state = KEY_NON_DEAL;
+                                      key_3_4_pressed();
+                                      break;
+                              case KEY_NON_DEAL:
+                                      // 按下不处理
+                                      break;
+                      }
+              }
+              #endif
+ 163          
+ 164          
+ 165          /*---------------------------定时器法按键检测--------------------------------*/
+ 166          
+ 167          
+ 168          
+ 169          /**
+ 170           **  @brief   （轮询方式）判断按键状态与模式, 进行相应处理
+ 171           **  @param    无
+ 172           **  @retval   无
+ 173           **/
+ 174          void check_key(){
+ 175   1              static bit flag = true;
+ 176   1              // 检查按键模式
+ 177   1              switch(key_now_state){
+C51 COMPILER V9.60.7.0   KEY                                                               02/08/2024 14:01:26 PAGE 4   
+
+ 178   2                      case KEY3_PRESS:
+ 179   2                              // 按下响应
+ 180   2                              if(flag) key3_press();
+ 181   2                              // 按键模式流转
+ 182   2                              if(!KEY3_MODE) flag = false;
+ 183   2                              break;
+ 184   2                      case KEY_UNPRESS:
+ 185   2                              // 按下响应
+ 186   2                              key_unpress();
+ 187   2                              key_pre_state = KEY_UNPRESS;
+ 188   2                              flag = true;
+ 189   2                              break;
+ 190   2                      default:
+ 191   2                              break;
+ 192   2              }
+ 193   1              
+ 194   1      }
+ 195          
+ 196          
+ 197          
+ 198          
+ 199          /**
+ 200           **  @brief   （定时器）确认按键是否稳定按下/松开，去抖
+ 201           **  @param   无
+ 202           **  @retval  无
+ 203           **/
+ 204          void scan_key_ByTimer(){
+ 205   1              static u8 flag = 0xff;
+ 206   1              
+ 207   1              flag <<= 1;
+ 208   1      
+ 209   1              flag |= key3; // 检查键3引脚状态（按下为0）
+ 210   1              
+ 211   1              switch(flag){
+ 212   2                      case 0xff:
+ 213   2                              // 连续8次检测到按键松开，视为松开状态。
+ 214   2                              key_state = KEY_UNPRESS;
+ 215   2                              // 按键状态更新
+ 216   2                              key_pre_state = key_now_state;
+ 217   2                              key_now_state = key_state;
+ 218   2                              break;
+ 219   2                      
+ 220   2                      case 0x00:
+ 221   2                              // 更新按键状态
+ 222   2                              key_pre_state = key_now_state;
+ 223   2                              key_now_state = key_state;
+ 224   2                              break;
+ 225   2              }
+ 226   1      }
+ 227          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    104    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      6    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

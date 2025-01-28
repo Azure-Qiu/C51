@@ -1,0 +1,53 @@
+C51 COMPILER V9.60.0.0   SHORTPRESS                                                        02/27/2023 21:46:29 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE SHORTPRESS
+OBJECT MODULE PLACED IN .\Objects\shortPress.obj
+COMPILER INVOKED BY: D:\MDK5\C51\BIN\C51.EXE shortPress.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\s
+                    -hortPress.lst) OBJECT(.\Objects\shortPress.obj)
+
+line level    source
+
+   1          #include <regx52.h>
+   2          #include "delay.h"
+   3          #include "led.h"
+   4          
+   5          sbit btn1 = P3^1; 
+   6          sbit btn2 = P3^0;
+   7          sbit btn3 = P3^2;
+   8          
+   9          /**
+  10             *  @brief 按下立刻响应
+  11             *  @param 
+  12             *  @retval 
+  13             */
+  14          void requestPressed(){
+  15   1              static u8 flag = 0;
+  16   1              if(flag == 0 && btn1 == 0){
+  17   2                      delay(1000); //10ms
+  18   2                      if(btn1 == 0){
+  19   3                              changeLED(2);
+  20   3                              flag = !flag;
+  21   3                              
+  22   3                      }
+  23   2              }else if(flag == 1 && btn1 == 1){
+  24   2                      delay(1000);
+  25   2                      if(btn1 == 1){
+  26   3                              flag = !flag;
+  27   3                      }
+  28   2              }
+  29   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     67    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

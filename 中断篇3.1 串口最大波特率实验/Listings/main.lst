@@ -1,0 +1,64 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              03/10/2024 16:50:49 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "public.h"
+   2          /** 
+   3           **  @brief    串口最大波特率测试实验
+   4           **  @author   QIU
+   5           **  @date     2024.03.10
+   6           **/
+   7           
+   8           /*-------------------------------------------------------------------*/
+   9          
+  10          /**
+  11           **  @brief   串口初始化
+  12           **  @param   波特率（受晶振频率11.0592MHz所限，波特率需小于28800，加倍最大57600，38400不行）
+  13           **  @retval  无
+  14           **/
+  15          void Uart_Init(u16 baud){
+  16   1              SCON = 0x50;   // 0101 0000（选择串口工作方式为1，且允许串行接收位REN置1）
+  17   1              TMOD |= 0x20;  // 0010 0000（选定T1定时器，定时器工作方式为8位自动重装）
+  18   1              PCON = (baud>28800)? 0x80:0x00; // 判断波特率倍频
+  19   1              TL1 = TH1 = 256 - ((baud>28800)? 57600:28800)/baud;   // 计算初值
+  20   1              ET1 = 0; // 禁止定时器T1中断
+  21   1              TR1 = 1; //启动定时器T1
+  22   1      }
+  23          
+  24          /**
+  25           **  @brief   发送单字节数据
+  26           **  @param   单字节数据
+  27           **  @retval  无
+  28           **/
+  29          void Uart_SendByte(u8 dat){
+  30   1              SBUF = dat; // 将字节数据输入至数据缓冲寄存器中
+  31   1              while(!TI); // 等硬件将TI置1后，即发送成功，退出
+  32   1              TI = 0; //清零
+  33   1      }
+  34          
+  35          void main(void){
+  36   1              Uart_Init(57600);
+  37   1              Uart_SendByte((u8)sizeof(int));
+  38   1              
+  39   1              while(1);
+  40   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    104    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

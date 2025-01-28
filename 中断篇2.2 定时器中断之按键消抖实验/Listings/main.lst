@@ -1,0 +1,79 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              02/08/2024 14:01:26 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "timer.h"
+   2          #include "interrupt.h"
+   3          #include "key.h"
+   4          /** 
+   5           **  @brief    采用外部中断响应，定时器消抖结合的方式。实现单个按键功能demo
+   6           **                        1. 实现按下响应：key3键按下，数码管数字持续增加，led1保持常亮
+   7           **                        2. 实现松开响应：key3键松开，数码管数字归零，led1熄灭
+   8           **  @author   QIU
+   9           **  @data     2023.08.31
+  10           **/
+  11          
+  12          /*-------------------------------------------------------------------*/
+  13          
+  14          // 定时器初值，延时1ms计算
+  15          u16 time_init = 922;
+  16          
+  17          
+  18          void main(){
+  19   1              INTx_init(0);     // 中断0
+  20   1              TIMERx_init(0, time_init); // 定时器0
+  21   1              
+  22   1              TR0 = 1; // 开启定时器0
+  23   1              
+  24   1              while(1){
+  25   2                      // 判断按键并处理
+  26   2                      check_key();
+  27   2              }
+  28   1      }
+  29          
+  30          
+  31          // 外部中断0的中断服务程序模板
+  32          void INT0_serve() interrupt 0{
+  33   1              // 更新按键状态标志
+  34   1              key_state |= KEY3_PRESS;
+  35   1      }
+  36          
+  37          
+  38          
+  39          // 定时器0的中断服务程序
+  40          void TIMER0_serve() interrupt 1{
+  41   1              
+  42   1              TL0 = (65536-time_init)%256; //低8位
+  43   1              TH0 = (65536-time_init)/256; //高8位
+  44   1              
+  45   1              // 如果检测到实时按键按下
+  46   1              if(key_state){
+  47   2                      // 开始检查确认按键实际状态，去抖
+  48   2                      scan_key_ByTimer();
+  49   2              }
+  50   1      }
+  51          
+  52          
+  53          
+
+C51 COMPILER V9.60.7.0   MAIN                                                              02/08/2024 14:01:26 PAGE 2   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    160    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

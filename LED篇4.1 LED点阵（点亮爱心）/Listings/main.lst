@@ -1,0 +1,78 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              09/03/2023 23:55:36 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #define LED_PORT P0
+   3          
+   4          typedef unsigned char u8;
+   5          typedef unsigned int u16;
+   6          
+   7          sbit SER = P3^4; //串行输入
+   8          sbit ST = P3^5; //存储寄存器时钟引脚
+   9          sbit SH = P3^6; //移位存储器时钟引脚
+  10          
+  11          u8 code LED_portX_Array[] = {0x7e,0xbd,0xdb,0xe7};
+  12          u8 code LED_portY_Array[] = {0x38,0x7c,0x7e,0x3f};
+  13          
+  14          
+  15          void delay(u16 t){
+  16   1              while(t--);
+  17   1      }
+  18          
+  19          void LED_control(u8 dat){
+  20   1              u8 i;
+  21   1              //将一个字节拆分成串行输入
+  22   1              for(i=0;i<8;i++){
+  23   2                      SER = dat >> 7; //先将最高位送入SER中
+  24   2                      dat <<= 1; //左移1位(去掉最高位)更新数据
+  25   2                      SH = 0; //给移位寄存器时序脉冲
+  26   2                      delay(1);
+  27   2                      SH = 1; //检测到上升沿时将SER数据读入移位寄存器中
+  28   2                      delay(1);
+  29   2              }
+  30   1              ST = 0; //当一个字节传输完毕，此时移位寄存器已满。给存储寄存器时序脉冲
+  31   1              delay(1);
+  32   1              ST = 1;//检测到上升沿时将移位寄存器中的8位数据全部读入存储寄存器中。通过�
+             -�行输出引脚可以直接检测到
+  33   1              delay(1);
+  34   1      }
+  35          
+  36          
+  37          
+  38          
+  39          void main(){
+  40   1              u8 i; //必须先定义，放在第一个
+  41   1              P0 = 0xff; //初始全熄灭
+  42   1              while(1){
+  43   2                      for(i=0;i<4;i++){
+  44   3                              LED_control(0x00);
+  45   3                              LED_control(LED_portY_Array[i]);
+  46   3                              P0 = LED_portX_Array[i];
+  47   3                              delay(100); //1ms
+  48   3                              
+  49   3                      }
+  50   2              }
+  51   1      }
+
+
+C51 COMPILER V9.60.7.0   MAIN                                                              09/03/2023 23:55:36 PAGE 2   
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    101    ----
+   CONSTANT SIZE    =      8    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

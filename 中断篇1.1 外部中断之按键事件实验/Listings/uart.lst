@@ -1,0 +1,71 @@
+C51 COMPILER V9.60.7.0   UART                                                              08/31/2023 16:12:12 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE UART
+OBJECT MODULE PLACED IN .\Objects\uart.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE uart.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\uart.lst) TABS(2) OBJECT(.\Objects\uart.obj)
+
+line level    source
+
+   1          #include <stdio.h>
+   2          #include "uart.h"  //包含自己的头文件，方便编译器检查函数声明与定义的一致性
+   3          
+   4          // 串口初始配置
+   5          void Uart_Init(u8 baud){
+   6   1        PCON = 0x00;
+   7   1        TMOD |= 0x20; //选定T1定时器，定时器工作方式为2
+   8   1        SCON = 0x50; //选择串口工作方式为1
+   9   1        TL1 = baud; //传入初值
+  10   1        TH1 = baud; //自动重装
+  11   1        ES = 1; //打开串口中断标志位
+  12   1        EA = 1; //打开总中断标志位
+  13   1        ET1 = 0; //禁止定时器T1中断，没必要中断，自动重装
+  14   1        TR1 = 1; //启动定时器T1
+  15   1      }
+  16          
+  17          // 串口发送字节
+  18          void Uart_sendByte(u8 dat){
+  19   1        SBUF = dat; //传入字节
+  20   1        while(!TI); //等待字节发送完毕
+  21   1        TI = 0; //清零
+  22   1      }
+  23          
+  24          // 串口发送字符串
+  25          void Uart_sendString(char* str){
+  26   1        while(*str != '\0'){
+  27   2          Uart_sendByte(*str);
+  28   2          str++; //形参为字符指针变量
+  29   2          
+  30   2        }
+  31   1      }
+  32          
+  33          // 串口发送小数(至多6位小数,float精度为6)
+  34          void Uart_sendFloat(float f){
+  35   1        xdata char Fdata[15];
+  36   1        sprintf(Fdata, "%0.5f", f);
+  37   1        Uart_sendString(Fdata);
+  38   1      }
+  39          
+  40          // 串口发送整数(0-65535)
+  41          void Uart_sendInt(u16 i){
+  42   1        xdata char Idata[15];
+  43   1        sprintf(Idata, "%d", i);
+  44   1        Uart_sendString(Idata);
+  45   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    115    ----
+   CONSTANT SIZE    =      9    ----
+   XDATA SIZE       =   ----      30
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+C51 COMPILER V9.60.7.0   UART                                                              08/31/2023 16:12:12 PAGE 2   
+
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

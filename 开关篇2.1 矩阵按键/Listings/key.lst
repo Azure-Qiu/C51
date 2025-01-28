@@ -1,0 +1,188 @@
+C51 COMPILER V9.60.0.0   KEY                                                               05/09/2023 16:28:35 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE KEY
+OBJECT MODULE PLACED IN .\Objects\key.obj
+COMPILER INVOKED BY: D:\MDK5\C51\BIN\C51.EXE key.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\key.lst)
+                    - OBJECT(.\Objects\key.obj)
+
+line level    source
+
+   1          #include "key.h"
+   2          #include "led.h"
+   3          #include "beep.h"
+   4          #include "smg.h"
+   5          #include <stdio.h>
+   6          
+   7          // 按键状态
+   8          u8 key_now_state = 0;
+   9          // 按键前状态
+  10          u8 key_pre_state = 0;
+  11          // 按键累积
+  12          u16 num = 0;
+  13          // LED速度
+  14          u16 time = 10000;
+  15          
+  16          /**
+  17             *  @brief 扫描独立按键，判断哪个键按下
+  18             *  @param  无
+  19             *  @retval  无
+  20             */
+  21          void scan_key(){
+  22   1              static u8 flag = 1;
+  23   1      
+  24   1              // 如果有按键按下
+  25   1              if(flag && (!key1||!key2||!key3||!key4)){
+  26   2                      flag = 0; // 清零
+  27   2                      delay_ms(10); // 延时10ms消抖
+  28   2                      // 获取当前所有按下的键
+  29   2                      if(!key1) key_now_state |= 0x01; 
+  30   2                      if(!key2) key_now_state |= 0x02; 
+  31   2                      if(!key3) key_now_state |= 0x04; 
+  32   2                      if(!key4) key_now_state |= 0x08; 
+  33   2      
+  34   2              // 如果按键全部松开
+  35   2              }else if(key1&&key2&&key3&&key4){
+  36   2                      flag = 1;
+  37   2                      delay_ms(10); // 延时10ms消抖,松开响应有逻辑判断时，需要加上消抖。否则可以省略。
+  38   2                      if(key1&&key2&&key3&&key4)key_now_state = 0;
+  39   2              }
+  40   1      }
+  41          
+  42          
+  43          // 按键1处理函数
+  44          void key1_pressed(){
+  45   1              smg_showChar(1, 1);
+  46   1              led_turn(1);
+  47   1              beep_once(50, 500);
+  48   1      }
+  49          
+  50          // 按键2处理函数
+  51          void key2_pressed(){
+  52   1              smg_showChar(2, 1);
+  53   1              led_turn(6);
+  54   1              beep_once(50, 1000);
+C51 COMPILER V9.60.0.0   KEY                                                               05/09/2023 16:28:35 PAGE 2   
+
+  55   1      }
+  56          
+  57          // 按键3处理函数
+  58          void key3_pressed(){
+  59   1              smg_showChar(3, 1);
+  60   1              led_turn(7);
+  61   1              beep_once(50, 2000);
+  62   1      }
+  63          
+  64          // 按键4处理函数
+  65          void key4_pressed(){
+  66   1              u8 str[8];
+  67   1              num++;
+  68   1              sprintf(str,"%d",num/10);
+  69   1              smg_showString(str, 1);
+  70   1      }
+  71          
+  72          // 组合键1和2处理函数
+  73          void key_1_2_pressed(){
+  74   1              led_stream(time);
+  75   1      }
+  76          
+  77          
+  78          // 组合键2和3处理函数
+  79          void key_2_3_pressed(){
+  80   1              led_run(time);
+  81   1      }
+  82          
+  83          
+  84          // 组合键3和4处理函数
+  85          void key_3_4_pressed(){
+  86   1              u8 str[8];
+  87   1              time += 100;
+  88   1              sprintf(str,"%u",time); // 无符号数
+  89   1              smg_showString(str, 1);
+  90   1      }
+  91          
+  92          
+  93          // 按键松开响应
+  94          void key_unpress(){
+  95   1              switch(key_pre_state){
+  96   2                      case 0x00: break;
+  97   2                      case 0x01: break;
+  98   2                      case 0x02: key2_pressed();break;
+  99   2                      case 0x04: key3_pressed();break;
+ 100   2                      case 0x08: smg_showChar(0,1);num = 0;break;
+ 101   2                      case 0x03: break;
+ 102   2                      case 0x06: break;
+ 103   2                      case 0x0C: break;
+ 104   2              }
+ 105   1      }
+ 106          
+ 107          
+ 108          /**
+ 109             *  @brief  判断按键, 进行相应处理
+ 110             *  @param  
+ 111             *  @retval
+ 112             */
+ 113          void check_key(){
+ 114   1              switch(key_now_state){
+ 115   2                      case 0x00:
+ 116   2                              // 松开响应
+C51 COMPILER V9.60.0.0   KEY                                                               05/09/2023 16:28:35 PAGE 3   
+
+ 117   2                              key_unpress();
+ 118   2                              key_pre_state = 0x00;
+ 119   2                              break;
+ 120   2                      case 0x01:
+ 121   2                              key_pre_state = 0x01;
+ 122   2                              // 如果是单次响应
+ 123   2                              if(!KEY1_MODE) key_now_state = 0xff;
+ 124   2                              key1_pressed();
+ 125   2                              break;
+ 126   2                      case 0x02:
+ 127   2                              key_pre_state = 0x02;
+ 128   2                              if(!KEY2_MODE) key_now_state = 0xff;
+ 129   2                              break;
+ 130   2                      case 0x04:
+ 131   2                              key_pre_state = 0x04;
+ 132   2                              if(!KEY3_MODE) key_now_state = 0xff;
+ 133   2                              key3_pressed();
+ 134   2                              break;
+ 135   2                      case 0x08:
+ 136   2                              key_pre_state = 0x08;
+ 137   2                              if(!KEY4_MODE) key_now_state = 0xff;
+ 138   2                              key4_pressed();
+ 139   2                              break;
+ 140   2                      case 0x03:
+ 141   2                              key_pre_state = 0x03;
+ 142   2                              if(!KEY_1_2_MODE) key_now_state = 0xff;
+ 143   2                              key_1_2_pressed();
+ 144   2                              break;
+ 145   2                      case 0x06:
+ 146   2                              key_pre_state = 0x06;
+ 147   2                              if(!KEY_2_3_MODE) key_now_state = 0xff;
+ 148   2                              key_2_3_pressed();
+ 149   2                              break;
+ 150   2                      case 0x0C:
+ 151   2                              key_pre_state = 0x0C;
+ 152   2                              if(!KEY_3_4_MODE) key_now_state = 0xff;
+ 153   2                              key_3_4_pressed();
+ 154   2                              break;
+ 155   2                      case 0xff:
+ 156   2                              // 按下不处理
+ 157   2                              break;
+ 158   2              }
+ 159   1      }
+ 160          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    389    ----
+   CONSTANT SIZE    =      6    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      7      16
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

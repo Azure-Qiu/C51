@@ -1,0 +1,368 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    04/05/2024  23:07:34  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\SOFTWARE\KEIL\C51\BIN\BL51.EXE .\Objects\main.obj, .\Objects\WS2812.obj, .\Objects\public.obj TO .\Objects\project PR
+>> INT (.\Listings\project.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL WITH FLOATING POINT ARITHMETIC
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  .\Objects\WS2812.obj (WS2812)
+  .\Objects\public.obj (PUBLIC)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (PRINTF)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPROUND)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPCONVERT)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPADD)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPMUL)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPDIV)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FTNPWR)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPGETOPN)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?CLDPTR)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?CLDOPTR)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?CSTPTR)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?PLDIIDATA)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?CCASE)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (PUTCHAR)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?MEMSET)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\project (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0018H     UNIT         ?DT?MAIN
+            BIT     0020H.0   0001H.1   UNIT         ?BI?PRINTF?PRINTF
+            BIT     0021H.1   0000H.1   UNIT         ?BI?_INT2STRING?PUBLIC
+                    0021H.2   0000H.6                *** GAP ***
+            DATA    0022H     001CH     UNIT         ?DT?PRINTF?PRINTF
+            DATA    003EH     0012H     UNIT         ?DT?PUBLIC
+            DATA    0050H     000CH     UNIT         ?DT?_WS2812_STREAM_MODE?WS2812
+            DATA    005CH     0005H     UNIT         ?DT?_FLOAT2STRING?PUBLIC
+            DATA    0061H     0004H     UNIT         _DATA_GROUP_
+            DATA    0065H     0002H     UNIT         ?DT?_INT2STRING?PUBLIC
+            IDATA   0067H     0001H     UNIT         ?STACK
+
+            * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
+            XDATA   0000H     0018H     UNIT         ?XD?WS2812
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0544H     UNIT         ?C?LIB_CODE
+            CODE    0547H     046FH     UNIT         ?PR?PRINTF?PRINTF
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  04/05/2024  23:07:34  PAGE 2
+
+
+            CODE    09B6H     00B4H     UNIT         ?PR?_WS2812_SEND_RGB?WS2812
+            CODE    0A6AH     008CH     UNIT         ?C_C51STARTUP
+            CODE    0AF6H     005BH     UNIT         ?PR?_WS2812_STREAM_MODE?WS2812
+            CODE    0B51H     003AH     UNIT         ?C_INITSEG
+            CODE    0B8BH     0032H     UNIT         ?PR?_WS2812_SET_RGB?WS2812
+            CODE    0BBDH     0031H     UNIT         ?PR?_INT2STRING?PUBLIC
+            CODE    0BEEH     002FH     UNIT         ?PR?_FLOAT2STRING?PUBLIC
+            CODE    0C1DH     0027H     UNIT         ?PR?PUTCHAR?PUTCHAR
+            CODE    0C44H     0023H     UNIT         ?PR?WS2812_UPDATE_RGB?WS2812
+            CODE    0C67H     001BH     UNIT         ?PR?_WS2812_CLEAR_RGB?WS2812
+            CODE    0C82H     0018H     UNIT         ?PR?_DELAY_MS?PUBLIC
+            CODE    0C9AH     0012H     UNIT         ?PR?WS2812_CLEAR_ALL?WS2812
+            CODE    0CACH     0011H     UNIT         ?PR?_WS2812_WRITE_0_1?WS2812
+            CODE    0CBDH     000FH     UNIT         ?PR?MAIN?MAIN
+            CODE    0CCCH     000BH     UNIT         ?PR?_DELAY_10US?PUBLIC
+            CODE    0CD7H     000BH     UNIT         ?CO?PUBLIC
+            CODE    0CE2H     0009H     UNIT         ?PR?WS2812_RESET?WS2812
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\project (MAIN)
+
+
+SEGMENT                                  DATA_GROUP 
+  +--> CALLED SEGMENT                  START    LENGTH
+------------------------------------------------------
+?C_C51STARTUP                          -----    -----
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                          -----    -----
+  +--> ?PR?_WS2812_SET_RGB?WS2812
+  +--> ?PR?WS2812_UPDATE_RGB?WS2812
+
+?PR?_WS2812_SET_RGB?WS2812             0061H    0004H
+
+?PR?WS2812_UPDATE_RGB?WS2812           0061H    0001H
+  +--> ?PR?WS2812_RESET?WS2812
+  +--> ?PR?_WS2812_SEND_RGB?WS2812
+
+?PR?WS2812_RESET?WS2812                -----    -----
+  +--> ?PR?_DELAY_10US?PUBLIC
+
+?PR?_WS2812_SEND_RGB?WS2812            -----    -----
+  +--> ?PR?_WS2812_WRITE_0_1?WS2812
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\project (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0008H         PUBLIC        Red_Array
+  D:00A0H         PUBLIC        P2
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  04/05/2024  23:07:34  PAGE 3
+
+
+  C:0CBDH         PUBLIC        main
+  D:0010H         PUBLIC        Green_Array
+  D:0018H         PUBLIC        Blue_Array
+  -------         PROC          MAIN
+  C:0CBDH         LINE#         22
+  C:0CBDH         LINE#         25
+  C:0CC7H         LINE#         26
+  C:0CCAH         LINE#         27
+  C:0CCAH         LINE#         29
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        WS2812
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0C67H         PUBLIC        _WS2812_Clear_RGB
+  D:00A0H         PUBLIC        P2
+  C:0CAFH         PUBLIC        _WS2812_Write_0_1
+  B:00A0H.1       PUBLIC        DI
+  C:09B6H         PUBLIC        _WS2812_Send_RGB
+  C:0AF6H         PUBLIC        _WS2812_Stream_Mode
+  C:0C9AH         PUBLIC        WS2812_Clear_All
+  C:0B8BH         PUBLIC        _WS2812_Set_RGB
+  X:0000H         PUBLIC        WS2812_Array
+  C:0CE2H         PUBLIC        WS2812_Reset
+  C:0C44H         PUBLIC        WS2812_Update_RGB
+  -------         PROC          WS2812_RESET
+  C:0CE2H         LINE#         20
+  C:0CE2H         LINE#         21
+  C:0CE4H         LINE#         22
+  -------         ENDPROC       WS2812_RESET
+  -------         PROC          _WS2812_SET_RGB
+  D:0007H         SYMBOL        num
+  D:0005H         SYMBOL        red
+  D:0003H         SYMBOL        green
+  D:0064H         SYMBOL        blue
+  C:0B8BH         LINE#         31
+  C:0B8BH         LINE#         33
+  C:0B9BH         LINE#         34
+  C:0BABH         LINE#         35
+  C:0BBCH         LINE#         36
+  -------         ENDPROC       _WS2812_SET_RGB
+  -------         PROC          _WS2812_CLEAR_RGB
+  D:0007H         SYMBOL        num
+  C:0C67H         LINE#         45
+  C:0C67H         LINE#         47
+  -------         ENDPROC       _WS2812_CLEAR_RGB
+  -------         PROC          WS2812_CLEAR_ALL
+  C:0C9AH         LINE#         57
+  C:0C9AH         LINE#         58
+  C:0CA9H         LINE#         59
+  -------         ENDPROC       WS2812_CLEAR_ALL
+  -------         PROC          L?0017
+  -------         ENDPROC       L?0017
+  -------         PROC          _WS2812_WRITE_0_1
+  D:0007H         SYMBOL        dat
+  C:0CAFH         LINE#         69
+  C:0CAFH         LINE#         70
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  04/05/2024  23:07:34  PAGE 4
+
+
+  C:0CB2H         LINE#         71
+  C:0CB4H         LINE#         72
+  C:0CB5H         LINE#         73
+  C:0CB7H         LINE#         74
+  C:0CB8H         LINE#         75
+  C:0CBAH         LINE#         76
+  C:0CBCH         LINE#         77
+  C:0CBCH         LINE#         78
+  -------         ENDPROC       _WS2812_WRITE_0_1
+  -------         PROC          _WS2812_SEND_RGB
+  D:0001H         SYMBOL        rgb
+  -------         DO            
+  D:0005H         SYMBOL        green
+  D:0006H         SYMBOL        red
+  D:0004H         SYMBOL        blue
+  -------         ENDDO         
+  C:09B6H         LINE#         86
+  C:09B6H         LINE#         88
+  C:09BAH         LINE#         89
+  C:09C1H         LINE#         90
+  C:09C8H         LINE#         92
+  C:09E1H         LINE#         93
+  C:09FDH         LINE#         95
+  C:0A16H         LINE#         96
+  C:0A32H         LINE#         98
+  C:0A4EH         LINE#         99
+  -------         ENDPROC       _WS2812_SEND_RGB
+  -------         PROC          WS2812_UPDATE_RGB
+  -------         DO            
+  D:0061H         SYMBOL        i
+  -------         ENDDO         
+  C:0C44H         LINE#         109
+  C:0C44H         LINE#         112
+  C:0C47H         LINE#         114
+  C:0C4AH         LINE#         115
+  C:0C5DH         LINE#         116
+  C:0C66H         LINE#         117
+  -------         ENDPROC       WS2812_UPDATE_RGB
+  -------         PROC          _WS2812_STREAM_MODE
+  D:0050H         SYMBOL        red
+  D:0053H         SYMBOL        green
+  D:0056H         SYMBOL        blue
+  D:0059H         SYMBOL        speed
+  -------         DO            
+  D:005BH         SYMBOL        i
+  -------         ENDDO         
+  C:0AF6H         LINE#         128
+  C:0AFCH         LINE#         130
+  C:0AFFH         LINE#         131
+  C:0B3BH         LINE#         132
+  C:0B3EH         LINE#         133
+  C:0B45H         LINE#         134
+  C:0B4EH         LINE#         135
+  -------         ENDPROC       _WS2812_STREAM_MODE
+  -------         ENDMOD        WS2812
+
+  -------         MODULE        PUBLIC
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  04/05/2024  23:07:34  PAGE 5
+
+
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0CCCH         PUBLIC        _delay_10us
+  C:0BEEH         PUBLIC        _float2String
+  C:0C82H         PUBLIC        _delay_ms
+  C:0BBDH         PUBLIC        _int2String
+  -------         PROC          _DELAY_10US
+  D:0006H         SYMBOL        t
+  C:0CCCH         LINE#         15
+  C:0CCCH         LINE#         16
+  C:0CD6H         LINE#         17
+  -------         ENDPROC       _DELAY_10US
+  -------         PROC          _DELAY_MS
+  D:0002H         SYMBOL        t
+  C:0C82H         LINE#         25
+  C:0C86H         LINE#         26
+  C:0C90H         LINE#         27
+  C:0C97H         LINE#         28
+  C:0C99H         LINE#         29
+  -------         ENDPROC       _DELAY_MS
+  -------         PROC          _INT2STRING
+  D:0065H         SYMBOL        num
+  B:0021H.1       SYMBOL        sign
+  -------         DO            
+  D:003EH         SYMBOL        str
+  -------         ENDDO         
+  C:0BBDH         LINE#         38
+  C:0BC1H         LINE#         42
+  C:0BCFH         LINE#         43
+  C:0BE7H         LINE#         45
+  C:0BEDH         LINE#         46
+  -------         ENDPROC       _INT2STRING
+  -------         PROC          _FLOAT2STRING
+  D:005CH         SYMBOL        num
+  D:0060H         SYMBOL        len
+  -------         DO            
+  D:0046H         SYMBOL        str
+  -------         ENDDO         
+  C:0BEEH         LINE#         55
+  C:0BF6H         LINE#         58
+  C:0C16H         LINE#         60
+  C:0C1CH         LINE#         61
+  -------         ENDPROC       _FLOAT2STRING
+  -------         ENDMOD        PUBLIC
+
+  -------         MODULE        PRINTF
+  D:0022H         PUBLIC        ?_PRINTF?BYTE
+  D:0022H         PUBLIC        ?_SPRINTF?BYTE
+  C:05A9H         PUBLIC        _PRINTF
+  C:05A3H         PUBLIC        _SPRINTF
+  -------         ENDMOD        PRINTF
+
+  -------         MODULE        ?C?FPROUND
+  C:0003H         PUBLIC        ?C?FPROUND
+  -------         ENDMOD        ?C?FPROUND
+
+  -------         MODULE        ?C?FPCONVERT
+  C:0032H         PUBLIC        ?C?FPCONVERT
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  04/05/2024  23:07:34  PAGE 6
+
+
+  -------         ENDMOD        ?C?FPCONVERT
+
+  -------         MODULE        ?C?FPADD
+  C:013CH         PUBLIC        ?C?FPADD
+  C:0138H         PUBLIC        ?C?FPSUB
+  -------         ENDMOD        ?C?FPADD
+
+  -------         MODULE        ?C?FPMUL
+  C:022DH         PUBLIC        ?C?FPMUL
+  -------         ENDMOD        ?C?FPMUL
+
+  -------         MODULE        ?C?FPDIV
+  C:0336H         PUBLIC        ?C?FPDIV
+  -------         ENDMOD        ?C?FPDIV
+
+  -------         MODULE        ?C?FTNPWR
+  C:0403H         PUBLIC        ?C?FTNPWR
+  -------         ENDMOD        ?C?FTNPWR
+
+  -------         MODULE        ?C?CLDPTR
+  C:048DH         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+  -------         MODULE        ?C?CLDOPTR
+  C:04A6H         PUBLIC        ?C?CLDOPTR
+  -------         ENDMOD        ?C?CLDOPTR
+
+  -------         MODULE        ?C?CSTPTR
+  C:04D3H         PUBLIC        ?C?CSTPTR
+  -------         ENDMOD        ?C?CSTPTR
+
+  -------         MODULE        ?C?PLDIIDATA
+  C:04E5H         PUBLIC        ?C?PLDIIDATA
+  -------         ENDMOD        ?C?PLDIIDATA
+
+  -------         MODULE        ?C?CCASE
+  C:04F5H         PUBLIC        ?C?CCASE
+  -------         ENDMOD        ?C?CCASE
+
+  -------         MODULE        PUTCHAR
+  C:0C1DH         PUBLIC        _PUTCHAR
+  -------         ENDMOD        PUTCHAR
+
+  -------         MODULE        ?C?MEMSET
+  C:051BH         PUBLIC        ?C?MEMSET
+  -------         ENDMOD        ?C?MEMSET
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WS2812_CLEAR_RGB?WS2812
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WS2812_STREAM_MODE?WS2812
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_INT2STRING?PUBLIC
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  04/05/2024  23:07:34  PAGE 7
+
+
+    SEGMENT: ?PR?_FLOAT2STRING?PUBLIC
+
+Program Size: data=103.2 xdata=24 code=3307
+LINK/LOCATE RUN COMPLETE.  4 WARNING(S),  0 ERROR(S)

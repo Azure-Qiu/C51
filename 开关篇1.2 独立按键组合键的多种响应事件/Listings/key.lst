@@ -1,0 +1,312 @@
+C51 COMPILER V9.60.7.0   KEY                                                               01/31/2024 20:30:55 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE KEY
+OBJECT MODULE PLACED IN .\Objects\key.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE key.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings
+                    -\key.lst) OBJECT(.\Objects\key.obj)
+
+line level    source
+
+   1          #include "key.h"
+   2          #include "led.h"
+   3          #include "smg.h"
+   4          #include <stdio.h>
+   5          /** 
+   6           **  @brief    独立按键的函数封装
+   7           **            1. 单键的单次或连续响应
+   8           **            2. 组合键的单次或连续响应 
+   9           **  @author   QIU
+  10           **  @date     2023.08.31
+  11           **/
+  12          
+  13          /*-------------------------------------------------------------------*/
+  14          // 按键状态、前状态
+  15          Key_State key_now_state, key_pre_state;
+  16          
+  17          // 按键累积
+  18          u16 num = 0;
+  19          // LED速度
+  20          u16 led_speed = 10000;
+  21          
+  22          
+  23          
+  24          /**
+  25           **  @brief   按键1按下函数（可以按需求修改）
+  26           **  @param   无
+  27           **  @retval  无
+  28           **/
+  29          void key1_pressed(){
+  30   1              smg_showChar('1', 1, false);
+  31   1              led_turn(6);
+  32   1      }
+  33          
+  34          
+  35          /**
+  36           **  @brief   按键2按下函数（可以按需求修改）
+  37           **  @param   无
+  38           **  @retval  无
+  39           **/
+  40          void key2_pressed(){
+  41   1              ;
+  42   1      }
+  43          
+  44          
+  45          /**
+  46           **  @brief   按键3按下函数（可以按需求修改）
+  47           **  @param   无
+  48           **  @retval  无
+  49           **/
+  50          void key3_pressed(){
+  51   1              smg_showChar('3', 1, false);
+  52   1              led_turn(8);
+  53   1      }
+  54          
+C51 COMPILER V9.60.7.0   KEY                                                               01/31/2024 20:30:55 PAGE 2   
+
+  55          
+  56          /**
+  57           **  @brief   按键4按下函数（可以按需求修改）
+  58           **  @param   无
+  59           **  @retval  无
+  60           **/
+  61          void key4_pressed(){
+  62   1              u8 str[8];
+  63   1              num++;
+  64   1              sprintf(str,"%d",num/10);
+  65   1              smg_showString(str, 1);
+  66   1      }
+  67          
+  68          
+  69          /**
+  70           **  @brief   组合键1和2按下函数（可以按需求修改）
+  71           **  @param   无
+  72           **  @retval  无
+  73           **/
+  74          void key_1_2_pressed(){
+  75   1              smg_showChar('a', 1, false);
+  76   1              led_stream(led_speed);
+  77   1      }
+  78          
+  79          
+  80          /**
+  81           **  @brief   组合键2和3按下函数（可以按需求修改）
+  82           **  @param   无
+  83           **  @retval  无
+  84           **/
+  85          void key_2_3_pressed(){
+  86   1              smg_showChar('b', 1, false);
+  87   1              led_run(led_speed);
+  88   1      }
+  89          
+  90          
+  91          /**
+  92           **  @brief   组合键3和4按下函数（可以按需求修改）
+  93           **  @param   无
+  94           **  @retval  无
+  95           **/
+  96          void key_3_4_pressed(){
+  97   1              u8 str[8];
+  98   1              led_speed += 100;
+  99   1              sprintf(str,"%u",led_speed); // 无符号数
+ 100   1              smg_showString(str, 1);
+ 101   1      }
+ 102          
+ 103          
+ 104          
+ 105          /**
+ 106           **  @brief   按键1松开函数（可以按需求修改）
+ 107           **  @param   无
+ 108           **  @retval  无
+ 109           **/
+ 110          void key1_unpressed(){
+ 111   1              ;
+ 112   1      }
+ 113          
+ 114          
+ 115          /**
+ 116           **  @brief   按键2松开函数（可以按需求修改）
+C51 COMPILER V9.60.7.0   KEY                                                               01/31/2024 20:30:55 PAGE 3   
+
+ 117           **  @param   无
+ 118           **  @retval  无
+ 119           **/
+ 120          void key2_unpressed(){
+ 121   1              smg_showChar('2', 1, false);
+ 122   1              led_turn(7);
+ 123   1      }
+ 124          
+ 125          
+ 126          /**
+ 127           **  @brief   按键3松开函数（可以按需求修改）
+ 128           **  @param   无
+ 129           **  @retval  无
+ 130           **/
+ 131          void key3_unpressed(){
+ 132   1              key3_pressed();
+ 133   1      }
+ 134          
+ 135          
+ 136          /**
+ 137           **  @brief   按键4松开函数（可以按需求修改）
+ 138           **  @param   无
+ 139           **  @retval  无
+ 140           **/
+ 141          void key4_unpressed(){
+ 142   1              smg_showChar('0', 1, false);
+ 143   1              num = 0;
+ 144   1      }
+ 145          
+ 146          
+ 147          /**
+ 148           **  @brief   按键1、2松开函数（可以按需求修改）
+ 149           **  @param   无
+ 150           **  @retval  无
+ 151           **/
+ 152          void key1_2_unpressed(){
+ 153   1              ;
+ 154   1      }
+ 155          
+ 156          
+ 157          /**
+ 158           **  @brief   按键2、3松开函数（可以按需求修改）
+ 159           **  @param   无
+ 160           **  @retval  无
+ 161           **/
+ 162          void key2_3_unpressed(){
+ 163   1              ;
+ 164   1      }
+ 165          
+ 166          /**
+ 167           **  @brief   按键3、4松开函数（可以按需求修改）
+ 168           **  @param   无
+ 169           **  @retval  无
+ 170           **/
+ 171          void key3_4_unpressed(){
+ 172   1              ;
+ 173   1      }
+ 174          
+ 175          
+ 176          /*-------------------------------------------------------------------*/
+ 177          
+ 178          
+C51 COMPILER V9.60.7.0   KEY                                                               01/31/2024 20:30:55 PAGE 4   
+
+ 179          /**
+ 180           **  @brief   按键松开响应
+ 181           **  @param   无
+ 182           **  @retval  无
+ 183           **/
+ 184          void key_unpress(){
+ 185   1              switch(key_pre_state){
+ 186   2                      case KEY_UNPRESS: break;
+ 187   2                      case KEY1_PRESS: key1_unpressed();break;
+ 188   2                      case KEY2_PRESS: key2_unpressed();break;
+ 189   2                      case KEY3_PRESS: key3_unpressed();break;
+ 190   2                      case KEY4_PRESS: key4_unpressed();break;
+ 191   2                      case KEY1_2_PRESS: key1_2_unpressed();break;
+ 192   2                      case KEY2_3_PRESS: key2_3_unpressed();break;
+ 193   2                      case KEY3_4_PRESS: key3_4_unpressed();break;
+ 194   2              }
+ 195   1      }
+ 196          
+ 197          
+ 198          /**
+ 199           **  @brief   （轮询方式）扫描独立按键，判断哪个键按下
+ 200           **  @param   无
+ 201           **  @retval  无
+ 202           **/
+ 203          void scan_key(){
+ 204   1              static u8 flag = 1;
+ 205   1      
+ 206   1              // 如果有按键按下
+ 207   1              if(flag && (!key1||!key2||!key3||!key4)){
+ 208   2                      flag = 0; // 清零
+ 209   2                      delay_ms(10); // 延时10ms消抖
+ 210   2                      delay_ms(50); // 延时50ms 容许间隔
+ 211   2                      // 获取当前所有按下的键
+ 212   2                      if(!key1) key_now_state |= KEY1_PRESS; 
+ 213   2                      if(!key2) key_now_state |= KEY2_PRESS; 
+ 214   2                      if(!key3) key_now_state |= KEY3_PRESS; 
+ 215   2                      if(!key4) key_now_state |= KEY4_PRESS; 
+ 216   2      
+ 217   2              // 如果按键全部松开
+ 218   2              }else if(key1&&key2&&key3&&key4){
+ 219   2                      flag = 1;
+ 220   2                      delay_ms(10); // 延时10ms消抖,松开响应有逻辑判断时，需要加上消抖。否则可以省�
+             -��。
+ 221   2                      if(key1&&key2&&key3&&key4)key_now_state = 0;
+ 222   2              }
+ 223   1      }
+ 224          
+ 225          
+ 226          
+ 227          /**
+ 228           **  @brief   （轮询方式）判断按键, 进行相应处理
+ 229           **  @param    无
+ 230           **  @retval   无
+ 231           **/
+ 232          void check_key(){
+ 233   1              switch(key_now_state){
+ 234   2                      case KEY_UNPRESS:
+ 235   2                              // 松开响应
+ 236   2                              key_unpress();
+ 237   2                              key_pre_state = KEY_UNPRESS;
+ 238   2                              break;
+ 239   2                      case KEY1_PRESS:
+C51 COMPILER V9.60.7.0   KEY                                                               01/31/2024 20:30:55 PAGE 5   
+
+ 240   2                              key_pre_state = KEY1_PRESS;
+ 241   2                              // 如果是单次响应
+ 242   2                              if(!KEY1_MODE) key_now_state = KEY_NON_DEAL;
+ 243   2                              key1_pressed();
+ 244   2                              break;
+ 245   2                      case KEY2_PRESS:
+ 246   2                              key_pre_state = KEY2_PRESS;
+ 247   2                              if(!KEY2_MODE) key_now_state = KEY_NON_DEAL;
+ 248   2                              break;
+ 249   2                      case KEY3_PRESS:
+ 250   2                              key_pre_state = KEY3_PRESS;
+ 251   2                              if(!KEY3_MODE) key_now_state = KEY_NON_DEAL;
+ 252   2                              key3_pressed();
+ 253   2                              break;
+ 254   2                      case KEY4_PRESS:
+ 255   2                              key_pre_state = KEY4_PRESS;
+ 256   2                              if(!KEY4_MODE) key_now_state = KEY_NON_DEAL;
+ 257   2                              key4_pressed();
+ 258   2                              break;
+ 259   2                      case KEY1_2_PRESS:
+ 260   2                              key_pre_state = KEY1_2_PRESS;
+ 261   2                              if(!KEY_1_2_MODE) key_now_state = KEY_NON_DEAL;
+ 262   2                              key_1_2_pressed();
+ 263   2                              break;
+ 264   2                      case KEY2_3_PRESS:
+ 265   2                              key_pre_state = KEY2_3_PRESS;
+ 266   2                              if(!KEY_2_3_MODE) key_now_state = KEY_NON_DEAL;
+ 267   2                              key_2_3_pressed();
+ 268   2                              break;
+ 269   2                      case KEY3_4_PRESS:
+ 270   2                              key_pre_state = KEY3_4_PRESS;
+ 271   2                              if(!KEY_3_4_MODE) key_now_state = KEY_NON_DEAL;
+ 272   2                              key_3_4_pressed();
+ 273   2                              break;
+ 274   2                      case KEY_NON_DEAL:
+ 275   2                              // 按下不处理
+ 276   2                              break;
+ 277   2              }
+ 278   1      }
+ 279          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    431    ----
+   CONSTANT SIZE    =      6    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      7      16
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,37 @@
+C51 COMPILER V9.60.0.0   BEEP                                                              05/03/2023 14:20:06 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE BEEP
+OBJECT MODULE PLACED IN .\Objects\beep.obj
+COMPILER INVOKED BY: D:\MDK5\C51\BIN\C51.EXE beep.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\beep.ls
+                    -t) OBJECT(.\Objects\beep.obj)
+
+line level    source
+
+   1          #include "beep.h"
+   2          
+   3          /**
+   4             *  @brief 蜂鸣器单响
+   5             *  @param t 持续时长, fre 频率HZ
+   6             *  @retval
+   7             */
+   8          void beep_once(u8 t, u16 fre){
+   9   1              while(t--){
+  10   2                      BEEP_PORT = !BEEP_PORT; // 取反
+  11   2                      delay_10us(1e5/2/fre);
+  12   2              }
+  13   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     51    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

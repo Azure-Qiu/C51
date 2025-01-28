@@ -1,0 +1,1 @@
+"calculator.c" OPTIMIZE (8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\calculator.lst) OBJECT(.\Objects\calculator.obj)

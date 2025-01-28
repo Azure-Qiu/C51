@@ -1,0 +1,231 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    02/10/2024  22:13:52  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\SOFTWARE\KEIL\C51\BIN\BL51.EXE .\Objects\main.obj, .\Objects\timer.obj, .\Objects\delay.obj TO .\Objects\project PRIN
+>> T (.\Listings\project.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  .\Objects\timer.obj (TIMER)
+  .\Objects\delay.obj (DELAY)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?UIDIV)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?SLDIV)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?ULDIV)
+
+
+LINK MAP OF MODULE:  .\Objects\project (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0046H     UNIT         ?DT?MAIN
+            DATA    004EH     0002H     UNIT         _DATA_GROUP_
+            IDATA   0050H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     000BH     UNIT         ?PR?_DELAY_10US?DELAY
+                    0019H     0002H                  *** GAP ***
+            CODE    001BH     0003H     ABSOLUTE     
+            CODE    001EH     0123H     UNIT         ?C?LIB_CODE
+            CODE    0141H     0102H     UNIT         ?CO?MAIN
+            CODE    0243H     00B0H     UNIT         ?PR?TIMER0_SERVE?MAIN
+            CODE    02F3H     00AEH     UNIT         ?PR?_TIMERX_INIT?TIMER
+            CODE    03A1H     008CH     UNIT         ?C_C51STARTUP
+            CODE    042DH     0051H     UNIT         ?C_INITSEG
+            CODE    047EH     0044H     UNIT         ?C?LDIV
+            CODE    04C2H     0035H     UNIT         ?PR?TIMER1_SERVE?MAIN
+            CODE    04F7H     0018H     UNIT         ?PR?_DELAY_MS?DELAY
+            CODE    050FH     0015H     UNIT         ?PR?MAIN?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\project (MAIN)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?PR?TIMER0_SERVE?MAIN          -----    -----
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/10/2024  22:13:52  PAGE 2
+
+
+  +--> ?CO?MAIN
+
+*** NEW ROOT ***************************************************
+
+?PR?TIMER1_SERVE?MAIN          -----    -----
+  +--> ?CO?MAIN
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                  -----    -----
+  +--> ?PR?_TIMERX_INIT?TIMER
+
+?PR?_TIMERX_INIT?TIMER         004EH    0002H
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\project (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:000AH         PUBLIC        music_delay
+  D:000CH         PUBLIC        index
+  C:0141H         PUBLIC        music_Timer_init
+  C:01F1H         PUBLIC        music
+  C:050FH         PUBLIC        main
+  C:0243H         PUBLIC        TIMER0_serve
+  C:04C2H         PUBLIC        TIMER1_serve
+  B:0090H.3       PUBLIC        BEEP_PORT
+  D:008CH         PUBLIC        TH0
+  D:008DH         PUBLIC        TH1
+  D:000DH         PUBLIC        Mapping
+  D:008AH         PUBLIC        TL0
+  D:004CH         PUBLIC        num
+  D:008BH         PUBLIC        TL1
+  B:0088H.4       PUBLIC        TR0
+  B:0088H.6       PUBLIC        TR1
+  D:004DH         PUBLIC        Scale
+  -------         PROC          MAIN
+  C:050FH         LINE#         15
+  C:050FH         LINE#         16
+  C:0518H         LINE#         17
+  C:0520H         LINE#         18
+  C:0522H         LINE#         20
+  -------         ENDPROC       MAIN
+  -------         PROC          TIMER0_SERVE
+  -------         DO            
+  D:0008H         SYMBOL        counter
+  D:0003H         SYMBOL        music_notation
+  -------         ENDDO         
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/10/2024  22:13:52  PAGE 3
+
+
+  C:0243H         LINE#         26
+  C:025CH         LINE#         30
+  C:025FH         LINE#         31
+  C:0262H         LINE#         33
+  C:026AH         LINE#         34
+  C:027CH         LINE#         36
+  C:027EH         LINE#         37
+  C:028BH         LINE#         38
+  C:0291H         LINE#         40
+  C:02A1H         LINE#         41
+  C:02A4H         LINE#         43
+  C:02C1H         LINE#         44
+  C:02C4H         LINE#         45
+  C:02D2H         LINE#         46
+  C:02D4H         LINE#         47
+  C:02D4H         LINE#         49
+  C:02D6H         LINE#         50
+  C:02D8H         LINE#         52
+  C:02DAH         LINE#         53
+  C:02DCH         LINE#         54
+  C:02DCH         LINE#         56
+  C:02DCH         LINE#         57
+  -------         ENDPROC       TIMER0_SERVE
+  -------         PROC          TIMER1_SERVE
+  C:04C2H         LINE#         61
+  C:04CAH         LINE#         62
+  C:04DBH         LINE#         63
+  C:04ECH         LINE#         65
+  C:04EEH         LINE#         66
+  -------         ENDPROC       TIMER1_SERVE
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        TIMER
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  B:00A8H.7       PUBLIC        EA
+  C:02F3H         PUBLIC        _TIMERx_init
+  D:0089H         PUBLIC        TMOD
+  B:00A8H.1       PUBLIC        ET0
+  B:00A8H.3       PUBLIC        ET1
+  D:008CH         PUBLIC        TH0
+  D:008DH         PUBLIC        TH1
+  D:008AH         PUBLIC        TL0
+  D:008BH         PUBLIC        TL1
+  -------         PROC          _TIMERX_INIT
+  D:0007H         SYMBOL        x
+  D:004EH         SYMBOL        num
+  C:02F3H         LINE#         18
+  C:02F7H         LINE#         19
+  C:0301H         LINE#         20
+  C:0301H         LINE#         22
+  C:0304H         LINE#         24
+  C:0329H         LINE#         25
+  C:034CH         LINE#         27
+  C:034EH         LINE#         28
+  C:0350H         LINE#         31
+  C:0351H         LINE#         32
+  C:0351H         LINE#         34
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/10/2024  22:13:52  PAGE 4
+
+
+  C:0354H         LINE#         36
+  C:0379H         LINE#         37
+  C:039CH         LINE#         39
+  C:039EH         LINE#         40
+  C:03A0H         LINE#         43
+  C:03A0H         LINE#         44
+  C:03A0H         LINE#         45
+  -------         ENDPROC       _TIMERX_INIT
+  -------         ENDMOD        TIMER
+
+  -------         MODULE        DELAY
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:000EH         PUBLIC        _delay_10us
+  C:04F7H         PUBLIC        _delay_ms
+  -------         PROC          _DELAY_10US
+  D:0006H         SYMBOL        t
+  C:000EH         LINE#         15
+  C:000EH         LINE#         16
+  C:0018H         LINE#         17
+  -------         ENDPROC       _DELAY_10US
+  -------         PROC          _DELAY_MS
+  D:0002H         SYMBOL        t
+  C:04F7H         LINE#         25
+  C:04FBH         LINE#         26
+  C:0505H         LINE#         27
+  C:050CH         LINE#         28
+  C:050EH         LINE#         29
+  -------         ENDPROC       _DELAY_MS
+  -------         ENDMOD        DELAY
+
+  -------         MODULE        ?C?UIDIV
+  C:001EH         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+  -------         MODULE        ?C?SLDIV
+  C:047EH         PUBLIC        ?C?SLDIV
+  -------         ENDMOD        ?C?SLDIV
+
+  -------         MODULE        ?C?ULDIV
+  C:00AFH         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?DELAY
+
+Program Size: data=81.0 xdata=0 code=1306
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

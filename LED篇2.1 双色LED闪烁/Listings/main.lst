@@ -1,0 +1,51 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              09/22/2023 23:28:39 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "delay.h"
+   2          /** 
+   3           **  @brief    双色灯闪烁
+   4           **  @author   QIU
+   5           **  @data     2023.09.22
+   6           **/
+   7          
+   8          /*-------------------------------------------------------------------*/
+   9          #define DOUBLE_LED_PORT P2
+  10          
+  11          sbit Green_LED = DOUBLE_LED_PORT^0;
+  12          sbit Red_LED = DOUBLE_LED_PORT^1;
+  13          
+  14          
+  15          
+  16          void main(){
+  17   1      
+  18   1              while(1){
+  19   2                      Green_LED = 0;
+  20   2                      Red_LED = 1;
+  21   2                      delay_ms(500);
+  22   2                      Green_LED = 1;
+  23   2                      Red_LED = 0;
+  24   2                      delay_ms(500);
+  25   2                      
+  26   2              }
+  27   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     24    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

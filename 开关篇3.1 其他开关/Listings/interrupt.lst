@@ -1,0 +1,105 @@
+C51 COMPILER V9.60.7.0   INTERRUPT                                                         04/15/2024 11:09:17 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE INTERRUPT
+OBJECT MODULE PLACED IN .\Objects\interrupt.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE interrupt.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND CODE PRINT
+                    -(.\Listings\interrupt.lst) OBJECT(.\Objects\interrupt.obj)
+
+line level    source
+
+   1          #include "interrupt.h"
+   2          /** 
+   3           **  @brief    外部中断封装
+   4           **  @author   QIU
+   5           **  @data     2023.08.31
+   6           **/
+   7          
+   8          /*-------------------------------------------------------------------*/
+   9          
+  10          
+  11          /**
+  12           **  @brief   配置外部中断x
+  13           **  @param   x：对应外部中断编号
+  14           **  @retval  无
+  15           **/
+  16          void INTx_init(u8 x){
+  17   1              switch(x){
+  18   2                      case 0:
+  19   2                              IT0 = 1; // 设置外部中断0触发方式，下降沿触发
+  20   2                              EX0 = 1; // 使能外部中断0
+  21   2                              break;
+  22   2                      case 1:
+  23   2                              IT1 = 1; // 设置外部中断1触发方式，下降沿触发
+  24   2                              EX1 = 1; // 使能外部中断1
+  25   2                              break;
+  26   2              }
+  27   1              EA = 1;  // 使能总中断
+  28   1      }
+  29          
+  30          
+  31          
+  32          // 外部中断0的中断服务程序模板
+  33          //void INT1_serve() interrupt 0{
+  34          //      ;
+  35          //}
+  36          
+  37          
+  38          // 外部中断1的中断服务程序模板
+  39          //void INT1_serve() interrupt 2{
+  40          //      ;
+  41          //}
+  42          
+  43          
+  44          
+C51 COMPILER V9.60.7.0   INTERRUPT                                                         04/15/2024 11:09:17 PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION _INTx_init (BEGIN)
+                                           ; SOURCE LINE # 16
+;---- Variable 'x' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 17
+0000 EF                MOV     A,R7
+0001 14                DEC     A
+0002 6009              JZ      ?C0003
+0004 04                INC     A
+0005 700A              JNZ     ?C0001
+                                           ; SOURCE LINE # 18
+0007         ?C0002:
+                                           ; SOURCE LINE # 19
+0007 D288              SETB    IT0
+                                           ; SOURCE LINE # 20
+0009 D2A8              SETB    EX0
+                                           ; SOURCE LINE # 21
+000B 8004              SJMP    ?C0001
+                                           ; SOURCE LINE # 22
+000D         ?C0003:
+                                           ; SOURCE LINE # 23
+000D D28A              SETB    IT1
+                                           ; SOURCE LINE # 24
+000F D2AA              SETB    EX1
+                                           ; SOURCE LINE # 25
+                                           ; SOURCE LINE # 26
+0011         ?C0001:
+                                           ; SOURCE LINE # 27
+0011 D2AF              SETB    EA
+                                           ; SOURCE LINE # 28
+0013 22                RET     
+             ; FUNCTION _INTx_init (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     20    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

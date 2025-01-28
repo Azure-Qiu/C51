@@ -1,0 +1,144 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    01/29/2024  17:26:42  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\SOFTWARE\KEIL\C51\BIN\BL51.EXE .\Objects\main.obj, .\Objects\beep.obj, .\Objects\delay.obj TO .\Objects\Project PRINT
+>>  (.\Listings\Project.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL WITH FLOATING POINT ARITHMETIC
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  .\Objects\beep.obj (BEEP)
+  .\Objects\delay.obj (DELAY)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPDIV)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FCAST)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?CASTF)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPGETOPN)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?LNEG)
+
+
+LINK MAP OF MODULE:  .\Objects\Project (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0003H     UNIT         _DATA_GROUP_
+            IDATA   000BH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     016DH     UNIT         ?C?LIB_CODE
+            CODE    0170H     0033H     UNIT         ?PR?_BEEP_ONCE?BEEP
+            CODE    01A3H     0018H     UNIT         ?PR?_DELAY_MS?DELAY
+            CODE    01BBH     000CH     UNIT         ?C_C51STARTUP
+            CODE    01C7H     000BH     UNIT         ?PR?MAIN?MAIN
+            CODE    01D2H     000BH     UNIT         ?PR?_DELAY_10US?DELAY
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Project (MAIN)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN                  -----    -----
+  +--> ?PR?_BEEP_ONCE?BEEP
+
+?PR?_BEEP_ONCE?BEEP            0008H    0003H
+  +--> ?PR?_DELAY_10US?DELAY
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  01/29/2024  17:26:42  PAGE 2
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Project (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  C:01C7H         PUBLIC        main
+  -------         PROC          MAIN
+  C:01C7H         LINE#         4
+  C:01C7H         LINE#         6
+  C:01D0H         LINE#         7
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        BEEP
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  C:0170H         PUBLIC        _beep_once
+  B:0090H.5       PUBLIC        BEEP_PORT
+  -------         PROC          _BEEP_ONCE
+  D:0008H         SYMBOL        t
+  D:0009H         SYMBOL        fre
+  C:0170H         LINE#         8
+  C:0176H         LINE#         9
+  C:017DH         LINE#         10
+  C:017FH         LINE#         11
+  C:01A0H         LINE#         12
+  C:01A2H         LINE#         13
+  -------         ENDPROC       _BEEP_ONCE
+  -------         ENDMOD        BEEP
+
+  -------         MODULE        DELAY
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:01D2H         PUBLIC        _delay_10us
+  C:01A3H         PUBLIC        _delay_ms
+  -------         PROC          _DELAY_10US
+  D:0006H         SYMBOL        t
+  C:01D2H         LINE#         8
+  C:01D2H         LINE#         9
+  C:01DCH         LINE#         10
+  -------         ENDPROC       _DELAY_10US
+  -------         PROC          _DELAY_MS
+  D:0002H         SYMBOL        t
+  C:01A3H         LINE#         17
+  C:01A7H         LINE#         18
+  C:01B1H         LINE#         19
+  C:01B8H         LINE#         20
+  C:01BAH         LINE#         21
+  -------         ENDPROC       _DELAY_MS
+  -------         ENDMOD        DELAY
+
+  -------         MODULE        ?C?FPDIV
+  C:0006H         PUBLIC        ?C?FPDIV
+  -------         ENDMOD        ?C?FPDIV
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  01/29/2024  17:26:42  PAGE 3
+
+
+
+  -------         MODULE        ?C?FCAST
+  C:00ADH         PUBLIC        ?C?FCASTC
+  C:00A8H         PUBLIC        ?C?FCASTI
+  C:00A3H         PUBLIC        ?C?FCASTL
+  -------         ENDMOD        ?C?FCAST
+
+  -------         MODULE        ?C?CASTF
+  C:00E1H         PUBLIC        ?C?CASTF
+  -------         ENDMOD        ?C?CASTF
+
+  -------         MODULE        ?C?LNEG
+  C:0162H         PUBLIC        ?C?LNEG
+  -------         ENDMOD        ?C?LNEG
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?DELAY
+
+Program Size: data=12.0 xdata=0 code=477
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

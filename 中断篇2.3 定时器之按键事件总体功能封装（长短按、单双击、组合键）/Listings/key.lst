@@ -1,0 +1,468 @@
+C51 COMPILER V9.60.7.0   KEY                                                               02/08/2024 14:03:40 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE KEY
+OBJECT MODULE PLACED IN .\Objects\key.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE key.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings
+                    -\key.lst) OBJECT(.\Objects\key.obj)
+
+line level    source
+
+   1          #include "key.h"
+   2          // 包含的头文件（按需求修改）
+   3          #include "led.h"
+   4          #include "smg.h"
+   5          
+   6          
+   7          /** 
+   8           **  @brief    独立按键的函数封装
+   9           **            1. 单键的短按与长按事件（长按事件分单次或连续响应）
+  10           **            2. 单键的单击与双击事件
+  11           **            3. 组合键的短按与长按事件
+  12           **  @author   QIU
+  13           **  @date     2024.02.07
+  14           **/
+  15          
+  16          /*-------------------------------------------------------------------*/
+  17          
+  18          // 实时按键状态、当前确认状态、前确认状态
+  19          Key_State key_state, key_now_state, key_pre_state;
+  20          // 当前按键模式
+  21          Key_Mode key_mode = FREE_MODE;
+  22          // 双击标志
+  23          u8 Double_Click_flag = false;
+  24          // 双击最大延时计数器
+  25          u16 Double_Click_Counter = 0;
+  26          
+  27          // 按键累积
+  28          u16 num = 0;
+  29          // LED流水灯速度
+  30          u16 led_speed = 10000;
+  31          
+  32          
+  33          /*------------------------按键响应函数定义区------------------------------*/
+  34          
+  35          
+  36          /**
+  37           **  @brief   按键3短按，短按响应，在按键松开后判定执行
+  38           **  @param   参数说明
+  39           **  @retval  返回值
+  40           **/
+  41          void key3_short_press(){
+  42   1              led_turn(1);
+  43   1      }
+  44          
+  45          
+  46          /**
+  47           **  @brief   按键3长按，按下响应
+  48           **  @param   参数说明
+  49           **  @retval  返回值
+  50           **/
+  51          void key3_long_press(){
+  52   1              led_run(led_speed);
+  53   1      }
+  54          
+C51 COMPILER V9.60.7.0   KEY                                                               02/08/2024 14:03:40 PAGE 2   
+
+  55          
+  56          
+  57          /**
+  58           **  @brief   按键3双击
+  59           **  @param   参数说明
+  60           **  @retval  返回值
+  61           **/
+  62          void key3_double_click(){
+  63   1              led_turn(2);
+  64   1      }
+  65          
+  66          
+  67          /**
+  68           **  @brief   按键4短按，短按响应，在按键松开后判定执行
+  69           **  @param   参数说明
+  70           **  @retval  返回值
+  71           **/
+  72          void key4_short_press(){
+  73   1              led_turn(3);
+  74   1      }
+  75          
+  76          
+  77          /**
+  78           **  @brief   按键4长按，按下响应
+  79           **  @param   参数说明
+  80           **  @retval  返回值
+  81           **/
+  82          void key4_long_press(){
+  83   1              led_stream(led_speed);
+  84   1      }
+  85          
+  86          
+  87          
+  88          /**
+  89           **  @brief   按键四双击
+  90           **  @param   参数说明
+  91           **  @retval  返回值
+  92           **/
+  93          void key4_double_click(){
+  94   1              led_turn(4);
+  95   1      }
+  96          
+  97          
+  98          /**
+  99           **  @brief   按键3、4组合键，短按响应
+ 100           **  @param   参数说明
+ 101           **  @retval  返回值
+ 102           **/
+ 103          void key3_4_combination(){
+ 104   1              led_turn(5);
+ 105   1      }
+ 106          
+ 107          
+ 108          /**
+ 109           **  @brief   按键3、4组合键，长按响应
+ 110           **  @param   参数说明
+ 111           **  @retval  返回值
+ 112           **/
+ 113          void key3_4_long_combination(){
+ 114   1              num++;
+ 115   1              smg_showInt(num, 1);
+ 116   1      }
+C51 COMPILER V9.60.7.0   KEY                                                               02/08/2024 14:03:40 PAGE 3   
+
+ 117          
+ 118          
+ 119          
+ 120          /*--------------------------延时法按键检测-------------------------------*/
+ 121          
+ 122          
+ 123          
+ 124          #if 0
+              
+              /**
+               **  @brief   按键松开响应
+               **  @param   无
+               **  @retval  无
+               **/
+              void key_unpress(){
+                      switch(key_pre_state){
+                              case KEY_UNPRESS: break;
+                              case KEY1_PRESS: key1_unpressed();break;
+                              case KEY2_PRESS: key2_unpressed();break;
+                              case KEY3_PRESS: key3_unpressed();break;
+                              case KEY4_PRESS: key4_unpressed();break;
+                              case KEY1_2_PRESS: key1_2_unpressed();break;
+                              case KEY2_3_PRESS: key2_3_unpressed();break;
+                              case KEY3_4_PRESS: key3_4_unpressed();break;
+                      }
+              }
+              
+              
+              /**
+               **  @brief   （轮询方式）扫描独立按键，判断哪个键按下
+               **  @param   无
+               **  @retval  无
+               **/
+              void scan_key(){
+                      static u8 flag = 1;
+              
+                      // 如果有按键按下
+                      if(flag && (!key1||!key2||!key3||!key4)){
+                              flag = 0; // 清零
+                              delay_ms(10); // 延时10ms消抖
+                              delay_ms(50); // 延时50ms 容许间隔
+                              // 获取当前所有按下的键
+                              if(!key1) key_now_state |= KEY1_PRESS; 
+                              if(!key2) key_now_state |= KEY2_PRESS; 
+                              if(!key3) key_now_state |= KEY3_PRESS; 
+                              if(!key4) key_now_state |= KEY4_PRESS; 
+              
+                      // 如果按键全部松开
+                      }else if(key1&&key2&&key3&&key4){
+                              flag = 1;
+                              delay_ms(10); // 延时10ms消抖,松开响应有逻辑判断时，需要加上消抖。否则可以省�
+             -��。
+                              if(key1&&key2&&key3&&key4)key_now_state = 0;
+                      }
+              }
+              
+              
+              
+              /**
+               **  @brief   （轮询方式）判断按键, 进行相应处理
+               **  @param    无
+               **  @retval   无
+C51 COMPILER V9.60.7.0   KEY                                                               02/08/2024 14:03:40 PAGE 4   
+
+               **/
+              void check_key(){
+                      switch(key_now_state){
+                              case KEY_UNPRESS:
+                                      // 松开响应
+                                      key_unpress();
+                                      key_pre_state = KEY_UNPRESS;
+                                      break;
+                              case KEY1_PRESS:
+                                      key_pre_state = KEY1_PRESS;
+                                      // 如果是单次响应
+                                      if(!KEY1_MODE) key_now_state = KEY_NON_DEAL;
+                                      key1_pressed();
+                                      break;
+                              case KEY2_PRESS:
+                                      key_pre_state = KEY2_PRESS;
+                                      if(!KEY2_MODE) key_now_state = KEY_NON_DEAL;
+                                      break;
+                              case KEY3_PRESS:
+                                      key_pre_state = KEY3_PRESS;
+                                      if(!KEY3_MODE) key_now_state = KEY_NON_DEAL;
+                                      key3_pressed();
+                                      break;
+                              case KEY4_PRESS:
+                                      key_pre_state = KEY4_PRESS;
+                                      if(!KEY4_MODE) key_now_state = KEY_NON_DEAL;
+                                      key4_pressed();
+                                      break;
+                              case KEY1_2_PRESS:
+                                      key_pre_state = KEY1_2_PRESS;
+                                      if(!KEY_1_2_MODE) key_now_state = KEY_NON_DEAL;
+                                      key_1_2_pressed();
+                                      break;
+                              case KEY2_3_PRESS:
+                                      key_pre_state = KEY2_3_PRESS;
+                                      if(!KEY_2_3_MODE) key_now_state = KEY_NON_DEAL;
+                                      key_2_3_pressed();
+                                      break;
+                              case KEY3_4_PRESS:
+                                      key_pre_state = KEY3_4_PRESS;
+                                      if(!KEY_3_4_MODE) key_now_state = KEY_NON_DEAL;
+                                      key_3_4_pressed();
+                                      break;
+                              case KEY_NON_DEAL:
+                                      // 按下不处理
+                                      break;
+                      }
+              }
+              
+              #endif
+ 228          
+ 229          /*---------------------------定时器法按键检测--------------------------------*/
+ 230          
+ 231          
+ 232          /**
+ 233           **  @brief   双击事件检测
+ 234           **  @param   参数说明
+ 235           **  @retval  返回值
+ 236           **/
+ 237          void scan_double_click(){
+ 238   1              if(Double_Click_flag){
+ 239   2                      Double_Click_Counter++;
+C51 COMPILER V9.60.7.0   KEY                                                               02/08/2024 14:03:40 PAGE 5   
+
+ 240   2                      // 如果已经超过了双击时间界线
+ 241   2                      if(Double_Click_Counter >= KEY_DOUBLE_DURATION){
+ 242   3                              // 上次短按视为单击事件
+ 243   3                              key_mode = SHORT_PRESS;
+ 244   3                              Double_Click_Counter = 0;
+ 245   3                              Double_Click_flag = false;
+ 246   3                      }
+ 247   2              }else{
+ 248   2                      Double_Click_Counter = 0;
+ 249   2              }
+ 250   1      }
+ 251          
+ 252          
+ 253          
+ 254          
+ 255          /**
+ 256           **  @brief   （轮询方式）判断按键状态与模式, 进行相应处理
+ 257           **  @param    无
+ 258           **  @retval   无
+ 259           **/
+ 260          void check_key(){
+ 261   1              
+ 262   1              // 检查按键模式
+ 263   1              switch(key_mode){
+ 264   2                      case SHORT_PRESS:
+ 265   2                              // 按键模式流转
+ 266   2                              key_mode = FREE_MODE;
+ 267   2                              // 短按只有松开响应，故考虑前状态
+ 268   2                              // 短按均为单次响应
+ 269   2                              switch(key_pre_state){
+ 270   3                                      case KEY1_PRESS:break;
+ 271   3                                      case KEY2_PRESS:break;
+ 272   3                                      case KEY3_PRESS:key3_short_press();break;
+ 273   3                                      case KEY4_PRESS:key4_short_press();break;
+ 274   3                                      case KEY1_2_PRESS:break;
+ 275   3                                      case KEY1_3_PRESS:break;
+ 276   3                                      case KEY1_4_PRESS:break;
+ 277   3                                      case KEY2_3_PRESS:break;
+ 278   3                                      case KEY2_4_PRESS:break;
+ 279   3                                      case KEY3_4_PRESS:key3_4_combination();break;
+ 280   3                              }
+ 281   2                              break;
+ 282   2                      case LONG_PRESS:
+ 283   2                              // 长按只有按下响应，故考虑当前状态
+ 284   2                              // 长按分为单次响应和连续响应
+ 285   2                              switch(key_now_state){
+ 286   3                                      case KEY1_PRESS:break;
+ 287   3                                      case KEY2_PRESS:break;
+ 288   3                                      case KEY3_PRESS:
+ 289   3                                              if(!KEY3_MODE) key_mode = FREE_MODE;
+ 290   3                                              key3_long_press();
+ 291   3                                              break;
+ 292   3                                      case KEY4_PRESS:
+ 293   3                                              if(!KEY4_MODE) key_mode = FREE_MODE;
+ 294   3                                              key4_long_press();
+ 295   3                                              break;
+ 296   3                                      case KEY1_2_PRESS:break;
+ 297   3                                      case KEY1_3_PRESS:break;
+ 298   3                                      case KEY1_4_PRESS:break;
+ 299   3                                      case KEY2_3_PRESS:break;
+ 300   3                                      case KEY2_4_PRESS:break;
+ 301   3                                      case KEY3_4_PRESS:
+C51 COMPILER V9.60.7.0   KEY                                                               02/08/2024 14:03:40 PAGE 6   
+
+ 302   3                                              // 按键模式流转
+ 303   3                                              if(!KEY_3_4_MODE) key_mode = FREE_MODE;
+ 304   3                                              key3_4_long_combination();
+ 305   3                                              break;
+ 306   3                              }
+ 307   2                              break;
+ 308   2                      case DOUBLE_CLICK:
+ 309   2                              key_mode = FREE_MODE;
+ 310   2                              // 双击只有按下响应，故考虑当前状态
+ 311   2                              // 双击只有单次响应
+ 312   2                              switch(key_now_state){
+ 313   3                                      case KEY1_PRESS:break;
+ 314   3                                      case KEY2_PRESS:break;
+ 315   3                                      case KEY3_PRESS:key3_double_click();break;
+ 316   3                                      case KEY4_PRESS:key4_double_click();break;
+ 317   3                                      case KEY1_2_PRESS:break;
+ 318   3                                      case KEY1_3_PRESS:break;
+ 319   3                                      case KEY1_4_PRESS:break;
+ 320   3                                      case KEY2_3_PRESS:break;
+ 321   3                                      case KEY2_4_PRESS:break;
+ 322   3                                      case KEY3_4_PRESS:break;
+ 323   3                              }
+ 324   2                              break;
+ 325   2                      default:
+ 326   2                              break;
+ 327   2              }
+ 328   1              
+ 329   1      }
+ 330          
+ 331          
+ 332          
+ 333          
+ 334          /**
+ 335           **  @brief   （定时器）确认按键是否稳定按下/松开，去抖
+ 336           **  @param   无
+ 337           **  @retval  无
+ 338           **/
+ 339          void scan_key_ByTimer(){
+ 340   1              static u16 counter = 0; 
+ 341   1              static u8 flag = 0xff;
+ 342   1              
+ 343   1              // 长按事件开关
+ 344   1              static bit flag_LongMode = true;
+ 345   1              // 双击事件开关
+ 346   1              static bit flag_DoubleClickMode = false;
+ 347   1              // 组合事件开关
+ 348   1              static bit flag_CombinationMode = false;
+ 349   1      
+ 350   1              
+ 351   1              flag <<= 1;
+ 352   1      
+ 353   1              if(key_state & KEY3_PRESS) flag |= key3; // 如果实时按键状态中包含键3，则检查键3引脚�
+             -�态（按下为0）
+ 354   1              if(key_state & KEY4_PRESS) flag |= key4; // 如果实时按键状态中包含键4，则检查键4引脚�
+             -�态（按下为0）
+ 355   1              
+ 356   1              switch(flag){
+ 357   2                      case 0xff:
+ 358   2                              // 连续8次检测到按键松开，视为松开状态。
+ 359   2                              key_state &= ((~key3*KEY3_PRESS) | (~key4*KEY4_PRESS));
+ 360   2                              // 按键状态更新
+ 361   2                              key_pre_state = key_now_state;
+C51 COMPILER V9.60.7.0   KEY                                                               02/08/2024 14:03:40 PAGE 7   
+
+ 362   2                              key_now_state = key_state;
+ 363   2                      
+ 364   2                              if(flag_DoubleClickMode){
+ 365   3                                      flag_DoubleClickMode = false;
+ 366   3                              }else{
+ 367   3                                      if(flag_CombinationMode){
+ 368   4                                              // 解除屏蔽
+ 369   4                                              flag_CombinationMode = false;
+ 370   4                                      }else{
+ 371   4                                              // 如果小于阈值，则为短按操作
+ 372   4                                              if(counter < KEY_DOWN_DURATION){
+ 373   5                                                      // 等待给定双击阈值，判断是否为双击事件
+ 374   5                                                      Double_Click_flag = true;
+ 375   5                                                      // 清零
+ 376   5                                                      counter = 0;
+ 377   5                                              }else{
+ 378   5                                                      // 长按只有按下响应
+ 379   5                                                      key_mode = FREE_MODE;
+ 380   5                                                      // 清零
+ 381   5                                                      counter = 0;
+ 382   5                                                      flag_LongMode = true;
+ 383   5                                              }
+ 384   4                                      }
+ 385   3                              }
+ 386   2                              // 如果键尚未完全松开，则剩余键被屏蔽
+ 387   2                              if(key_now_state != KEY_UNPRESS) flag_CombinationMode = true;
+ 388   2                              break;
+ 389   2                      
+ 390   2                      case 0x00:
+ 391   2                              // 如果按键状态未变化
+ 392   2                              if(key_state == key_now_state){
+ 393   3                                      if(flag_DoubleClickMode){
+ 394   4                                              // 如果是双击事件，则不再关心第二次单击所耗时长
+ 395   4                                              // 按住期间会屏蔽其他按键
+ 396   4                                      }else if(flag_CombinationMode){
+ 397   4                                              // 如果处于组合按键屏蔽的状态，不做响应
+ 398   4                                      }else{
+ 399   4                                              if(counter >= KEY_DOWN_DURATION){
+ 400   5                                                      if(flag_LongMode){
+ 401   6                                                              // 视为该键的长按模式
+ 402   6                                                              flag_LongMode = false;
+ 403   6                                                              key_mode = LONG_PRESS;
+ 404   6                                                      }
+ 405   5                                              }else{
+ 406   5                                                      counter++; // 开始计时
+ 407   5                                              }
+ 408   4                                      }
+ 409   3                              }else{
+ 410   3                                      // 连续8次检测到按键按下，视为按下状态。
+ 411   3                                      // 如果按键动作相同且Double_Click_flag为真（即未超时），可视为双击事件
+ 412   3                                      if((key_state == key_pre_state) && Double_Click_flag){
+ 413   4                                              key_mode = DOUBLE_CLICK;
+ 414   4                                              flag_DoubleClickMode = true;
+ 415   4                                              Double_Click_flag = false;
+ 416   4                                      }else{
+ 417   4                                              // 重新计时（开始记录组合键时长）
+ 418   4                                              counter = 0;
+ 419   4                                      }
+ 420   3                                      // 更新按键状态
+ 421   3                                      key_pre_state = key_now_state;
+ 422   3                                      key_now_state = key_state;
+ 423   3                              }       
+C51 COMPILER V9.60.7.0   KEY                                                               02/08/2024 14:03:40 PAGE 8   
+
+ 424   2                              break;
+ 425   2              }
+ 426   1      }
+ 427          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    371    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     14    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      3    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

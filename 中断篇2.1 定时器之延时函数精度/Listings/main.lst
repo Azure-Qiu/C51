@@ -1,0 +1,56 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              02/01/2024 15:33:27 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "smg.h"
+   2          /** 
+   3           **  @brief    定时器测试延时精度
+   4           **  @author   QIU
+   5           **  @data     2023.08.31
+   6           **/
+   7          
+   8          /*-------------------------------------------------------------------*/
+   9          
+  10          
+  11          void time0_init(){
+  12   1              TMOD |= 0x01;   // 配置定时器0工作方式为16位定时器
+  13   1              TH0 = TL0 = 0;  // 初值设置为0
+  14   1              TR0 = 1;        // 开启定时器
+  15   1      }
+  16          
+  17          
+  18          
+  19          void main(){
+  20   1              u16 num;                                // 存放计数器的值
+  21   1              
+  22   1              time0_init();                           // 定时器初始化
+  23   1              delay_ms(1);                            // 延时
+  24   1              num = (TH0 << 8) + TL0;                         // 得到此时定时器的值
+  25   1              
+  26   1              while(1){
+  27   2                      // 显示计数次数
+  28   2                      smg_showInt(num, 1);
+  29   2              }
+  30   1      }
+  31          
+  32          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     48    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

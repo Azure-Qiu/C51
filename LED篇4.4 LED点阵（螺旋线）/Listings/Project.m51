@@ -1,0 +1,238 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    01/01/2023  18:06:37  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+D:\MDK5\C51\BIN\BL51.EXE .\Objects\main.obj TO .\Objects\Project PRINT (.\Listings\Project.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  D:\MDK5\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\MDK5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\Project (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     000DH     UNIT         ?DT?MAIN
+            IDATA   0015H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     0066H     UNIT         ?PR?MAIN?MAIN
+            CODE    00F5H     0035H     UNIT         ?PR?RESET?MAIN
+            CODE    012AH     002CH     UNIT         ?PR?_UPDATE_POSY?MAIN
+            CODE    0156H     002BH     UNIT         ?PR?_SER2PARA?MAIN
+            CODE    0181H     0018H     UNIT         ?PR?_DISPLAY?MAIN
+            CODE    0199H     000DH     UNIT         ?PR?_PRODUCE_B_CODE?MAIN
+            CODE    01A6H     000BH     UNIT         ?PR?_DELAY?MAIN
+            CODE    01B1H     000BH     UNIT         ?C_INITSEG
+            CODE    01BCH     0008H     UNIT         ?PR?CLEAR_LED?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Project (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN
+  +--> ?PR?RESET?MAIN
+  +--> ?PR?_DISPLAY?MAIN
+  +--> ?PR?_UPDATE_POSY?MAIN
+  +--> ?PR?_DELAY?MAIN
+  +--> ?PR?CLEAR_LED?MAIN
+
+?PR?RESET?MAIN
+  +--> ?PR?_PRODUCE_B_CODE?MAIN
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/01/2023  18:06:37  PAGE 2
+
+
+
+?PR?_DISPLAY?MAIN
+  +--> ?PR?_PRODUCE_B_CODE?MAIN
+  +--> ?PR?_SER2PARA?MAIN
+  +--> ?PR?_DELAY?MAIN
+  +--> ?PR?CLEAR_LED?MAIN
+
+?PR?CLEAR_LED?MAIN
+  +--> ?PR?_SER2PARA?MAIN
+
+?PR?_UPDATE_POSY?MAIN
+  +--> ?PR?_PRODUCE_B_CODE?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Project (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00B0H         PUBLIC        P3
+  B:00B0H.6       PUBLIC        SH_CP
+  C:01A6H         PUBLIC        _delay
+  C:012AH         PUBLIC        _update_posY
+  B:00B0H.5       PUBLIC        ST_CP
+  C:00F5H         PUBLIC        reset
+  C:008FH         PUBLIC        main
+  D:0008H         PUBLIC        count
+  D:0009H         PUBLIC        posY
+  C:01BCH         PUBLIC        clear_LED
+  D:0011H         PUBLIC        dir
+  C:0156H         PUBLIC        _Ser2Para
+  B:00B0H.4       PUBLIC        SER
+  D:0012H         PUBLIC        num_step
+  C:0199H         PUBLIC        _produce_B_Code
+  D:0013H         PUBLIC        x
+  D:0014H         PUBLIC        y
+  C:0181H         PUBLIC        _display
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        t
+  C:01A6H         LINE#         17
+  C:01A6H         LINE#         18
+  C:01B0H         LINE#         19
+  -------         ENDPROC       _DELAY
+  -------         PROC          _PRODUCE_B_CODE
+  D:0007H         SYMBOL        pos
+  C:0199H         LINE#         22
+  C:0199H         LINE#         23
+  C:01A5H         LINE#         24
+  -------         ENDPROC       _PRODUCE_B_CODE
+  -------         PROC          _SER2PARA
+  D:0007H         SYMBOL        dat
+  -------         DO            
+  D:0006H         SYMBOL        i
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/01/2023  18:06:37  PAGE 3
+
+
+  -------         ENDDO         
+  C:0156H         LINE#         27
+  C:0156H         LINE#         29
+  C:0162H         LINE#         30
+  C:016DH         LINE#         31
+  C:0171H         LINE#         32
+  C:0173H         LINE#         33
+  C:0174H         LINE#         34
+  C:0176H         LINE#         35
+  C:0177H         LINE#         36
+  C:017AH         LINE#         37
+  C:017CH         LINE#         38
+  C:017DH         LINE#         39
+  C:017FH         LINE#         40
+  C:0180H         LINE#         41
+  -------         ENDPROC       _SER2PARA
+  -------         PROC          CLEAR_LED
+  C:01BCH         LINE#         43
+  C:01BCH         LINE#         44
+  C:01BFH         LINE#         45
+  -------         ENDPROC       CLEAR_LED
+  -------         PROC          _DISPLAY
+  D:0007H         SYMBOL        XDATA
+  D:0006H         SYMBOL        YDATA
+  C:0181H         LINE#         50
+  C:0183H         LINE#         51
+  C:018AH         LINE#         52
+  C:018FH         LINE#         53
+  C:0196H         LINE#         54
+  -------         ENDPROC       _DISPLAY
+  -------         PROC          _UPDATE_POSY
+  D:0007H         SYMBOL        dir
+  C:012AH         LINE#         58
+  C:012AH         LINE#         60
+  C:013AH         LINE#         61
+  C:013AH         LINE#         62
+  C:013AH         LINE#         63
+  C:013CH         LINE#         64
+  C:013CH         LINE#         65
+  C:013EH         LINE#         66
+  C:013EH         LINE#         67
+  C:013EH         LINE#         68
+  C:013EH         LINE#         69
+  C:0140H         LINE#         70
+  C:0140H         LINE#         71
+  C:0142H         LINE#         72
+  C:0142H         LINE#         74
+  C:0142H         LINE#         75
+  C:0142H         LINE#         76
+  C:0144H         LINE#         77
+  C:0144H         LINE#         78
+  C:0146H         LINE#         79
+  C:0146H         LINE#         80
+  C:0146H         LINE#         81
+  C:0146H         LINE#         82
+  C:0148H         LINE#         83
+  C:0155H         LINE#         84
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/01/2023  18:06:37  PAGE 4
+
+
+  C:0155H         LINE#         85
+  C:0155H         LINE#         86
+  C:0155H         LINE#         87
+  -------         ENDPROC       _UPDATE_POSY
+  -------         PROC          RESET
+  -------         DO            
+  D:0006H         SYMBOL        k
+  -------         ENDDO         
+  C:00F5H         LINE#         90
+  C:00F5H         LINE#         92
+  C:0103H         LINE#         93
+  C:010EH         LINE#         94
+  C:0112H         LINE#         95
+  C:011EH         LINE#         96
+  C:0120H         LINE#         97
+  C:0126H         LINE#         98
+  C:0126H         LINE#         99
+  C:0129H         LINE#         100
+  -------         ENDPROC       RESET
+  -------         PROC          MAIN
+  -------         DO            
+  D:0002H         SYMBOL        i
+  D:0003H         SYMBOL        j
+  -------         ENDDO         
+  C:008FH         LINE#         108
+  C:008FH         LINE#         109
+  C:0091H         LINE#         110
+  C:0094H         LINE#         111
+  C:0094H         LINE#         112
+  C:00A0H         LINE#         114
+  C:00ABH         LINE#         115
+  C:00AEH         LINE#         116
+  C:00B0H         LINE#         118
+  C:00BBH         LINE#         119
+  C:00BEH         LINE#         121
+  C:00C3H         LINE#         123
+  C:00C4H         LINE#         125
+  C:00CBH         LINE#         127
+  C:00D1H         LINE#         128
+  C:00D3H         LINE#         129
+  C:00D5H         LINE#         130
+  C:00D5H         LINE#         131
+  C:00D5H         LINE#         133
+  C:00DFH         LINE#         134
+  C:00E6H         LINE#         135
+  C:00E9H         LINE#         136
+  C:00F0H         LINE#         137
+  C:00F3H         LINE#         138
+  C:00F3H         LINE#         139
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+Program Size: data=22.0 xdata=0 code=452
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

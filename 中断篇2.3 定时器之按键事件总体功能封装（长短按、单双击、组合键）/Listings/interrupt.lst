@@ -1,0 +1,70 @@
+C51 COMPILER V9.60.7.0   INTERRUPT                                                         02/06/2024 20:05:37 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE INTERRUPT
+OBJECT MODULE PLACED IN .\Objects\interrupt.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE interrupt.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Li
+                    -stings\interrupt.lst) OBJECT(.\Objects\interrupt.obj)
+
+line level    source
+
+   1          #include "interrupt.h"
+   2          /** 
+   3           **  @brief    外部中断封装
+   4           **  @author   QIU
+   5           **  @data     2023.08.31
+   6           **/
+   7          
+   8          /*-------------------------------------------------------------------*/
+   9          
+  10          
+  11          /**
+  12           **  @brief   配置外部中断x
+  13           **  @param   x：对应外部中断编号
+  14           **  @retval  无
+  15           **/
+  16          void INTx_init(u8 x){
+  17   1              switch(x){
+  18   2                      case 0:
+  19   2                              IT0 = 1; // 设置外部中断0触发方式，下降沿触发
+  20   2                              EX0 = 1; // 使能外部中断0
+  21   2                              break;
+  22   2                      case 1:
+  23   2                              IT1 = 1; // 设置外部中断1触发方式，下降沿触发
+  24   2                              EX1 = 1; // 使能外部中断1
+  25   2                              break;
+  26   2              }
+  27   1              EA = 1;  // 使能总中断
+  28   1      }
+  29          
+  30          
+  31          
+  32          // 外部中断0的中断服务程序模板
+  33          //void INT1_serve() interrupt 0{
+  34          //      ;
+  35          //}
+  36          
+  37          
+  38          // 外部中断1的中断服务程序模板
+  39          //void INT1_serve() interrupt 2{
+  40          //      ;
+  41          //}
+  42          
+  43          
+  44          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     20    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+C51 COMPILER V9.60.7.0   INTERRUPT                                                         02/06/2024 20:05:37 PAGE 2   
+
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

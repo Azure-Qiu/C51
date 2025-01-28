@@ -1,0 +1,137 @@
+C51 COMPILER V9.60.7.0   MATRIX_KEY                                                        02/14/2024 20:12:53 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MATRIX_KEY
+OBJECT MODULE PLACED IN .\Objects\matrix_key.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE matrix_key.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\L
+                    -istings\matrix_key.lst) OBJECT(.\Objects\matrix_key.obj)
+
+line level    source
+
+   1          #include "matrix_key.h"
+   2          /** 
+   3           **  @brief    实现了矩阵按键的两种扫描方式
+   4           **                        1. 与数码管、蜂鸣器联动
+   5           **                        2. 按下一个键，数码管显示对应（0~F）的数值
+   6           **                        3. 按下至未松开过程中，屏蔽其他按键
+   7           **  @author   QIU
+   8           **  @date     2023.05.08
+   9           **/
+  10          
+  11          
+  12          /*-------------------------------------------------------------------*/
+  13          
+  14          // 存储按下的行列
+  15          u8 row, col;
+  16          // 按键当前状态，true按下中，false已释放
+  17          u8 key_now_state = false;
+  18          
+  19          
+  20          /**
+  21           **  @brief   读取电平
+  22           **  @param   state: 0-列，1-行
+  23           **  @retval  返回列（行）数
+  24           **/
+  25          u8 read_port(bit state){
+  26   1              u8 dat;
+  27   1              if(state) dat = MATRIX_PORT >> 4; // 如果是行，取高四位
+  28   1              else dat =  MATRIX_PORT & 0x0f;   // 如果是列，取低四位
+  29   1              // 从左上开始为第一行，第一列
+  30   1              switch(dat){
+  31   2                      // 0000 1110 第4列(行)
+  32   2                      case 0x0e: return 4;
+  33   2                      // 0000 1101 第3列(行)
+  34   2                      case 0x0d: return 3;
+  35   2                      // 0000 1011 第2列(行)
+  36   2                      case 0x0b: return 2;
+  37   2                      // 0000 0111 第1列(行)
+  38   2                      case 0x07: return 1;
+  39   2                      // 0000 1111 没有按下
+  40   2                      case 0x0f: return 0;
+  41   2                      // 多键同时按下不响应
+  42   2                      default: return 0;
+  43   2              }
+  44   1      }
+  45          
+  46          
+  47          
+  48          /**
+  49           **  @brief   矩阵按键处理
+  50           **  @param   参数说明
+  51           **  @retval  返回值
+  52           **/
+  53          void key_pressed(){
+  54   1              u8 key_val;
+C51 COMPILER V9.60.7.0   MATRIX_KEY                                                        02/14/2024 20:12:53 PAGE 2   
+
+  55   1              // 如果不是连续模式
+  56   1              if(!MatrixKEY_MODE) key_now_state = true; 
+  57   1              // 蜂鸣器响应，第三行连接P1.5，不响
+  58   1              beep_once(50, 2000);
+  59   1              
+  60   1              // 计算显示的字符
+  61   1              key_val = (row-1)*4 + (col - 1);
+  62   1              if(key_val >= 0 && key_val <= 9) key_val += '0';
+  63   1              else key_val += 'A' - 10;
+  64   1              // 字符显示
+  65   1              smg_showChar(key_val, 1, false);
+  66   1      }
+  67          
+  68          /**
+  69           **  @brief   (反转法)检测按键（单键），按住过程中屏蔽其他按键。同列需全部松
+             -开才能再次响应
+  70           **  @param   无
+  71           **  @retval  无
+  72           **/
+  73          void check_matrixKey_turn(){
+  74   1              // 所有行置低电平，列置高电平
+  75   1              MATRIX_PORT = 0x0f;
+  76   1              // 读取所有列电平
+  77   1              col = read_port(0);
+  78   1              // 如果有效键按下，延时消抖
+  79   1              if(col) delay_ms(10);
+  80   1              else {key_now_state = false;return;} // 注意，if else还是需要括号的，与case 不同
+  81   1              // 所有列置低电平，行置高电平
+  82   1              MATRIX_PORT = 0xf0;
+  83   1              // 读取所有行电平
+  84   1              row = read_port(1);
+  85   1              // 如果有键按下(当前未按下)，响应
+  86   1              if(row && !key_now_state) key_pressed();
+  87   1              else return;
+  88   1      }
+  89          
+  90          
+  91          /**
+  92           **  @brief   (扫描法)检测按键，本例扫描列
+  93           **  @param   无
+  94           **  @retval  无
+  95           **/
+  96          void check_matrixKey_scan(){
+  97   1              u8 i;
+  98   1              for(i=0;i<4;i++){
+  99   2                      MATRIX_PORT = ~(0x08>>i); // 逐列置0，且所有行置1
+ 100   2                      row = read_port(1); // 读取行
+ 101   2                      if(!row && col == i+1)key_now_state = false; // 当前扫描列无有效键按下
+ 102   2                      else if(row && !key_now_state){       // 有效键按下且为松开状态
+ 103   3                              delay_ms(10);
+ 104   3                              row = read_port(1); // 再次读取行
+ 105   3                              if(row) {col = i+1;key_pressed();} 
+ 106   3                      }
+ 107   2              }
+ 108   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    244    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+C51 COMPILER V9.60.7.0   MATRIX_KEY                                                        02/14/2024 20:12:53 PAGE 3   
+
+   DATA SIZE        =      3       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

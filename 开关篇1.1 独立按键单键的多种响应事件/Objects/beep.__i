@@ -1,0 +1,1 @@
+"beep.c" OPTIMIZE (8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\beep.lst) OBJECT(.\Objects\beep.obj)

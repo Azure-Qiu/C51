@@ -1,0 +1,53 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              01/31/2024 19:42:03 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "key.h"
+   2          #include "smg.h"
+   3          /** 
+   4           **  @brief    独立按键单键的单次响应与连续响应
+   5           **            1. 按键1按下，LED6亮灭状态转变。按键1松开，不执行操作。（按下响�
+             -��）
+   6           **            2. 按键2按下，不执行操作。按键2松开，LED7亮灭状态转变。（松开响�
+             -��）
+   7           **            3. 按键3按下，LED8亮灭状态转变。按键3松开，LED8亮灭状态转变。（按
+             -下松开均响应）
+   8           **            4. 按键4按下，数码管显示数值持续增加。按键4松开，数码管清零。�
+             -�连续响应）
+   9           **  @author   QIU
+  10           **  @date     2023.08.31
+  11           **/
+  12          
+  13          /*-------------------------------------------------------------------*/
+  14          
+  15          
+  16          void main(){
+  17   1              
+  18   1              smg_showChar('0', 1, false); // 初始为0
+  19   1              while(1){
+  20   2                      // 扫描按键
+  21   2                      scan_key();
+  22   2                      // 检查按键
+  23   2                      check_key();
+  24   2              }
+  25   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     17    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

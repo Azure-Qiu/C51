@@ -1,0 +1,171 @@
+C51 COMPILER V9.60.7.0   WS2812                                                            04/05/2024 23:07:34 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE WS2812
+OBJECT MODULE PLACED IN .\Objects\WS2812.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE WS2812.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listi
+                    -ngs\WS2812.lst) OBJECT(.\Objects\WS2812.obj)
+
+line level    source
+
+   1          #include "WS2812.h"
+   2          /** 
+   3           **  @brief    WS2812驱动程序（@24M）
+   4           **  @author   QIU
+   5           **  @date     2024.04.01
+   6           **/
+   7          
+   8          /*-------------------------------------------------------------------*/
+   9          
+  10          // 用于存放所有WS2812的RGB数据，二维数组
+  11          xdata u8 WS2812_Array[LED_MAX_NUM][3] = {0};
+  12          
+  13          
+  14          
+  15          /**
+  16           **  @brief   Reset信号，大于50us
+  17           **  @param   参数说明
+  18           **  @retval  返回值
+  19           **/
+  20          void WS2812_Reset(){
+  21   1              DI = 0;
+  22   1              delay_10us(5);
+  23   1      }
+  24          
+  25          
+  26          /**
+  27           **  @brief   设置指定灯的颜色（更改颜色数组）
+  28           **  @param   参数说明
+  29           **  @retval  返回值
+  30           **/
+  31          void WS2812_Set_RGB(u8 num, u8 red, u8 green, u8 blue){ 
+  32   1              // 设置
+  33   1              WS2812_Array[num-1][0] = red;
+  34   1              WS2812_Array[num-1][1] = green;
+  35   1              WS2812_Array[num-1][2] = blue;
+  36   1      }
+  37          
+  38          
+  39          
+  40          /**
+  41           **  @brief   清除指定灯的颜色（更改颜色数组）
+  42           **  @param   参数说明
+  43           **  @retval  返回值
+  44           **/
+  45          void WS2812_Clear_RGB(u8 num){ 
+  46   1              // 清空
+  47   1              memset(WS2812_Array[num-1], 0, sizeof(WS2812_Array[0]));
+  48   1      }
+  49          
+  50          
+  51          
+  52          /**
+  53           **  @brief   清屏
+  54           **  @param   无
+C51 COMPILER V9.60.7.0   WS2812                                                            04/05/2024 23:07:34 PAGE 2   
+
+  55           **  @retval  无
+  56           **/
+  57          void WS2812_Clear_All(){
+  58   1              memset(WS2812_Array, 0, sizeof(WS2812_Array));
+  59   1              WS2812_Update_RGB();
+  60   1      }
+  61          
+  62          
+  63          
+  64          /**
+  65           **  @brief   逻辑0和1的时序
+  66           **  @param   参数说明
+  67           **  @retval  返回值
+  68           **/
+  69          void WS2812_Write_0_1(u8 dat){
+  70   1              if(dat){
+  71   2                      DI = 1; // 800ns±150ns
+  72   2                      _nop_();
+  73   2                      DI = 0; // 450ns±150ns
+  74   2              }else{
+  75   2                      DI = 1; // 450ns±150ns
+  76   2                      DI = 0; // 800ns±150ns
+  77   2              }
+  78   1      }
+  79          
+  80          
+  81          /**
+  82           **  @brief   发送单个灯的RGB值
+  83           **  @param   参数说明
+  84           **  @retval  返回值
+  85           **/
+  86          void WS2812_Send_RGB(u8 *rgb){
+  87   1              u8 green, red, blue;
+  88   1              red = rgb[0];
+  89   1              green = rgb[1];
+  90   1              blue = rgb[2];
+  91   1              // 发送G
+  92   1              WS2812_Write_0_1(green & 0x80);WS2812_Write_0_1(green & 0x40);WS2812_Write_0_1(green & 0x20);WS2812_Write
+             -_0_1(green & 0x10);
+  93   1              WS2812_Write_0_1(green & 0x08);WS2812_Write_0_1(green & 0x04);WS2812_Write_0_1(green & 0x02);WS2812_Write
+             -_0_1(green & 0x01);
+  94   1              // 发送R
+  95   1              WS2812_Write_0_1(red & 0x80);WS2812_Write_0_1(red & 0x40);WS2812_Write_0_1(red & 0x20);WS2812_Write_0_1(r
+             -ed & 0x10);
+  96   1              WS2812_Write_0_1(red & 0x08);WS2812_Write_0_1(red & 0x04);WS2812_Write_0_1(red & 0x02);WS2812_Write_0_1(r
+             -ed & 0x01);
+  97   1              // 发送B
+  98   1              WS2812_Write_0_1(blue & 0x80);WS2812_Write_0_1(blue & 0x40);WS2812_Write_0_1(blue & 0x20);WS2812_Write_0_
+             -1(blue & 0x10);
+  99   1              WS2812_Write_0_1(blue & 0x08);WS2812_Write_0_1(blue & 0x04);WS2812_Write_0_1(blue & 0x02);WS2812_Write_0_
+             -1(blue & 0x01);
+ 100   1      }
+ 101          
+ 102          
+ 103          
+ 104          /**
+ 105           **  @brief   发送所有灯的RGB值, 单次刷新。
+ 106           **  @param   参数说明
+ 107           **  @retval  返回值
+ 108           **/
+ 109          void WS2812_Update_RGB(){
+ 110   1              u8 i;
+C51 COMPILER V9.60.7.0   WS2812                                                            04/05/2024 23:07:34 PAGE 3   
+
+ 111   1              // 复位信号
+ 112   1              WS2812_Reset();
+ 113   1              
+ 114   1              for(i=0;i<LED_MAX_NUM;i++){
+ 115   2                      WS2812_Send_RGB(WS2812_Array[i]);
+ 116   2              }
+ 117   1      }
+ 118          
+ 119          
+ 120          /**
+ 121           **  @brief   流水灯（逐一点亮）
+ 122           **  @param   red: 红色分量数组
+ 123           **                       green: 绿色分量数组
+ 124           **                       blue: 蓝色分量数组
+ 125           **                       speed: 控制延时时长（ms）
+ 126           **  @retval  返回值
+ 127           **/
+ 128          void WS2812_Stream_Mode(u8 *red, u8 *green, u8 *blue, u16 speed){
+ 129   1              u8 i;
+ 130   1              for(i=0;i<LED_MAX_NUM;i++){
+ 131   2                      WS2812_Set_RGB(i+1, red[i], green[i], blue[i]);
+ 132   2                      WS2812_Update_RGB();
+ 133   2                      delay_ms(speed);
+ 134   2              }
+ 135   1              WS2812_Clear_All();
+ 136   1      }
+ 137          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    427    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     24    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      17
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

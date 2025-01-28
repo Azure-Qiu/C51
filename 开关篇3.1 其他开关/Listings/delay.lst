@@ -1,0 +1,102 @@
+C51 COMPILER V9.60.7.0   DELAY                                                             04/15/2024 11:09:17 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE DELAY
+OBJECT MODULE PLACED IN .\Objects\delay.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE delay.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND CODE PRINT(.\L
+                    -istings\delay.lst) OBJECT(.\Objects\delay.obj)
+
+line level    source
+
+   1          #include "delay.h"
+   2          /** 
+   3           **  @brief    通用函数
+   4           **  @author   QIU
+   5           **  @data     2023.08.23
+   6           **/
+   7          
+   8          /*-------------------------------------------------------------------*/
+   9          
+  10          /**
+  11           **  @brief   延时函数(10us)
+  12           **  @param   t:0~65535，循环一次约10us
+  13           **  @retval  无
+  14           **/
+  15          void delay_10us(u16 t){
+  16   1              while(t--);
+  17   1      }
+  18          
+  19          
+  20          /**
+  21           **  @brief   延时函数（ms）
+  22           **  @param   t:0~65535,单位ms
+  23           **  @retval  无
+  24           **/
+  25          void delay_ms(u16 t){
+  26   1              while(t--){
+  27   2                      delay_10us(100);
+  28   2              }
+  29   1      }
+  30          
+C51 COMPILER V9.60.7.0   DELAY                                                             04/15/2024 11:09:17 PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION _delay_10us (BEGIN)
+                                           ; SOURCE LINE # 15
+;---- Variable 't' assigned to Register 'R6/R7' ----
+0000         ?C0001:
+                                           ; SOURCE LINE # 16
+0000 EF                MOV     A,R7
+0001 1F                DEC     R7
+0002 AC06              MOV     R4,AR6
+0004 7001              JNZ     ?C0007
+0006 1E                DEC     R6
+0007         ?C0007:
+0007 4C                ORL     A,R4
+0008 70F6              JNZ     ?C0001
+                                           ; SOURCE LINE # 17
+000A 22                RET     
+             ; FUNCTION _delay_10us (END)
+
+             ; FUNCTION _delay_ms (BEGIN)
+                                           ; SOURCE LINE # 25
+;---- Variable 't' assigned to Register 'R2/R3' ----
+0000 AB07              MOV     R3,AR7
+0002 AA06              MOV     R2,AR6
+0004         ?C0004:
+                                           ; SOURCE LINE # 26
+0004 EB                MOV     A,R3
+0005 1B                DEC     R3
+0006 AE02              MOV     R6,AR2
+0008 7001              JNZ     ?C0008
+000A 1A                DEC     R2
+000B         ?C0008:
+000B 4E                ORL     A,R6
+000C 6009              JZ      ?C0006
+                                           ; SOURCE LINE # 27
+000E 7F64              MOV     R7,#064H
+0010 7E00              MOV     R6,#00H
+0012 120000      R     LCALL   _delay_10us
+                                           ; SOURCE LINE # 28
+0015 80ED              SJMP    ?C0004
+                                           ; SOURCE LINE # 29
+0017         ?C0006:
+0017 22                RET     
+             ; FUNCTION _delay_ms (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     35    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,48 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              02/08/2024 16:43:40 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REG52.H>
+   2          
+   3          #define DELAY_TIME 100
+   4          
+   5          typedef unsigned char u8;
+   6          typedef unsigned int u16;
+   7          
+   8          sbit BEEP = P1^3; //信号端与P1.5引脚相连
+   9          
+  10          void delay(u16 i){
+  11   1              while(i--);
+  12   1      }
+  13          
+  14          void main(){
+  15   1              u8 i = 0;
+  16   1              while(1){
+  17   2                      while(i < DELAY_TIME){
+  18   3                              BEEP = !BEEP; //内部上拉，初始为1，占空比为50%
+  19   3                              delay(100); //延时10ms，即频率为100Hz
+  20   3                              i++;
+  21   3                      }
+  22   2              }
+  23   1              
+  24   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     31    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

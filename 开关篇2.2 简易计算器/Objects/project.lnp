@@ -1,0 +1,9 @@
+".\Objects\main.obj",
+".\Objects\beep.obj",
+".\Objects\matrix_key.obj",
+".\Objects\smg.obj",
+".\Objects\public.obj",
+".\Objects\calculator.obj",
+".\Objects\timer.obj" 
+TO ".\Objects\project" 
+PRINT(".\Listings\project.m51") RAMSIZE(256) 

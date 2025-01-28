@@ -1,0 +1,416 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    02/14/2024  12:54:26  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\SOFTWARE\KEIL\C51\BIN\BL51.EXE .\Objects\main.obj, .\Objects\LED_Matrix.obj, .\Objects\public.obj, .\Objects\timer.ob
+>> j TO .\Objects\Project PRINT (.\Listings\Project.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL WITH FLOATING POINT ARITHMETIC
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  .\Objects\LED_Matrix.obj (LED_MATRIX)
+  .\Objects\public.obj (PUBLIC)
+  .\Objects\timer.obj (TIMER)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (PRINTF)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPROUND)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPCONVERT)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPADD)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPMUL)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPDIV)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FTNPWR)
+  C:\SOFTWARE\KEIL\C51\LIB\C51FPS.LIB (?C?FPGETOPN)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?CLDPTR)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?CLDOPTR)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?CSTPTR)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?SLDIV)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?PLDIIDATA)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?CCASE)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (PUTCHAR)
+  C:\SOFTWARE\KEIL\C51\LIB\C51S.LIB (?C?ULDIV)
+
+
+LINK MAP OF MODULE:  .\Objects\Project (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0012H     UNIT         ?DT?PUBLIC
+            DATA    001AH     0005H     UNIT         ?DT?LED_MATRIX
+            DATA    001FH     0001H     UNIT         ?DT?LED_MATRIX_FLUSH_DELAY?LED_MATRIX
+            BIT     0020H.0   0001H.1   UNIT         ?BI?PRINTF?PRINTF
+            BIT     0021H.1   0000H.1   UNIT         ?BI?_INT2STRING?PUBLIC
+                    0021H.2   0000H.6                *** GAP ***
+            DATA    0022H     001CH     UNIT         ?DT?PRINTF?PRINTF
+            DATA    003EH     0005H     UNIT         ?DT?_FLOAT2STRING?PUBLIC
+            DATA    0043H     0002H     UNIT         ?DT?_INT2STRING?PUBLIC
+            DATA    0045H     0002H     UNIT         _DATA_GROUP_
+            IDATA   0047H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0004H     UNIT         ?PR?LED_MATRIX_INIT?LED_MATRIX
+                    0007H     0004H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     05E6H     UNIT         ?C?LIB_CODE
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/14/2024  12:54:26  PAGE 2
+
+
+            CODE    05F4H     046FH     UNIT         ?PR?PRINTF?PRINTF
+            CODE    0A63H     00AEH     UNIT         ?PR?_TIMERX_INIT?TIMER
+            CODE    0B11H     0084H     UNIT         ?PR?_FLOAT2STRING?PUBLIC
+            CODE    0B95H     0044H     UNIT         ?C?LDIV
+            CODE    0BD9H     0043H     UNIT         ?CO?LED_MATRIX
+            CODE    0C1CH     0041H     UNIT         ?PR?TIMER0_SERVE?MAIN
+            CODE    0C5DH     0032H     UNIT         ?PR?LED_MATRIX_FLUSH_DELAY?LED_MATRIX
+            CODE    0C8FH     0031H     UNIT         ?PR?NEXT_LED_INDEX?LED_MATRIX
+            CODE    0CC0H     0031H     UNIT         ?PR?_INT2STRING?PUBLIC
+            CODE    0CF1H     002CH     UNIT         ?PR?LED_MATRIX_FLUSH_TIMER?LED_MATRIX
+            CODE    0D1DH     0027H     UNIT         ?CO?PUBLIC
+            CODE    0D44H     0027H     UNIT         ?PR?PUTCHAR?PUTCHAR
+            CODE    0D6BH     0022H     UNIT         ?PR?_LED_CONTROL?LED_MATRIX
+            CODE    0D8DH     001DH     UNIT         ?PR?_LED_ANIMATION_SHOW?LED_MATRIX
+            CODE    0DAAH     0018H     UNIT         ?PR?_DELAY_MS?PUBLIC
+            CODE    0DC2H     0010H     UNIT         ?PR?MAIN?MAIN
+            CODE    0DD2H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0DDEH     000BH     UNIT         ?PR?_DELAY_10US?PUBLIC
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Project (MAIN)
+
+
+SEGMENT                                         DATA_GROUP 
+  +--> CALLED SEGMENT                         START    LENGTH
+-------------------------------------------------------------
+?PR?TIMER0_SERVE?MAIN                         -----    -----
+  +--> ?PR?LED_MATRIX_FLUSH_TIMER?LED_MATRIX
+
+?PR?LED_MATRIX_FLUSH_TIMER?LED_MATRIX         -----    -----
+  +--> ?PR?NEXT_LED_INDEX?LED_MATRIX
+  +--> ?CO?LED_MATRIX
+  +--> ?PR?_LED_ANIMATION_SHOW?LED_MATRIX
+
+?PR?_LED_ANIMATION_SHOW?LED_MATRIX            -----    -----
+  +--> ?PR?LED_MATRIX_INIT?LED_MATRIX
+  +--> ?PR?_LED_CONTROL?LED_MATRIX
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP                                 -----    -----
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN                                 -----    -----
+  +--> ?PR?LED_MATRIX_INIT?LED_MATRIX
+  +--> ?PR?_TIMERX_INIT?TIMER
+
+?PR?_TIMERX_INIT?TIMER                        0045H    0002H
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Project (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/14/2024  12:54:26  PAGE 3
+
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:00B0H         PUBLIC        P3
+  C:0DC2H         PUBLIC        main
+  C:0C1CH         PUBLIC        TIMER0_serve
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  B:0088H.4       PUBLIC        TR0
+  -------         PROC          MAIN
+  C:0DC2H         LINE#         5
+  C:0DC2H         LINE#         6
+  C:0DC5H         LINE#         7
+  C:0DCEH         LINE#         8
+  C:0DD0H         LINE#         9
+  C:0DD0H         LINE#         11
+  -------         ENDPROC       MAIN
+  -------         PROC          TIMER0_SERVE
+  C:0C1CH         LINE#         15
+  C:0C39H         LINE#         16
+  C:0C3CH         LINE#         17
+  C:0C3FH         LINE#         19
+  C:0C42H         LINE#         20
+  -------         ENDPROC       TIMER0_SERVE
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        LED_MATRIX
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00B0H         PUBLIC        P3
+  C:0BD9H         PUBLIC        Animation_Array
+  B:00B0H.6       PUBLIC        SH
+  C:0003H         PUBLIC        LED_Matrix_Init
+  B:00B0H.5       PUBLIC        ST
+  C:0C8FH         PUBLIC        Next_LED_Index
+  C:0D6BH         PUBLIC        _LED_control
+  C:0D8DH         PUBLIC        _LED_Animation_Show
+  C:0C5DH         PUBLIC        LED_Matrix_Flush_Delay
+  B:00B0H.4       PUBLIC        SER
+  C:0CF1H         PUBLIC        LED_Matrix_Flush_Timer
+  -------         PROC          _LED_CONTROL
+  D:0007H         SYMBOL        dat
+  -------         DO            
+  D:0006H         SYMBOL        i
+  -------         ENDDO         
+  C:0D6BH         LINE#         30
+  C:0D6BH         LINE#         33
+  C:0D6DH         LINE#         34
+  C:0D78H         LINE#         35
+  C:0D7CH         LINE#         36
+  C:0D7EH         LINE#         37
+  C:0D7FH         LINE#         38
+  C:0D81H         LINE#         39
+  C:0D82H         LINE#         40
+  C:0D86H         LINE#         41
+  C:0D88H         LINE#         42
+  C:0D89H         LINE#         43
+  C:0D8BH         LINE#         44
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/14/2024  12:54:26  PAGE 4
+
+
+  C:0D8CH         LINE#         45
+  -------         ENDPROC       _LED_CONTROL
+  -------         PROC          LED_MATRIX_INIT
+  C:0003H         LINE#         54
+  C:0003H         LINE#         55
+  C:0006H         LINE#         56
+  -------         ENDPROC       LED_MATRIX_INIT
+  -------         PROC          _LED_ANIMATION_SHOW
+  D:0005H         SYMBOL        datX
+  D:0006H         SYMBOL        datY
+  C:0D8DH         LINE#         64
+  C:0D91H         LINE#         65
+  C:0D94H         LINE#         66
+  C:0D99H         LINE#         67
+  C:0DA9H         LINE#         68
+  -------         ENDPROC       _LED_ANIMATION_SHOW
+  -------         PROC          NEXT_LED_INDEX
+  -------         DO            
+  D:001AH         SYMBOL        count
+  D:001CH         SYMBOL        j
+  -------         ENDDO         
+  C:0C8FH         LINE#         76
+  C:0C8FH         LINE#         80
+  C:0C97H         LINE#         81
+  C:0CA0H         LINE#         82
+  C:0CA5H         LINE#         83
+  C:0CADH         LINE#         84
+  C:0CBBH         LINE#         85
+  C:0CBBH         LINE#         86
+  C:0CBFH         LINE#         87
+  -------         ENDPROC       NEXT_LED_INDEX
+  -------         PROC          LED_MATRIX_FLUSH_DELAY
+  -------         DO            
+  D:001FH         SYMBOL        i
+  -------         ENDDO         
+  C:0C5DH         LINE#         97
+  C:0C5DH         LINE#         101
+  C:0C60H         LINE#         102
+  C:0C7EH         LINE#         103
+  C:0C85H         LINE#         104
+  C:0C8EH         LINE#         105
+  -------         ENDPROC       LED_MATRIX_FLUSH_DELAY
+  -------         PROC          LED_MATRIX_FLUSH_TIMER
+  -------         DO            
+  D:001EH         SYMBOL        i
+  -------         ENDDO         
+  C:0CF1H         LINE#         113
+  C:0CF1H         LINE#         116
+  C:0D0FH         LINE#         117
+  C:0D1AH         LINE#         118
+  C:0D1CH         LINE#         119
+  -------         ENDPROC       LED_MATRIX_FLUSH_TIMER
+  -------         ENDMOD        LED_MATRIX
+
+  -------         MODULE        PUBLIC
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0DDEH         PUBLIC        _delay_10us
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/14/2024  12:54:26  PAGE 5
+
+
+  C:0B11H         PUBLIC        _float2String
+  C:0DAAH         PUBLIC        _delay_ms
+  C:0CC0H         PUBLIC        _int2String
+  -------         PROC          _DELAY_10US
+  D:0006H         SYMBOL        t
+  C:0DDEH         LINE#         15
+  C:0DDEH         LINE#         16
+  C:0DE8H         LINE#         17
+  -------         ENDPROC       _DELAY_10US
+  -------         PROC          _DELAY_MS
+  D:0002H         SYMBOL        t
+  C:0DAAH         LINE#         25
+  C:0DAEH         LINE#         26
+  C:0DB8H         LINE#         27
+  C:0DBFH         LINE#         28
+  C:0DC1H         LINE#         29
+  -------         ENDPROC       _DELAY_MS
+  -------         PROC          _INT2STRING
+  D:0043H         SYMBOL        num
+  B:0021H.1       SYMBOL        sign
+  -------         DO            
+  D:0008H         SYMBOL        str
+  -------         ENDDO         
+  C:0CC0H         LINE#         38
+  C:0CC4H         LINE#         42
+  C:0CC7H         LINE#         43
+  C:0CD0H         LINE#         44
+  C:0CD2H         LINE#         45
+  C:0CEAH         LINE#         46
+  C:0CEAH         LINE#         48
+  C:0CF0H         LINE#         49
+  -------         ENDPROC       _INT2STRING
+  -------         PROC          _FLOAT2STRING
+  D:003EH         SYMBOL        num
+  D:0042H         SYMBOL        len
+  -------         DO            
+  D:0010H         SYMBOL        str
+  -------         ENDDO         
+  C:0B11H         LINE#         58
+  C:0B19H         LINE#         62
+  C:0B2EH         LINE#         63
+  C:0B39H         LINE#         64
+  C:0B44H         LINE#         65
+  C:0B4FH         LINE#         66
+  C:0B5AH         LINE#         67
+  C:0B65H         LINE#         68
+  C:0B70H         LINE#         69
+  C:0B8EH         LINE#         70
+  C:0B8EH         LINE#         72
+  C:0B94H         LINE#         73
+  -------         ENDPROC       _FLOAT2STRING
+  -------         ENDMOD        PUBLIC
+
+  -------         MODULE        TIMER
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  B:00A8H.7       PUBLIC        EA
+  C:0A63H         PUBLIC        _TIMERx_init
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/14/2024  12:54:26  PAGE 6
+
+
+  D:0089H         PUBLIC        TMOD
+  B:00A8H.1       PUBLIC        ET0
+  B:00A8H.3       PUBLIC        ET1
+  D:008CH         PUBLIC        TH0
+  D:008DH         PUBLIC        TH1
+  D:008AH         PUBLIC        TL0
+  D:008BH         PUBLIC        TL1
+  -------         PROC          _TIMERX_INIT
+  D:0007H         SYMBOL        x
+  D:0045H         SYMBOL        num
+  C:0A63H         LINE#         18
+  C:0A67H         LINE#         19
+  C:0A71H         LINE#         20
+  C:0A71H         LINE#         22
+  C:0A74H         LINE#         24
+  C:0A99H         LINE#         25
+  C:0ABCH         LINE#         27
+  C:0ABEH         LINE#         28
+  C:0AC0H         LINE#         31
+  C:0AC1H         LINE#         32
+  C:0AC1H         LINE#         34
+  C:0AC4H         LINE#         36
+  C:0AE9H         LINE#         37
+  C:0B0CH         LINE#         39
+  C:0B0EH         LINE#         40
+  C:0B10H         LINE#         43
+  C:0B10H         LINE#         44
+  C:0B10H         LINE#         45
+  -------         ENDPROC       _TIMERX_INIT
+  -------         ENDMOD        TIMER
+
+  -------         MODULE        PRINTF
+  D:0022H         PUBLIC        ?_PRINTF?BYTE
+  D:0022H         PUBLIC        ?_SPRINTF?BYTE
+  C:0656H         PUBLIC        _PRINTF
+  C:0650H         PUBLIC        _SPRINTF
+  -------         ENDMOD        PRINTF
+
+  -------         MODULE        ?C?FPROUND
+  C:000EH         PUBLIC        ?C?FPROUND
+  -------         ENDMOD        ?C?FPROUND
+
+  -------         MODULE        ?C?FPCONVERT
+  C:003DH         PUBLIC        ?C?FPCONVERT
+  -------         ENDMOD        ?C?FPCONVERT
+
+  -------         MODULE        ?C?FPADD
+  C:0147H         PUBLIC        ?C?FPADD
+  C:0143H         PUBLIC        ?C?FPSUB
+  -------         ENDMOD        ?C?FPADD
+
+  -------         MODULE        ?C?FPMUL
+  C:0238H         PUBLIC        ?C?FPMUL
+  -------         ENDMOD        ?C?FPMUL
+
+  -------         MODULE        ?C?FPDIV
+  C:0341H         PUBLIC        ?C?FPDIV
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  02/14/2024  12:54:26  PAGE 7
+
+
+  -------         ENDMOD        ?C?FPDIV
+
+  -------         MODULE        ?C?FTNPWR
+  C:040EH         PUBLIC        ?C?FTNPWR
+  -------         ENDMOD        ?C?FTNPWR
+
+  -------         MODULE        ?C?CLDPTR
+  C:0498H         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+  -------         MODULE        ?C?CLDOPTR
+  C:04B1H         PUBLIC        ?C?CLDOPTR
+  -------         ENDMOD        ?C?CLDOPTR
+
+  -------         MODULE        ?C?CSTPTR
+  C:04DEH         PUBLIC        ?C?CSTPTR
+  -------         ENDMOD        ?C?CSTPTR
+
+  -------         MODULE        ?C?SLDIV
+  C:0B95H         PUBLIC        ?C?SLDIV
+  -------         ENDMOD        ?C?SLDIV
+
+  -------         MODULE        ?C?PLDIIDATA
+  C:04F0H         PUBLIC        ?C?PLDIIDATA
+  -------         ENDMOD        ?C?PLDIIDATA
+
+  -------         MODULE        ?C?CCASE
+  C:0500H         PUBLIC        ?C?CCASE
+  -------         ENDMOD        ?C?CCASE
+
+  -------         MODULE        PUTCHAR
+  C:0D44H         PUBLIC        _PUTCHAR
+  -------         ENDMOD        PUTCHAR
+
+  -------         MODULE        ?C?ULDIV
+  C:0562H         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LED_MATRIX_FLUSH_DELAY?LED_MATRIX
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?PUBLIC
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_INT2STRING?PUBLIC
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_FLOAT2STRING?PUBLIC
+
+Program Size: data=71.2 xdata=0 code=3557
+LINK/LOCATE RUN COMPLETE.  4 WARNING(S),  0 ERROR(S)
