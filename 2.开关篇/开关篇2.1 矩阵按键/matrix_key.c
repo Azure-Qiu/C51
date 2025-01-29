@@ -1,4 +1,6 @@
 #include "matrix_key.h"
+#include "beep.h"
+#include "smg.h"
 /** 
  **  @brief    实现了矩阵按键的两种扫描方式
  **			   1. 与数码管、蜂鸣器联动

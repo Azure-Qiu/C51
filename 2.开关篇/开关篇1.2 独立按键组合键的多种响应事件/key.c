@@ -1,7 +1,6 @@
 #include "key.h"
 #include "led.h"
 #include "smg.h"
-#include <stdio.h>
 /** 
  **  @brief    独立按键的函数封装
  **            1. 单键的单次或连续响应优化
@@ -207,7 +206,7 @@ void scan_key(){
 	if(flag && (!key1||!key2||!key3||!key4)){
 		flag = 0; // 清零
 		delay_ms(10); // 延时10ms消抖
-		delay_ms(50); // 延时50ms 容许间隔
+		delay_ms(50); // 延时50ms组合键容许间隔
 		// 获取当前所有按下的键
 		if(!key1) key_now_state |= KEY1_PRESS; 
 		if(!key2) key_now_state |= KEY2_PRESS; 
@@ -215,10 +214,10 @@ void scan_key(){
 		if(!key4) key_now_state |= KEY4_PRESS; 
 
 	// 如果按键全部松开
-	}else if(key1&&key2&&key3&&key4){
+	}else if(key1 && key2 && key3 && key4){
 		flag = 1;
 		delay_ms(10); // 延时10ms消抖,松开响应有逻辑判断时，需要加上消抖。否则可以省略。
-		if(key1&&key2&&key3&&key4)key_now_state = 0;
+		if(key1 && key2 && key3 && key4) key_now_state = 0;
 	}
 }
 

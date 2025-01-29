@@ -1,7 +1,7 @@
 #ifndef _BEEP_H_
 #define _BEEP_H_
 
-#include "delay.h"
+#include "public.h"
 
 sbit BEEP_PORT = P1^5;
 

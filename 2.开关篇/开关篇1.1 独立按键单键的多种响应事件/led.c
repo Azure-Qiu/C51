@@ -1,12 +1,14 @@
 #include "led.h"
-
 /** 
  **  @brief    LED控制程序
  **  @author   QIU
- **  @date     2023.08.23
+ **  @data     2023.08.23
  **/
 
 /*-------------------------------------------------------------------*/
+
+// 控制定时器流水灯执行的开关
+u8 flag_led_stream = false;
 
 
 /**
@@ -36,7 +38,7 @@ void led_off(u8 pos){
  **/
 void led_turn(u8 pos){
 	u8 port;
-	port = (LED_PORT>>(pos-1))&0x01;
+	port = (LED_PORT>>(pos-1)) & 0x01;
 	if(port){
 		led_on(pos);
 	}else{
@@ -78,4 +80,49 @@ void led_run(u16 time){
 	}
 }
 
+
+
+/**
+ **  @brief   LED流水灯（定时器控制）
+ **  @param   无
+ **  @retval  无
+ **/
+void led_stream_byTimer(){
+	static u8 pos = 1;
+	u8 i;
+	
+	if(pos > 8){
+		// 只执行一次
+		// flag_led_stream = false;
+		pos = 1;
+		// 全部熄灭
+		for(i=0;i<8;i++){
+			led_off(i+1);
+		}
+	}else{
+		led_on(pos);
+		pos++;
+	}
+}
+
+
+/**
+ **  @brief   LED跑马灯（定时器控制）
+ **  @param   无
+ **  @retval  无
+ **/
+void led_run_byTimer(){
+	static u8 pos = 1;
+	
+	if(pos == 1 || pos > 8){
+		pos = 1;
+		led_on(pos);
+		led_off(8);
+		pos++;
+	}else{
+		led_off(pos-1);
+		led_on(pos);
+		pos++;
+	}
+}
 

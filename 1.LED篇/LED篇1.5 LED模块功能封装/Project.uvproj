@@ -382,11 +382,6 @@
               <FilePath>.\main.c</FilePath>
             </File>
             <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\delay.c</FilePath>
-            </File>
-            <File>
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\led.c</FilePath>
@@ -395,6 +390,11 @@
               <FileName>timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>public.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\public.c</FilePath>
             </File>
           </Files>
         </Group>

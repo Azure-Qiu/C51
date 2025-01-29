@@ -1,7 +1,7 @@
 #ifndef _LED_H_
 #define _LED_H_
 
-#include "delay.h"
+#include "public.h"
 
 #define LED_PORT P2
 

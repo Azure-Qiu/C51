@@ -1,0 +1,87 @@
+C51 COMPILER V9.60.7.0   PUBLIC                                                            01/29/2025 16:07:14 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE PUBLIC
+OBJECT MODULE PLACED IN .\Objects\public.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE public.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listi
+                    -ngs\public.lst) OBJECT(.\Objects\public.obj)
+
+line level    source
+
+   1          #include "public.h"
+   2          /** 
+   3           **  @brief    通用函数
+   4           **  @author   QIU
+   5           **  @data     2023.09.03
+   6           **/
+   7          
+   8          /*-------------------------------------------------------------------*/
+   9          
+  10          /**
+  11           **  @brief   延时函数(10us)
+  12           **  @param   t:0~65535，循环一次约10us
+  13           **  @retval  无
+  14           **/
+  15          void delay_10us(u16 t){
+  16   1              while(t--);
+  17   1      }
+  18          
+  19          
+  20          /**
+  21           **  @brief   延时函数（ms）
+  22           **  @param   t:0~65535,单位ms
+  23           **  @retval  无
+  24           **/
+  25          void delay_ms(u16 t){
+  26   1              while(t--){
+  27   2                      delay_10us(100);
+  28   2              }
+  29   1      }
+  30          
+  31          
+  32          /**
+  33           **  @brief   整数转字符串
+  34           **  @param   num：接受整型值
+  35           **  @param   sign：是否带符号
+  36           **  @retval  返回字符串指针
+  37           **/
+  38          u8 * int2String(int num, bit sign){
+  39   1              u8 xdata str[8];
+  40   1              
+  41   1              // 是否带符号
+  42   1              if(sign) sprintf(str, "%d", num);
+  43   1              else sprintf(str, "%u", num);
+  44   1              // 返回指针
+  45   1              return str;
+  46   1      }
+  47          
+  48          
+  49          /**
+  50           **  @brief   浮点数转字符串
+  51           **  @param   num：接受浮点数
+  52           **  @param   len：指定精度，小数点位数0~6（四舍五入）
+  53           **  @retval  返回字符串指针
+  54           **/
+C51 COMPILER V9.60.7.0   PUBLIC                                                            01/29/2025 16:07:14 PAGE 2   
+
+  55          u8 * float2String(float num, u8 len){
+  56   1              u8 xdata str[10];
+  57   1              
+  58   1              sprintf(str, "%.*f", (int)len, num);
+  59   1              // 返回指针
+  60   1              return str;
+  61   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    131    ----
+   CONSTANT SIZE    =     11    ----
+   XDATA SIZE       =   ----      18
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       7
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

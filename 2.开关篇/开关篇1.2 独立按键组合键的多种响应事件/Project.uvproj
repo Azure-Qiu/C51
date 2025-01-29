@@ -382,11 +382,6 @@
               <FilePath>.\main.c</FilePath>
             </File>
             <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\delay.c</FilePath>
-            </File>
-            <File>
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\led.c</FilePath>
@@ -400,6 +395,11 @@
               <FileName>smg.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\smg.c</FilePath>
+            </File>
+            <File>
+              <FileName>public.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\public.c</FilePath>
             </File>
           </Files>
         </Group>

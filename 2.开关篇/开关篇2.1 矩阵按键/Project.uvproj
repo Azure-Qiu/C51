@@ -392,14 +392,14 @@
               <FilePath>.\beep.c</FilePath>
             </File>
             <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\delay.c</FilePath>
-            </File>
-            <File>
               <FileName>smg.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\smg.c</FilePath>
+            </File>
+            <File>
+              <FileName>public.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\public.c</FilePath>
             </File>
           </Files>
         </Group>

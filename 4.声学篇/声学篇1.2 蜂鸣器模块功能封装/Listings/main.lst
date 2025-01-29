@@ -1,0 +1,32 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              01/29/2025 16:06:59 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "beep.h"
+   2          
+   3          
+   4          int main(void){
+   5   1              // 以1000Hz频率，50%占空比，持续时间约1s
+   6   1              beep_once(100, 1000);
+   7   1              while(1);
+   8   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     11    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

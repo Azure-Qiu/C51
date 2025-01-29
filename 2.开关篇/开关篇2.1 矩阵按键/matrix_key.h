@@ -1,9 +1,7 @@
 #ifndef _MATRIX_KEY_H_
 #define _MATRIX_KEY_H_
 
-#include "delay.h"
-#include "beep.h"
-#include "smg.h"
+#include "public.h"
 
 #define MATRIX_PORT	P1
 

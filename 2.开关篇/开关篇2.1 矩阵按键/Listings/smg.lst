@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   SMG                                                               02/14/2024 17:51:47 PAGE 1   
+C51 COMPILER V9.60.7.0   SMG                                                               01/29/2025 12:06:20 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE SMG
@@ -9,217 +9,273 @@ COMPILER INVOKED BY: C:\Software\Keil\C51\BIN\C51.EXE smg.c OPTIMIZE(8,SPEED) BR
 line level    source
 
    1          #include "smg.h"
-   2          #include <stdio.h>
-   3          #include <math.h>
-   4          #include <string.h>
-   5          /** 
-   6           **  @brief    数码管封装
-   7           **                1. 字符静态显示：仅需一次输入。输入字符。可用于初始清屏。
-   8           **                2. 字符串数据动态显示：包含延时法和定时器法。
-   9           **                3. 浮点型数据动态显示：包含延时法和定时器法。可以显示小数。
-  10           **                4. 整型数据动态显示：包含延时法和定时器法。可以显示负数。
-  11           **  @author   QIU
-  12           **  @date     2024.01.31
-  13           **/
+   2          /** 
+   3           **  @brief    数码管封装
+   4           **                1. 延时刷新
+   5           **                             (1) 字符静态显示：仅需一次输入。输入字符。可用于初始清屏。
+   6           **                             (2) 字符串数据动态显示
+   7           **                             (3) 浮点型数据动态显示：可以显示小数。
+   8           **                             (4) 整型数据动态显示：可以显示负数。
+   9           **                2. 定时器刷新
+  10           **  @author   QIU
+  11           **  @date     2024.02.13
+  12           **/
+  13          
   14          
-  15          
-  16          /*-------------------------------------------------------------------*/
-  17          
-  18          //共阴极数码管字形码编码
-  19          u8 code smgduan[] = {0x3f,0x06,0x5b,0x4f,0x66, //0 1 2 3 4
-  20                                                   0x6d,0x7d,0x07,0x7f,0x6f, //5 6 7 8 9
-  21                                                   0x77,0x7c,0x58,0x5e,0x79, //A b c d E
-  22                                                   0x71,0x76,0x30,0x0e,0x38, //F H I J L
-  23                                                   0x54,0x3f,0x73,0x67,0x50, //n o p q r
-  24                                                   0x6d,0x3e,0x3e,0x6e,0x40};//s U v y -  
+  15          /*-------------------------------------------------------------------*/
+  16          
+  17          // 共阴极数码管字形码编码
+  18          u8 code smgduan[] = {0x3f,0x06,0x5b,0x4f,0x66, // 0 1 2 3 4
+  19                                                   0x6d,0x7d,0x07,0x7f,0x6f, // 5 6 7 8 9
+  20                                                   0x77,0x7c,0x58,0x5e,0x79, // A b c d E
+  21                                                   0x71,0x76,0x30,0x0e,0x38, // F H I J L
+  22                                                   0x54,0x3f,0x73,0x67,0x50, // n o p q r
+  23                                                   0x6d,0x3e,0x3e,0x6e,0x40};// s U v y -  
+  24          
   25          
-  26          
-  27          /**
-  28           **  @brief   指定第几个数码管点亮，38译码器控制位选（不对外声明）
-  29           **  @param   pos：从左至右，数码管位置 1~8
-  30           **  @retval  无
-  31           **/
-  32          void select_38(u8 pos){
-  33   1              u8 temp_pos = 8 - pos; // 0~7
-  34   1              A1 = temp_pos % 2; //高位
-  35   1              temp_pos /= 2;
-  36   1              A2 = temp_pos % 2; 
-  37   1              temp_pos /= 2;
-  38   1              A3 = temp_pos % 2; //低位
-  39   1      }
+  26          /**
+  27           **  @brief   指定第几个数码管点亮，38译码器控制位选（不对外声明）
+  28           **  @param   pos：从左至右，数码管位置 1~8
+  29           **  @retval  无
+  30           **/
+  31          static void select_38(u8 pos){
+  32   1              u8 temp_pos = 8 - pos; // 0~7
+  33   1              A1 = temp_pos % 2; //高位
+  34   1              temp_pos /= 2;
+  35   1              A2 = temp_pos % 2; 
+  36   1              temp_pos /= 2;
+  37   1              A3 = temp_pos % 2; //低位
+  38   1      }
+  39          
   40          
-  41          
-  42          /**
-  43           **  @brief   解析数据并取得相应数码管字形码编码
-  44           **  @param   dat:想要显示的字符
-  45           **  @retval  对应字形码编码值
-  46           **/
-  47          u8 parse_data(u8 dat){
-  48   1              switch(dat){
-  49   2                      case '0':
-  50   2                      case '1':
-  51   2                      case '2':
-  52   2                      case '3':
-  53   2                      case '4':
-  54   2                      case '5':
-C51 COMPILER V9.60.7.0   SMG                                                               02/14/2024 17:51:47 PAGE 2   
+  41          /**
+  42           **  @brief   解析数据并取得相应数码管字形码编码
+  43           **  @param   dat:想要显示的字符
+  44           **  @retval  对应字形码编码值
+  45           **/
+  46          u8 parse_data(u8 dat){
+  47   1              switch(dat){
+  48   2                      case '0':
+  49   2                      case '1':
+  50   2                      case '2':
+  51   2                      case '3':
+  52   2                      case '4':
+  53   2                      case '5':
+  54   2                      case '6':
+C51 COMPILER V9.60.7.0   SMG                                                               01/29/2025 12:06:20 PAGE 2   
 
-  55   2                      case '6':
-  56   2                      case '7':
-  57   2                      case '8':
-  58   2                      case '9':return smgduan[dat-'0'];
-  59   2                      case 'a':
-  60   2                      case 'A':return smgduan[10];
-  61   2                      case 'b':
-  62   2                      case 'B':return smgduan[11];
-  63   2                      case 'c':
-  64   2                      case 'C':return smgduan[12];
-  65   2                      case 'd':
-  66   2                      case 'D':return smgduan[13];
-  67   2                      case 'e':
-  68   2                      case 'E':return smgduan[14];
-  69   2                      case 'f':
-  70   2                      case 'F':return smgduan[15];
-  71   2                      case 'h':
-  72   2                      case 'H':return smgduan[16];
-  73   2                      case 'i':
-  74   2                      case 'I':return smgduan[17];
-  75   2                      case 'j':
-  76   2                      case 'J':return smgduan[18];
-  77   2                      case 'l':
-  78   2                      case 'L':return smgduan[19];
-  79   2                      case 'n':
-  80   2                      case 'N':return smgduan[20];
-  81   2                      case 'o':
-  82   2                      case 'O':return smgduan[21];
-  83   2                      case 'p':
-  84   2                      case 'P':return smgduan[22];
-  85   2                      case 'q':
-  86   2                      case 'Q':return smgduan[23];
-  87   2                      case 'r':
-  88   2                      case 'R':return smgduan[24];
-  89   2                      case 's':
-  90   2                      case 'S':return smgduan[25];
-  91   2                      case 'u':
-  92   2                      case 'U':return smgduan[26];
-  93   2                      case 'v':
-  94   2                      case 'V':return smgduan[27];
-  95   2                      case 'y':
-  96   2                      case 'Y':return smgduan[28];
-  97   2                      case '-':return smgduan[29];
-  98   2                      default:return 0x00; //不显示
-  99   2              }
- 100   1      }
+  55   2                      case '7':
+  56   2                      case '8':
+  57   2                      case '9':return smgduan[dat-'0'];
+  58   2                      case 'a':
+  59   2                      case 'A':return smgduan[10];
+  60   2                      case 'b':
+  61   2                      case 'B':return smgduan[11];
+  62   2                      case 'c':
+  63   2                      case 'C':return smgduan[12];
+  64   2                      case 'd':
+  65   2                      case 'D':return smgduan[13];
+  66   2                      case 'e':
+  67   2                      case 'E':return smgduan[14];
+  68   2                      case 'f':
+  69   2                      case 'F':return smgduan[15];
+  70   2                      case 'h':
+  71   2                      case 'H':return smgduan[16];
+  72   2                      case 'i':
+  73   2                      case 'I':return smgduan[17];
+  74   2                      case 'j':
+  75   2                      case 'J':return smgduan[18];
+  76   2                      case 'l':
+  77   2                      case 'L':return smgduan[19];
+  78   2                      case 'n':
+  79   2                      case 'N':return smgduan[20];
+  80   2                      case 'o':
+  81   2                      case 'O':return smgduan[21];
+  82   2                      case 'p':
+  83   2                      case 'P':return smgduan[22];
+  84   2                      case 'q':
+  85   2                      case 'Q':return smgduan[23];
+  86   2                      case 'r':
+  87   2                      case 'R':return smgduan[24];
+  88   2                      case 's':
+  89   2                      case 'S':return smgduan[25];
+  90   2                      case 'u':
+  91   2                      case 'U':return smgduan[26];
+  92   2                      case 'v':
+  93   2                      case 'V':return smgduan[27];
+  94   2                      case 'y':
+  95   2                      case 'Y':return smgduan[28];
+  96   2                      case '-':return smgduan[29];
+  97   2                      default:return 0x00; // 不显示
+  98   2              }
+  99   1      }
+ 100          
  101          
  102          
- 103          
- 104          /**
- 105           **  @brief   根据输入的ASCII码，显示对应字符（1字节）
- 106           **  @param   dat：字符数据，或其ASCII值
- 107           **  @param   pos：显示位置 1~8
- 108           **  @retval  无
- 109           **/
- 110          void smg_showChar(u8 dat, u8 pos, bit flag){
- 111   1              // 解析点亮哪一个数码管
- 112   1              select_38(pos);
- 113   1              // 解析数据
- 114   1              SMG_PORT = parse_data(dat);
- 115   1              // 加标点
- 116   1              if(flag) SMG_PORT |= 0x80;
-C51 COMPILER V9.60.7.0   SMG                                                               02/14/2024 17:51:47 PAGE 3   
+ 103          /**
+ 104           **  @brief   根据输入的ASCII码，显示对应字符（1字节）
+ 105           **  @param   dat：字符数据，或其ASCII值
+ 106           **  @param   pos：显示位置 1~8
+ 107           **  @retval  无
+ 108           **/
+ 109          void smg_showChar(u8 dat, u8 pos, bit flag){
+ 110   1              // 解析点亮哪一个数码管
+ 111   1              select_38(pos);
+ 112   1              // 解析数据
+ 113   1              SMG_PORT = parse_data(dat);
+ 114   1              // 加标点
+ 115   1              if(flag) SMG_PORT |= 0x80;
+ 116   1      }
+C51 COMPILER V9.60.7.0   SMG                                                               01/29/2025 12:06:20 PAGE 3   
 
- 117   1      }
+ 117          
  118          
  119          
- 120          
- 121          
- 122          /**
- 123           **  @brief   延时法刷新
- 124           **  @param   dat：字符数组，需以'\0'结尾
- 125           **  @param   pos：显示位置
- 126           **  @param   dot：小数点位置
- 127           **  @retval  无
- 128           **/
- 129          void smg_cycle(u8 dat[], u8 pos, u8 dot){
- 130   1              u8 i;
- 131   1              // 超出部分直接截断
- 132   1              for(i=0;(i<9-pos)&&(dat[i]!='\0');i++){
- 133   2                      // 如果是小数点，跳过，往前移一位
- 134   2                      if(dat[i] == '.'){
- 135   3                              pos -= 1;
- 136   3                              continue;
- 137   3                      }
- 138   2                      if(dot == i+1){
- 139   3                              smg_showChar(dat[i], pos+i, true);
- 140   3                      }else{
- 141   3                              smg_showChar(dat[i], pos+i, false);
- 142   3                      }
- 143   2                      delay_ms(1); //延时1ms
- 144   2                      SMG_PORT = 0x00; //消影
- 145   2              }
- 146   1      }
- 147          
- 148          
+ 120          /*-------------------------------------------------------------------*/
+ 121          /*-----------------------延时法刷新----------------------------------*/
+ 122          /*-------------------------------------------------------------------*/
+ 123          
+ 124          
+ 125          /**
+ 126           **  @brief   延时法刷新
+ 127           **  @param   dat：字符数组，需以'\0'结尾
+ 128           **  @param   pos：显示位置
+ 129           **  @param   dot：小数点位置
+ 130           **  @retval  无
+ 131           **/
+ 132          void smg_flush_Bydelay(u8 dat[], u8 pos, u8 dot){
+ 133   1              u8 i;
+ 134   1              // 超出部分直接截断
+ 135   1              for(i=0;(i<9-pos)&&(dat[i]!='\0');i++){
+ 136   2                      // 如果是小数点，跳过，往前移一位
+ 137   2                      if(dat[i] == '.'){
+ 138   3                              pos -= 1;
+ 139   3                              continue;
+ 140   3                      }
+ 141   2                      // 显示
+ 142   2                      smg_showChar(dat[i], pos+i, (dot == i+1)?true:false);
+ 143   2              // 延时1ms
+ 144   2                      delay_ms(1);
+ 145   2                      // 消影
+ 146   2                      SMG_PORT = 0x00; 
+ 147   2              }
+ 148   1      }
  149          
- 150          /**
- 151           **  @brief   显示字符串（动态显示）
- 152           **  @param   dat：字符数组，需以'\0'结尾
- 153           **  @param   pos：显示位置
- 154           **  @retval  无
- 155           **/
- 156          void smg_showString(u8 dat[], u8 pos){
- 157   1              u8 i = 0, dot = 0;
- 158   1              // 先判断是否存在小数点
- 159   1              while(dat[i]!='\0'){
- 160   2                      if(dat[i] == '.') break;
- 161   2                      i++;
- 162   2              }
- 163   1              // 记录下标点位置
- 164   1              if(i < strlen(dat)) dot = i;
- 165   1              
- 166   1              smg_cycle(dat, pos, dot);
- 167   1      }
- 168          
- 169          
- 170          /**
- 171           **  @brief   数码管显示整数（含正负）
- 172           **  @param   dat: 整数
- 173           **  @param   pos: 显示位置
- 174           **  @retval  无
- 175           **/
- 176          void smg_showInt(int dat, u8 pos){
- 177   1              xdata u8 temp[9];
- 178   1              sprintf(temp, "%d", dat); // 含正负
-C51 COMPILER V9.60.7.0   SMG                                                               02/14/2024 17:51:47 PAGE 4   
+ 150          
+ 151          
+ 152          /**
+ 153           **  @brief   显示字符串（动态显示）
+ 154           **  @param   dat：字符数组，需以'\0'结尾
+ 155           **  @param   pos：显示位置
+ 156           **  @retval  无
+ 157           **/
+ 158          void smg_showString(u8 dat[], u8 pos){
+ 159   1              u8 i = 0, dot = 0;
+ 160   1              // 先判断是否存在小数点
+ 161   1              while(dat[i]!='\0'){
+ 162   2                      if(dat[i] == '.') break;
+ 163   2                      i++;
+ 164   2              }
+ 165   1              // 记录下标点位置
+ 166   1              if(i < strlen(dat)) dot = i;
+ 167   1              // 延时法刷新
+ 168   1              smg_flush_Bydelay(dat, pos, dot);
+ 169   1      }
+ 170          
+ 171          
+ 172          
+ 173          /**
+ 174           **  @brief   数码管显示整数（含正负）
+ 175           **  @param   dat: 整数
+ 176           **  @param   pos: 显示位置
+ 177           **  @retval  无
+ 178           **/
+C51 COMPILER V9.60.7.0   SMG                                                               01/29/2025 12:06:20 PAGE 4   
 
- 179   1              smg_showString(temp, pos);
- 180   1      }
- 181          
- 182          
- 183          
- 184          /**
- 185           **  @brief   数码管显示浮点数（含小数点）
- 186           **  @param   dat: 浮点数
- 187           **  @param   len: 指定精度
- 188           **  @param   pos: 显示位置
- 189           **  @retval  无
- 190           **/
- 191          void smg_showFloat(double dat, u8 len, u8 pos){
- 192   1              xdata u8 temp[10];
- 193   1              int dat_now;
- 194   1              dat_now = dat * pow(10, len) + 0.5 * (dat>0?1:-1); // 四舍五入(正负)，由于浮点数存在误差，结果未必准确
- 195   1              sprintf(temp, "%d", dat_now); // 含正负
- 196   1              smg_cycle(temp, pos, len?(strlen(temp) - len):0);
- 197   1      }
- 198          
+ 179          void smg_showInt(int dat, u8 pos){
+ 180   1              smg_showString(
+ 181   1                      int2String(dat, dat<0?true:false), 
+ 182   1                      pos
+ 183   1              );
+ 184   1      }
+ 185          
+ 186          
+ 187          
+ 188          /**
+ 189           **  @brief   数码管显示浮点数（含小数点）
+ 190           **  @param   dat: 浮点数
+ 191           **  @param   len: 指定精度
+ 192           **  @param   pos: 显示位置
+ 193           **  @retval  无
+ 194           **/
+ 195          void smg_showFloat(double dat, u8 len, u8 pos){
+ 196   1              smg_showString(
+ 197   1                      float2String(dat, len), 
+ 198   1                      pos
+ 199   1              );
+ 200   1      }
+ 201          
+ 202          
+ 203          
+ 204          /*-------------------------------------------------------------------*/
+ 205          /*--------------------------定时器法刷新-----------------------------*/
+ 206          /*-------------------------------------------------------------------*/
+ 207          
+ 208          /**
+ 209           **  @brief   数码管显示字符串（定时器法刷新）
+ 210           **  @param   dat：字符数组，需以'\0'结尾
+ 211           **  @param   pos：显示位置
+ 212           **  @retval  返回值
+ 213           **/
+ 214          void smg_showString_Bytimer(u8 dat[], u8 pos){
+ 215   1              // 数码管计数器， 小数点位置
+ 216   1              static u8 smg_counter = 0, dot_counter = 0, dot_port[8];
+ 217   1              // 暂存当前位置
+ 218   1              u8 temp;
+ 219   1              // 先消影
+ 220   1              SMG_PORT = 0x00; 
+ 221   1              // 如果是小数点，跳出
+ 222   1              if(dat[smg_counter] == '.'){
+ 223   2                      // 记录小数点位置，下一轮刷新
+ 224   2                      dot_port[smg_counter-1] = true;
+ 225   2                      // 计数器后移一位
+ 226   2                      smg_counter++;
+ 227   2                      // 小数点计数器自增
+ 228   2                      dot_counter++;
+ 229   2                      return;
+ 230   2              }
+ 231   1              // 计算当前位置
+ 232   1              temp = pos + smg_counter - dot_counter;
+ 233   1              // 判断是否加小数点（检测到小数点的后面几位整体前移）
+ 234   1              smg_showChar(dat[smg_counter], temp, dot_port[smg_counter]);
+ 235   1              
+ 236   1              // 如果是结束符，跳出(超出部分截断)
+ 237   1              if(temp == 8 | dat[smg_counter] == '\0'){
+ 238   2                      // 重置
+ 239   2                      smg_counter = 0;
+ 240   2                      // 根据标志决定是否清除小数点
+C51 COMPILER V9.60.7.0   SMG                                                               01/29/2025 12:06:20 PAGE 5   
+
+ 241   2                      if(dot_counter){
+ 242   3                              // 清零
+ 243   3                              dot_counter = 0;
+ 244   3                      }else{
+ 245   3                              // 清空
+ 246   3                              strcpy(dot_port, "");
+ 247   3                      }
+ 248   2                      return;
+ 249   2              }else{
+ 250   2                      smg_counter++;
+ 251   2              }
+ 252   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    725    ----
-   CONSTANT SIZE    =     33    ----
-   XDATA SIZE       =   ----      19
+   CODE SIZE        =    646    ----
+   CONSTANT SIZE    =     31    ----
+   XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----      19
+   DATA SIZE        =     10      23
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----       1
 END OF MODULE INFORMATION.

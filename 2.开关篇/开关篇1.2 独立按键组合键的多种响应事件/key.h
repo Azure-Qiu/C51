@@ -1,7 +1,7 @@
 #ifndef __KEY_H__
 #define __KEY_H__
 
-#include "delay.h"
+#include "public.h"
 
 // 按键单次响应（0）或连续响应（1）开关
 #define KEY1_MODE 0

@@ -139,7 +139,7 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>18</LineNumber>
+          <LineNumber>23</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>0</Address>
           <ByteObject>0</ByteObject>
@@ -154,6 +154,22 @@
         </Bp>
         <Bp>
           <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>18</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>C:\Users\Azure\Desktop\code\keil_C51\STC89C52RC\工程代码\4.声学篇\声学篇1.1 蜂鸣器短鸣\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
           <Type>0</Type>
           <LineNumber>18</LineNumber>
           <EnabledFlag>1</EnabledFlag>

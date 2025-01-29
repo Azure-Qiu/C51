@@ -1,7 +1,6 @@
 #include "key.h"
 #include "led.h"
 #include "smg.h"
-#include <stdio.h>
 /** 
  **  @brief    独立按键的函数封装
  **  @author   QIU
@@ -136,7 +135,7 @@ void scan_key(){
 		else if(!key4) key_state = KEY4_PRESS;
 		else key_state = KEY_UNPRESS;
 	// 如果按键松开
-	}else if(key1&&key2&&key3&&key4){
+	}else if(key1 && key2 && key3 && key4){
 		flag = 1;
 		delay_ms(10); // 延时10ms消抖,松开响应有逻辑判断时，需要加上消抖。否则可以省略。
 		if(key1&&key2&&key3&&key4)key_state = KEY_UNPRESS;
@@ -172,6 +171,7 @@ void check_key(){
 			key_pre_state = KEY2_PRESS;
 			// 如果是单次响应
 			if(!KEY2_MODE) key_state = KEY_NON_DEAL;
+			key2_pressed();
 			break;
 		
 		case KEY3_PRESS:
